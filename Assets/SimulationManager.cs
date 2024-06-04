@@ -8,26 +8,28 @@ public class SimulationManager : MonoBehaviour
     private float speed;
     public Slider slider;
     public float originalVelocityThrow;
-    public XRGrabInteractable ball1;
-    public XRGrabInteractable ball2;
-    public XRGrabInteractable ball3;
+    public XRGrabInteractable[] balls;
     public TextMeshProUGUI speedText;
-    private Vector3 origin1;
-    private Vector3 origin2;
-    private Vector3 origin3;
+    private Vector3[] ballsOrigins;
 
     void Start()
     {
-        origin1 = ball1.transform.position;
-        origin2 = ball2.transform.position;
-        origin3 = ball3.transform.position;
+        ballsOrigins = new Vector3[balls.Length];
+        for (int i = 0; i < balls.Length; i++)
+        {
+            ballsOrigins[i] = balls[i].transform.position;
+        }
     }
 
     public void ResetBalls()
     {
-        ball1.transform.position = origin1;
-        ball2.transform.position = origin2;
-        ball3.transform.position = origin3;
+        for (int i = 0; i < balls.Length; i++)
+        {
+            balls[i].transform.position = ballsOrigins[i];
+            Rigidbody rb = balls[i].GetComponent<Rigidbody>();
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
     }
 
     public void UpdateSpeed()
@@ -39,8 +41,12 @@ public class SimulationManager : MonoBehaviour
 
     private void Update()
     {
-        ball1.throwVelocityScale = originalVelocityThrow * speed;
-        ball2.throwVelocityScale = originalVelocityThrow * speed;
-        ball3.throwVelocityScale = originalVelocityThrow * speed;
+        foreach (XRGrabInteractable ball in balls)
+        {
+            if (ball.isSelected)
+            {
+                ball.throwVelocityScale = originalVelocityThrow * speed;
+            }
+        }
     }
 }
