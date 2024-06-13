@@ -161,6 +161,36 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1821501149}
     m_Modifications:
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a2446acaa92b4cd45b8dc9adb2f4a8b2, type: 2}
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Positions.Array.data[0].y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Positions.Array.data[1].z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.022556305
+      objectReference: {fileID: 0}
     - target: {fileID: 2254036668955611780, guid: 13c63e978a16a3949ac385a6729d4e91,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -215,6 +245,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ball_4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907192801606185979, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -901,7 +936,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.06
+  m_Radius: 0.15
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &401108129
 MonoBehaviour:
@@ -952,7 +987,7 @@ MonoBehaviour:
   m_OnSelectExited:
     m_PersistentCalls:
       m_Calls: []
-  m_SelectActionTrigger: 1
+  m_SelectActionTrigger: 0
   m_HideControllerOnSelect: 0
   m_AllowHoveredActivate: 0
   m_TargetPriorityMode: 0
@@ -1568,7 +1603,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 712812467}
   m_HandleRect: {fileID: 1989616967}
   m_Direction: 0
-  m_MinValue: 0
+  m_MinValue: 1
   m_MaxValue: 10
   m_WholeNumbers: 1
   m_Value: 10
@@ -1619,6 +1654,7 @@ GameObject:
   m_Component:
   - component: {fileID: 588816619}
   - component: {fileID: 588816618}
+  - component: {fileID: 588816620}
   m_Layer: 0
   m_Name: SimulationManager
   m_TagString: Untagged
@@ -1662,6 +1698,43 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &588816620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588816617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d0cbf53b102a574cbc3067476c45b27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactorWithControllers:
+  - interactor: {fileID: 2123915981}
+    controller: {fileID: 2123915979}
+    attachmentPoint: {fileID: 1971921546}
+    isGrabbing: 0
+  - interactor: {fileID: 1504555041}
+    controller: {fileID: 1504555039}
+    attachmentPoint: {fileID: 18257519}
+    isGrabbing: 0
+  - interactor: {fileID: 401108129}
+    controller: {fileID: 401108130}
+    attachmentPoint: {fileID: 795914536}
+    isGrabbing: 0
+  - interactor: {fileID: 801395172}
+    controller: {fileID: 801395173}
+    attachmentPoint: {fileID: 2019960873}
+    isGrabbing: 0
+  balls:
+  - {fileID: 2005904648}
+  - {fileID: 1178392047}
+  - {fileID: 714955536}
+  - {fileID: 927047599}
+  - {fileID: 1500405721}
+  numberOfBallsToGrab: 3
+  resetTime: 3
 --- !u!1 &633950700
 GameObject:
   m_ObjectHideFlags: 0
@@ -1995,7 +2068,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.06
+  m_Radius: 0.15
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &801395172
 MonoBehaviour:
@@ -2046,7 +2119,7 @@ MonoBehaviour:
   m_OnSelectExited:
     m_PersistentCalls:
       m_Calls: []
-  m_SelectActionTrigger: 1
+  m_SelectActionTrigger: 0
   m_HideControllerOnSelect: 0
   m_AllowHoveredActivate: 0
   m_TargetPriorityMode: 0
@@ -2521,6 +2594,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1821501149}
     m_Modifications:
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a2446acaa92b4cd45b8dc9adb2f4a8b2, type: 2}
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Positions.Array.data[0].y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Positions.Array.data[1].z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.022556305
+      objectReference: {fileID: 0}
     - target: {fileID: 2254036668955611780, guid: 13c63e978a16a3949ac385a6729d4e91,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2575,6 +2673,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ball_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907192801606185979, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2681,7 +2784,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 935178439}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 588816618}
+        m_TargetAssemblyTypeName: SimulationManager, Assembly-CSharp
+        m_MethodName: ResetBalls
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &935178439
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3035,7 +3150,7 @@ PrefabInstance:
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3050,6 +3165,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1821501149}
     m_Modifications:
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a2446acaa92b4cd45b8dc9adb2f4a8b2, type: 2}
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Positions.Array.data[0].y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Positions.Array.data[1].z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.022556305
+      objectReference: {fileID: 0}
     - target: {fileID: 2254036668955611780, guid: 13c63e978a16a3949ac385a6729d4e91,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3104,6 +3244,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ball_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907192801606185979, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3643,7 +3788,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.06
+  m_Radius: 0.15
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1504555041
 MonoBehaviour:
@@ -3694,7 +3839,7 @@ MonoBehaviour:
   m_OnSelectExited:
     m_PersistentCalls:
       m_Calls: []
-  m_SelectActionTrigger: 1
+  m_SelectActionTrigger: 0
   m_HideControllerOnSelect: 0
   m_AllowHoveredActivate: 0
   m_TargetPriorityMode: 0
@@ -4954,6 +5099,36 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1821501149}
     m_Modifications:
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a2446acaa92b4cd45b8dc9adb2f4a8b2, type: 2}
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Positions.Array.data[0].y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Positions.Array.data[1].z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.022556305
+      objectReference: {fileID: 0}
     - target: {fileID: 2254036668955611780, guid: 13c63e978a16a3949ac385a6729d4e91,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4983,6 +5158,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ball_0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907192801606185979, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6137,7 +6317,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.06
+  m_Radius: 0.15
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2123915981
 MonoBehaviour:
@@ -6188,7 +6368,7 @@ MonoBehaviour:
   m_OnSelectExited:
     m_PersistentCalls:
       m_Calls: []
-  m_SelectActionTrigger: 1
+  m_SelectActionTrigger: 0
   m_HideControllerOnSelect: 0
   m_AllowHoveredActivate: 0
   m_TargetPriorityMode: 0
@@ -6237,6 +6417,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1821501149}
     m_Modifications:
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a2446acaa92b4cd45b8dc9adb2f4a8b2, type: 2}
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Positions.Array.data[0].y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Positions.Array.data[1].z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 240312583133526060, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.022556305
+      objectReference: {fileID: 0}
     - target: {fileID: 2254036668955611780, guid: 13c63e978a16a3949ac385a6729d4e91,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6291,6 +6496,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ball_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907192801606185979, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

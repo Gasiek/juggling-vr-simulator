@@ -19,6 +19,7 @@ public class SimulationManager : MonoBehaviour
         {
             ballsOrigins[i] = balls[i].transform.position;
         }
+        UpdateSpeed();
     }
 
     public void ResetBalls()
@@ -41,12 +42,12 @@ public class SimulationManager : MonoBehaviour
 
     private void Update()
     {
-        foreach (XRGrabInteractable ball in balls)
-        {
-            if (ball.isSelected)
-            {
-                ball.throwVelocityScale = originalVelocityThrow * speed;
-            }
-        }
+        // foreach (XRGrabInteractable ball in balls)
+        // {
+        //     if (ball.isSelected)
+        //     {
+        //         ball.throwVelocityScale = originalVelocityThrow * speed;
+        //     }
+        // }
     }
 }
