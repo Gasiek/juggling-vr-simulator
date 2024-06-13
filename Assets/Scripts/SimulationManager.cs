@@ -22,17 +22,6 @@ public class SimulationManager : MonoBehaviour
         UpdateSpeed();
     }
 
-    public void ResetBalls()
-    {
-        for (int i = 0; i < balls.Length; i++)
-        {
-            balls[i].transform.position = ballsOrigins[i];
-            Rigidbody rb = balls[i].GetComponent<Rigidbody>();
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-        }
-    }
-
     public void UpdateSpeed()
     {
         speed = slider.value / 10f;

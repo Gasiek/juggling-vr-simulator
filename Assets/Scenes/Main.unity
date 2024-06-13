@@ -1734,7 +1734,7 @@ MonoBehaviour:
   - {fileID: 927047599}
   - {fileID: 1500405721}
   numberOfBallsToGrab: 3
-  resetTime: 3
+  resetTime: 1
 --- !u!1 &633950700
 GameObject:
   m_ObjectHideFlags: 0

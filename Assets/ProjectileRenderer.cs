@@ -14,6 +14,10 @@ public class ProjectileRenderer : MonoBehaviour
 
     private Rigidbody rb;
     private LineRenderer lineRenderer;
+
+    private Vector3 previousBallPosition;
+    private Vector3 ballVelocity;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -21,11 +25,18 @@ public class ProjectileRenderer : MonoBehaviour
         lineRenderer.enabled = false;
     }
 
+    void Start()
+    {
+        previousBallPosition = rb.position;
+    }
+
     void Update()
     {
+        // ballVelocity = (rb.position - previousBallPosition) / Time.deltaTime;
+        // previousBallPosition = rb.position;
         if (rb.velocity.y > 0)
         {
-            DrawProjection();
+            DrawProjection(rb.velocity);
         }
         else
         {
@@ -33,20 +44,20 @@ public class ProjectileRenderer : MonoBehaviour
         }
     }
 
-    private void DrawProjection()
+    private void DrawProjection(Vector3 initialVelocity)
     {
         lineRenderer.enabled = true;
         lineRenderer.positionCount = Mathf.CeilToInt(LinePoints / TimeBetweenPoints) + 1;
         Vector3 startPosition = transform.position;
-        Vector3 startVelocity = rb.velocity;
+        // Vector3 startVelocity = rb.velocity;
         int i = 0;
         lineRenderer.SetPosition(i, startPosition);
         for (float t = TimeBetweenPoints; t < LinePoints; t += TimeBetweenPoints)
         {
             i++;
-            float x = startPosition.x + startVelocity.x * t;
-            float y = startPosition.y + startVelocity.y * t + 0.5f * Physics.gravity.y * t * t;
-            float z = startPosition.z + startVelocity.z * t;
+            float x = startPosition.x + initialVelocity.x * t;
+            float y = startPosition.y + initialVelocity.y * t + 0.5f * Physics.gravity.y * t * t;
+            float z = startPosition.z + initialVelocity.z * t;
             lineRenderer.SetPosition(i, new Vector3(x, y, z));
         }
     }

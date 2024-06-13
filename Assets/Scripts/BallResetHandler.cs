@@ -33,12 +33,21 @@ public class BallResetHandler : MonoBehaviour
     void Update()
     {
         int grabbingCount = 0;
+        bool alreadyHolding = false;
         foreach (var interactorWithController in interactorWithControllers)
         {
             bool isPressed = interactorWithController.controller.selectAction.action.IsPressed();
             interactorWithController.isGrabbing = isPressed;
+            if (isPressed)
+            {
+                grabbingCount++;
+            }
+            if (interactorWithController.interactor.hasSelection)
+            {
+                alreadyHolding = true;
+            }
         }
-        if (grabbingCount >= numberOfBallsToGrab)
+        if (grabbingCount >= numberOfBallsToGrab && !alreadyHolding)
         {
             if (resetCoroutine == null)
             {
@@ -76,8 +85,9 @@ public class BallResetHandler : MonoBehaviour
 
     private void ResetBall(XRGrabInteractable ballGrabInteractable, XRDirectInteractor interactor, Transform attachmentPoint)
     {
-        ballGrabInteractable.transform.SetPositionAndRotation(attachmentPoint.position, attachmentPoint.rotation);
+        ballGrabInteractable.transform.SetPositionAndRotation(attachmentPoint.position, attachmentPoint.rotation); // TODO: Use Rigidbody instead of Transform
         interactor.attachTransform = attachmentPoint;
         interactor.StartManualInteraction((IXRSelectInteractable)ballGrabInteractable);
+        interactor.EndManualInteraction();
     }
 }
