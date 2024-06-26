@@ -1919,6 +1919,7 @@ MonoBehaviour:
   - {fileID: 1500405721}
   numberOfBallsToGrab: 3
   resetTime: 1
+  ballsResetEvent: {fileID: 11400000, guid: c72aa566d6d66634ab5198a8e7bd9ec7, type: 2}
 --- !u!114 &588816621
 MonoBehaviour:
   m_ObjectHideFlags: 0

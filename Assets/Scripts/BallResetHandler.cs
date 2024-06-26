@@ -20,7 +20,9 @@ public class BallResetHandler : MonoBehaviour
     public XRGrabInteractable[] balls;
     public int numberOfBallsToGrab;
     public float resetTime;
+    public SimulatorEvent ballsResetEvent;
     private Coroutine resetCoroutine;
+    private int grabbingCount = 0;
 
     void Start()
     {
@@ -32,7 +34,7 @@ public class BallResetHandler : MonoBehaviour
 
     void Update()
     {
-        int grabbingCount = 0;
+        grabbingCount = 0;
         bool alreadyHolding = false;
         foreach (var interactorWithController in interactorWithControllers)
         {
@@ -67,6 +69,11 @@ public class BallResetHandler : MonoBehaviour
     private IEnumerator ResetBallsAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
+        if (grabbingCount < numberOfBallsToGrab) // TODO: Check if this is necessary
+        {
+            yield break;
+        }
+        ballsResetEvent.Raise();
         int grabbedCount = 0;
         for (int i = 0; i < interactorWithControllers.Count; i++)
         {
