@@ -1,24 +1,27 @@
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class SimulationManager : MonoBehaviour
 {
+    public GameObject ballPrefab;
     private float speed;
     public Slider slider;
     public float originalVelocityThrow;
-    public XRGrabInteractable[] balls;
     public TextMeshProUGUI speedText;
-    private Vector3[] ballsOrigins;
+    public int currentNumberOfBalls = 1;
+    public Transform[] ballsOriginsOnTable;
+    private List<GameObject> balls = new();
+    [SerializeField] private TextMeshProUGUI numberOfBallsText;
+
 
     void Start()
     {
-        ballsOrigins = new Vector3[balls.Length];
-        for (int i = 0; i < balls.Length; i++)
-        {
-            ballsOrigins[i] = balls[i].transform.position;
-        }
+        SpawnBallsOnTable();
         UpdateSpeed();
     }
 
@@ -29,14 +32,41 @@ public class SimulationManager : MonoBehaviour
         Time.timeScale = speed;
     }
 
-    private void Update()
+    public void SpawnBallsOnTable()
     {
-        // foreach (XRGrabInteractable ball in balls)
-        // {
-        //     if (ball.isSelected)
-        //     {
-        //         ball.throwVelocityScale = originalVelocityThrow * speed;
-        //     }
-        // }
+        if (currentNumberOfBalls > ballsOriginsOnTable.Length)
+        {
+            currentNumberOfBalls = ballsOriginsOnTable.Length;
+        }
+        StartCoroutine(DestroyAndSpawnBalls());
+    }
+
+    private IEnumerator DestroyAndSpawnBalls()
+    {
+        DestroyAllBalls();
+        yield return new WaitForEndOfFrame();
+        for (int i = 0; i < currentNumberOfBalls; i++)
+        {
+            var ball = Instantiate(ballPrefab, ballsOriginsOnTable[i].position, Quaternion.identity);
+            ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            ball.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            balls.Add(ball);
+        }
+        numberOfBallsText.text = currentNumberOfBalls.ToString();
+    }
+
+    private void DestroyAllBalls()
+    {
+        foreach (var ball in balls)
+        {
+            Destroy(ball);
+        }
+        balls.Clear();
+    }
+
+    public void IncreaseNumberOfBalls()
+    {
+        currentNumberOfBalls++;
+        SpawnBallsOnTable();
     }
 }

@@ -5,15 +5,17 @@ using TMPro;
 
 public class CatchCounter : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI currentScoreText;
-    [SerializeField] private TextMeshProUGUI highestScoreText;
+    public TextMeshProUGUI currentScoreText;
+    public TextMeshProUGUI highestScoreText;
     private int currentScore = 0;
     private int highestScore = 0;
 
     private void Start()
     {
+        currentScore = 0;
+        highestScore = PlayerPrefs.GetInt("HighestScore", 0);
         currentScoreText.text = currentScore.ToString();
-        highestScoreText.text = PlayerPrefs.GetInt("HighestScore", 0).ToString();
+        highestScoreText.text = highestScore.ToString();
     }
 
     public void UpdateCurrentScore()
