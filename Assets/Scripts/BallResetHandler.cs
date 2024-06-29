@@ -23,6 +23,12 @@ public class BallResetHandler : MonoBehaviour
     public SimulatorEvent ballsResetEvent;
     private Coroutine resetCoroutine;
     private int grabbingCount = 0;
+    private SimulationManager simulationManager;
+
+    private void Awake()
+    {
+        simulationManager = GetComponent<SimulationManager>();
+    }
 
     void Start()
     {
@@ -96,5 +102,6 @@ public class BallResetHandler : MonoBehaviour
         interactor.attachTransform = attachmentPoint;
         interactor.StartManualInteraction((IXRSelectInteractable)ballGrabInteractable);
         interactor.EndManualInteraction();
+        simulationManager.OnBallGrabbed();
     }
 }

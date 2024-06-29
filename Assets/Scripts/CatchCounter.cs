@@ -5,6 +5,7 @@ using TMPro;
 
 public class CatchCounter : MonoBehaviour
 {
+    [SerializeField] private SimulationManager simulationManager;
     public TextMeshProUGUI currentScoreText;
     public TextMeshProUGUI highestScoreText;
     private int currentScore = 0;
@@ -39,5 +40,10 @@ public class CatchCounter : MonoBehaviour
     {
         currentScore = 0;
         currentScoreText.text = currentScore.ToString();
+    }
+
+    public int GetCurrentScore()
+    {
+        return currentScore;
     }
 }

@@ -1302,6 +1302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballGrabbedEvent: {fileID: 11400000, guid: ff9d9b9f2a8a581478e7b4dbe023e867, type: 2}
+  ballReleasedEvent: {fileID: 11400000, guid: 425cca25c0aac8646939e932a0f9e3fc, type: 2}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1743,7 +1744,8 @@ MonoBehaviour:
   slider: {fileID: 585308524}
   originalVelocityThrow: 1
   speedText: {fileID: 1840771666}
-  currentNumberOfBalls: 1
+  currentNumberOfBallsInGame: 1
+  levelPassed: {fileID: 11400000, guid: acdee00507c9d5d40abd01a3c0ce581b, type: 2}
   ballsOriginsOnTable:
   - {fileID: 4650558551834562517}
   - {fileID: 2254036668162788649}
@@ -1833,6 +1835,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 588816618}
+          m_TargetAssemblyTypeName: SimulationManager, Assembly-CSharp
+          m_MethodName: OnBallGrabbed
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - simulatorEvent: {fileID: 11400000, guid: c72aa566d6d66634ab5198a8e7bd9ec7, type: 2}
     response:
       m_PersistentCalls:
@@ -1849,13 +1863,13 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - simulatorEvent: {fileID: 11400000, guid: dbf01c9053ff46344ad496a54c368f64, type: 2}
+  - simulatorEvent: {fileID: 11400000, guid: acdee00507c9d5d40abd01a3c0ce581b, type: 2}
     response:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 588816618}
-          m_TargetAssemblyTypeName: SimulationManager, Assembly-CSharp
-          m_MethodName: IncreaseNumberOfBalls
+        - m_Target: {fileID: 588816622}
+          m_TargetAssemblyTypeName: CatchCounter, Assembly-CSharp
+          m_MethodName: ResetCurrentScore
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1865,9 +1879,25 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 588816622}
-          m_TargetAssemblyTypeName: CatchCounter, Assembly-CSharp
-          m_MethodName: ResetCurrentScore
+        - m_Target: {fileID: 588816618}
+          m_TargetAssemblyTypeName: SimulationManager, Assembly-CSharp
+          m_MethodName: StartNextLevel
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - simulatorEvent: {fileID: 11400000, guid: 425cca25c0aac8646939e932a0f9e3fc, type: 2}
+    response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 588816618}
+          m_TargetAssemblyTypeName: SimulationManager, Assembly-CSharp
+          m_MethodName: OnBallReleased
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1889,6 +1919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 253f186f5fb5d14478928046ddfc38b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  simulationManager: {fileID: 588816618}
   currentScoreText: {fileID: 915018347}
   highestScoreText: {fileID: 1527956331}
 --- !u!1 &633950700
@@ -2668,6 +2699,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballGrabbedEvent: {fileID: 11400000, guid: ff9d9b9f2a8a581478e7b4dbe023e867, type: 2}
+  ballReleasedEvent: {fileID: 11400000, guid: 425cca25c0aac8646939e932a0f9e3fc, type: 2}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -4022,6 +4054,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballGrabbedEvent: {fileID: 11400000, guid: ff9d9b9f2a8a581478e7b4dbe023e867, type: 2}
+  ballReleasedEvent: {fileID: 11400000, guid: 425cca25c0aac8646939e932a0f9e3fc, type: 2}
 --- !u!1 &1527956330
 GameObject:
   m_ObjectHideFlags: 0
@@ -7130,6 +7163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ballGrabbedEvent: {fileID: 11400000, guid: ff9d9b9f2a8a581478e7b4dbe023e867, type: 2}
+  ballReleasedEvent: {fileID: 11400000, guid: 425cca25c0aac8646939e932a0f9e3fc, type: 2}
 --- !u!1 &1024420183293816490
 GameObject:
   m_ObjectHideFlags: 0

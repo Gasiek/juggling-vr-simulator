@@ -13,11 +13,19 @@ public class SimulationManager : MonoBehaviour
     public Slider slider;
     public float originalVelocityThrow;
     public TextMeshProUGUI speedText;
-    public int currentNumberOfBalls = 1;
+    public int currentNumberOfBallsInGame = 1;
+    public SimulatorEvent levelPassed;
     public Transform[] ballsOriginsOnTable;
     private List<GameObject> balls = new();
     [SerializeField] private TextMeshProUGUI numberOfBallsText;
+    private int ballsToProgress = 10;
+    private int currentlyHeldBalls = 0;
+    private CatchCounter catchCounter;
 
+    private void Awake()
+    {
+        catchCounter = GetComponent<CatchCounter>();
+    }
 
     void Start()
     {
@@ -34,9 +42,9 @@ public class SimulationManager : MonoBehaviour
 
     public void SpawnBallsOnTable()
     {
-        if (currentNumberOfBalls > ballsOriginsOnTable.Length)
+        if (currentNumberOfBallsInGame > ballsOriginsOnTable.Length)
         {
-            currentNumberOfBalls = ballsOriginsOnTable.Length;
+            currentNumberOfBallsInGame = ballsOriginsOnTable.Length;
         }
         StartCoroutine(DestroyAndSpawnBalls());
     }
@@ -45,14 +53,14 @@ public class SimulationManager : MonoBehaviour
     {
         DestroyAllBalls();
         yield return new WaitForEndOfFrame();
-        for (int i = 0; i < currentNumberOfBalls; i++)
+        for (int i = 0; i < currentNumberOfBallsInGame; i++)
         {
             var ball = Instantiate(ballPrefab, ballsOriginsOnTable[i].position, Quaternion.identity);
             ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
             ball.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
             balls.Add(ball);
         }
-        numberOfBallsText.text = currentNumberOfBalls.ToString();
+        numberOfBallsText.text = currentNumberOfBallsInGame.ToString();
     }
 
     private void DestroyAllBalls()
@@ -64,9 +72,37 @@ public class SimulationManager : MonoBehaviour
         balls.Clear();
     }
 
-    public void IncreaseNumberOfBalls()
+    public void StartNextLevel()
     {
-        currentNumberOfBalls++;
+        StartCoroutine(IncreaseNumberOfBalls());
+    }
+
+    private IEnumerator IncreaseNumberOfBalls()
+    {
+        yield return new WaitForSeconds(1f); // here should be some info that a person finished the level
+        currentNumberOfBallsInGame++;
         SpawnBallsOnTable();
+    }
+
+    private void CheckProgress()
+    {
+        if (currentlyHeldBalls == currentNumberOfBallsInGame)
+        {
+            if (catchCounter.GetCurrentScore() == ballsToProgress)
+            {
+                levelPassed.Raise();
+            }
+        }
+    }
+
+    public void OnBallGrabbed()
+    {
+        currentlyHeldBalls++;
+        CheckProgress();
+    }
+
+    public void OnBallReleased()
+    {
+        currentlyHeldBalls--;
     }
 }
