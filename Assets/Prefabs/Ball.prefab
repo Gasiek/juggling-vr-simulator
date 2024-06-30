@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 574806770966890062}
   - component: {fileID: 7352437023761435317}
   - component: {fileID: 240312583133526060}
+  - component: {fileID: 4721848101906819857}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Untagged
@@ -406,3 +407,18 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
+--- !u!114 &4721848101906819857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5907192801606185979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3fe9578a377a1d489d5b50d11a84e1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headset: {fileID: 0}
+  ballThrownTooLowEvent: {fileID: 11400000, guid: 435e20b3b07baf448aaa632f6227906c,
+    type: 2}

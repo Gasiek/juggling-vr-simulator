@@ -9,15 +9,16 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class SimulationManager : MonoBehaviour
 {
     public GameObject ballPrefab;
-    private float speed;
     public Slider slider;
-    public float originalVelocityThrow;
     public TextMeshProUGUI speedText;
-    public int currentNumberOfBallsInGame = 1;
     public SimulatorEvent levelPassed;
     public Transform[] ballsOriginsOnTable;
-    private List<GameObject> balls = new();
+    public Transform ballsParent;
+    public float originalVelocityThrow;
+    public int currentNumberOfBallsInGame = 1;
     [SerializeField] private TextMeshProUGUI numberOfBallsText;
+    private float speed;
+    private List<GameObject> balls = new();
     private int ballsToProgress = 10;
     private int currentlyHeldBalls = 0;
     private CatchCounter catchCounter;
@@ -55,7 +56,7 @@ public class SimulationManager : MonoBehaviour
         yield return new WaitForEndOfFrame();
         for (int i = 0; i < currentNumberOfBallsInGame; i++)
         {
-            var ball = Instantiate(ballPrefab, ballsOriginsOnTable[i].position, Quaternion.identity);
+            var ball = Instantiate(ballPrefab, ballsOriginsOnTable[i].position, Quaternion.identity, ballsParent);
             ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
             ball.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
             balls.Add(ball);
