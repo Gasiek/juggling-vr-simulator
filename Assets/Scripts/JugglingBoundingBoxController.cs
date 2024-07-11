@@ -10,6 +10,7 @@ public class JugglingBoundingBoxController : MonoBehaviour
     public Color initialColor;
     public SimulatorEvent ballThrownTooHighEvent;  // Event to raise when the ball goes out of bounds
     public Renderer boxRenderer;
+    public bool shouldTriggerEvents = false;
 
     public float boxHeight = 0.4f;  // Height of the box in meters
     public float boxDepth = 0.4f;  // Height of the box in meters
@@ -23,7 +24,10 @@ public class JugglingBoundingBoxController : MonoBehaviour
     private void Start()
     {
         boundingBox = gameObject;
-        initialColor = boxRenderer.material.color;
+        if (shouldTriggerEvents)
+        {
+            initialColor = boxRenderer.material.color;
+        }
 
         SetBoxPositionAndSize();
     }
@@ -47,7 +51,7 @@ public class JugglingBoundingBoxController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Ball"))
+        if (shouldTriggerEvents && other.CompareTag("Ball"))
         {
             ballThrownTooHighEvent.Raise();
         }

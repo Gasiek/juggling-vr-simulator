@@ -21,6 +21,10 @@ public class CatchCounter : MonoBehaviour
 
     public void UpdateCurrentScore()
     {
+        if (simulationManager.IsBallGrounded())
+        {
+            return;
+        }
         currentScore++;
         currentScoreText.text = currentScore.ToString();
         if (currentScore > highestScore)
@@ -40,6 +44,13 @@ public class CatchCounter : MonoBehaviour
     {
         currentScore = 0;
         currentScoreText.text = currentScore.ToString();
+    }
+
+    public void ResetHighestScore()
+    {
+        highestScore = 0;
+        highestScoreText.text = highestScore.ToString();
+        PlayerPrefs.SetInt("HighestScore", highestScore);
     }
 
     public int GetCurrentScore()

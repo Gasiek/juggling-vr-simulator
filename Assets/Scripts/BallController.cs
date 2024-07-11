@@ -2,20 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class BallController : MonoBehaviour
 {
-    public Transform headset;
     public SimulatorEvent ballThrownTooLowEvent;
+    private Transform headset;
     private Rigidbody ballRb;
     private Transform ballTr;
     private bool isBallAscending = false;
     private float peakHeight;
     private float ballHeightOffsetY = 0.1f;
+    private Hand previousHand = Hand.None;
 
     private void Awake()
     {
         ballRb = GetComponent<Rigidbody>();
         ballTr = transform;
+        headset = Camera.main.transform;
     }
 
     private void Update()
@@ -39,11 +42,21 @@ public class BallController : MonoBehaviour
 
     void CheckHeightSuccess(float height)
     {
-        float minHeight = headset.position.y - ballHeightOffsetY;
+        float minHeight = headset.position.y + ballHeightOffsetY;
 
         if (height < minHeight)
         {
             ballThrownTooLowEvent.Raise();
         }
+    }
+
+    public Hand GetPreviousHand()
+    {
+        return previousHand;
+    }
+
+    public void SetPreviousHand(Hand hand)
+    {
+        previousHand = hand;
     }
 }

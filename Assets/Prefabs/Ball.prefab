@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 4721848101906819857}
   m_Layer: 0
   m_Name: Ball
-  m_TagString: Untagged
+  m_TagString: Ball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -324,7 +324,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: a2446acaa92b4cd45b8dc9adb2f4a8b2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -350,7 +350,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 1}
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 1
+    widthMultiplier: 0.025
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -419,6 +419,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3fe9578a377a1d489d5b50d11a84e1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headset: {fileID: 0}
   ballThrownTooLowEvent: {fileID: 11400000, guid: 435e20b3b07baf448aaa632f6227906c,
     type: 2}

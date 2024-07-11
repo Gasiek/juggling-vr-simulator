@@ -17,8 +17,7 @@ public class InteractorWithController
 public class BallResetHandler : MonoBehaviour
 {
     public List<InteractorWithController> interactorWithControllers = new();
-    public XRGrabInteractable[] balls;
-    public int numberOfBallsToGrab;
+    public List<XRGrabInteractable> balls;
     public float resetTime;
     public SimulatorEvent ballsResetEvent;
     private Coroutine resetCoroutine;
@@ -55,7 +54,7 @@ public class BallResetHandler : MonoBehaviour
                 alreadyHolding = true;
             }
         }
-        if (grabbingCount >= numberOfBallsToGrab && !alreadyHolding)
+        if (grabbingCount >= simulationManager.GetCurrentNumberOfBalls() && !alreadyHolding)
         {
             if (resetCoroutine == null)
             {
@@ -75,10 +74,10 @@ public class BallResetHandler : MonoBehaviour
     private IEnumerator ResetBallsAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        if (grabbingCount < numberOfBallsToGrab) // TODO: Check if this is necessary
-        {
-            yield break;
-        }
+        // if (grabbingCount < simulationManager.GetCurrentNumberOfBalls()) // TODO: Check if this is necessary
+        // {
+        //     yield break;
+        // }
         ballsResetEvent.Raise();
         int grabbedCount = 0;
         for (int i = 0; i < interactorWithControllers.Count; i++)
@@ -87,7 +86,7 @@ public class BallResetHandler : MonoBehaviour
             {
                 ResetBall(balls[grabbedCount], interactorWithControllers[i].interactor, interactorWithControllers[i].attachmentPoint);
                 grabbedCount++;
-                if (grabbedCount >= numberOfBallsToGrab)
+                if (grabbedCount >= simulationManager.GetCurrentNumberOfBalls())
                 {
                     break;
                 }
@@ -102,6 +101,16 @@ public class BallResetHandler : MonoBehaviour
         interactor.attachTransform = attachmentPoint;
         interactor.StartManualInteraction((IXRSelectInteractable)ballGrabInteractable);
         interactor.EndManualInteraction();
-        simulationManager.OnBallGrabbed();
+        // simulationManager.OnBallGrabbed();
+    }
+
+    public void RegisterInstantiatedBall(XRGrabInteractable ball)
+    {
+        balls.Add(ball);
+    }
+
+    public void ClearBalls()
+    {
+        balls.Clear();
     }
 }
