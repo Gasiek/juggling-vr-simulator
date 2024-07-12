@@ -1839,6 +1839,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnimatedBall3
       objectReference: {fileID: 0}
+    - target: {fileID: 7318068714365266194, guid: 613fc53d23a030b4192a58ec01ad4c4c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4530,6 +4535,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: AnimatedBall2
       objectReference: {fileID: 0}
+    - target: {fileID: 7318068714365266194, guid: 613fc53d23a030b4192a58ec01ad4c4c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5329,6 +5339,7 @@ MonoBehaviour:
   upwardForce: 2.3
   insideForce: 0.255
   gravityCounter: 6
+  delayAfterThrowingAllBalls: 1.5
 --- !u!4 &1624733203
 Transform:
   m_ObjectHideFlags: 0
@@ -9118,6 +9129,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AnimatedBall1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7318068714365266194, guid: 613fc53d23a030b4192a58ec01ad4c4c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
