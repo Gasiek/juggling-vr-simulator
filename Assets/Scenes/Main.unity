@@ -332,6 +332,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 999175017}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &142764951 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7318068714365266194, guid: 613fc53d23a030b4192a58ec01ad4c4c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5341842581376787653}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &146433315
 GameObject:
   m_ObjectHideFlags: 0
@@ -1369,6 +1375,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 415537414}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &421306023 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7318068714365266194, guid: 613fc53d23a030b4192a58ec01ad4c4c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1473126862}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &431337934
 GameObject:
   m_ObjectHideFlags: 0
@@ -1847,7 +1859,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7318068714365266194, guid: 613fc53d23a030b4192a58ec01ad4c4c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1709126692}
   m_SourcePrefab: {fileID: 100100000, guid: 613fc53d23a030b4192a58ec01ad4c4c, type: 3}
 --- !u!54 &574399510 stripped
 Rigidbody:
@@ -2309,6 +2325,22 @@ MonoBehaviour:
         - m_Target: {fileID: 588816622}
           m_TargetAssemblyTypeName: CatchCounter, Assembly-CSharp
           m_MethodName: ResetCurrentScore
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - simulatorEvent: {fileID: 11400000, guid: 138bd2a1d27b3b5448e5e128e7646f7a, type: 2}
+    response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: TutorialAnimationController, Assembly-CSharp
+          m_MethodName: ShowTutorial
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -4543,7 +4575,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7318068714365266194, guid: 613fc53d23a030b4192a58ec01ad4c4c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1473126868}
   m_SourcePrefab: {fileID: 100100000, guid: 613fc53d23a030b4192a58ec01ad4c4c, type: 3}
 --- !u!54 &1473126863 stripped
 Rigidbody:
@@ -4557,6 +4593,27 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1473126862}
   m_PrefabAsset: {fileID: 0}
+--- !u!135 &1473126868
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421306023}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.50000006
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1504555037
 GameObject:
   m_ObjectHideFlags: 0
@@ -5307,7 +5364,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1624733203}
-  - component: {fileID: 1624733202}
   m_Layer: 0
   m_Name: BallsAnimation
   m_TagString: Untagged
@@ -5315,31 +5371,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1624733202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1624733201}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 432f6b443ea8e03488ed27d023e50896, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  throwingPointLeft: {fileID: 1604291080}
-  throwingPointRight: {fileID: 1683816195645977912}
-  catchingPointLeft: {fileID: 415537415}
-  catchingPointRight: {fileID: 2052079219}
-  ballsRigidbodies:
-  - {fileID: 5341842581376787654}
-  - {fileID: 1473126863}
-  - {fileID: 574399510}
-  timeOfTransitionToThrowingPosition: 0.1
-  upwardForce: 2.3
-  insideForce: 0.255
-  gravityCounter: 6
-  delayAfterThrowingAllBalls: 1.5
 --- !u!4 &1624733203
 Transform:
   m_ObjectHideFlags: 0
@@ -5348,8 +5379,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1624733201}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.83, z: 1.73}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.06, z: 0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5360,7 +5391,7 @@ Transform:
   - {fileID: 5341842581376787655}
   - {fileID: 1473126864}
   - {fileID: 574399511}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1938011181}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1627683279
 GameObject:
@@ -5619,6 +5650,33 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e8f8deb5a30624e479e669f8e64613b8, type: 3}
+--- !u!1 &1709126688 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7318068714365266194, guid: 613fc53d23a030b4192a58ec01ad4c4c,
+    type: 3}
+  m_PrefabInstance: {fileID: 574399509}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &1709126692
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1709126688}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.50000006
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1767993993
 GameObject:
   m_ObjectHideFlags: 0
@@ -6133,6 +6191,90 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1931111187}
   m_CullTransparentMesh: 1
+--- !u!1 &1938011179
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1938011181}
+  - component: {fileID: 1938011180}
+  - component: {fileID: 1938011182}
+  m_Layer: 0
+  m_Name: BallsAnimationParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1938011180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938011179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 432f6b443ea8e03488ed27d023e50896, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shouldStickToPlayer: 0
+  simulationManager: {fileID: 588816618}
+  headset: {fileID: 186927060}
+  throwingPointLeft: {fileID: 1604291080}
+  throwingPointRight: {fileID: 1683816195645977912}
+  catchingPointLeft: {fileID: 415537415}
+  catchingPointRight: {fileID: 2052079219}
+  animatedBallMaterial: {fileID: 2100000, guid: 6e5c86fa3acd0e94388dbcea098e3c81,
+    type: 2}
+  ballsRigidbodies:
+  - {fileID: 5341842581376787654}
+  - {fileID: 1473126863}
+  - {fileID: 574399510}
+  timeOfTransitionToThrowingPosition: 0.1
+  upwardForce: 3.5
+  insideForce: 0.43
+  delayAfterThrowingAllBalls: 1.5
+--- !u!4 &1938011181
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938011179}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.96, z: 1.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1624733203}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1938011182
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1938011179}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 0.1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1963484770
 GameObject:
   m_ObjectHideFlags: 0
@@ -9138,7 +9280,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7318068714365266194, guid: 613fc53d23a030b4192a58ec01ad4c4c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5341842581376787659}
   m_SourcePrefab: {fileID: 100100000, guid: 613fc53d23a030b4192a58ec01ad4c4c, type: 3}
 --- !u!54 &5341842581376787654 stripped
 Rigidbody:
@@ -9152,6 +9298,27 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5341842581376787653}
   m_PrefabAsset: {fileID: 0}
+--- !u!135 &5341842581376787659
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 142764951}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.50000006
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5907192801216080982
 GameObject:
   m_ObjectHideFlags: 0
@@ -9336,4 +9503,4 @@ SceneRoots:
   - {fileID: 633950701}
   - {fileID: 588816619}
   - {fileID: 1964602100}
-  - {fileID: 1624733203}
+  - {fileID: 1938011181}

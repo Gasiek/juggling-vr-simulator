@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 107772297017847801}
   m_Layer: 0
   m_Name: AnimatedBall
-  m_TagString: Ball
+  m_TagString: AnimatedBall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 70520f058e8945147b3bf24a38ed43a5, type: 2}
+  - {fileID: 2100000, guid: 6e5c86fa3acd0e94388dbcea098e3c81, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

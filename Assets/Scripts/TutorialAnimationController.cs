@@ -1,27 +1,40 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class TutorialAnimationController : MonoBehaviour
 {
+    public bool shouldStickToPlayer = false;
+    public SimulationManager simulationManager;
+    public Transform headset;
+    // public Vector3 headsetOffset;
     public Transform throwingPointLeft;
     public Transform throwingPointRight;
     public Transform catchingPointLeft;
     public Transform catchingPointRight;
+    public Material animatedBallMaterial;
     public List<Rigidbody> ballsRigidbodies;
     public float timeOfTransitionToThrowingPosition;
-    public float upwardForce; // 3.5
-    public float insideForce; // 0.43
-    public float gravityCounter;
+    public float upwardForce; // 3.5 // gravitycounter 6, force 2.3
+    public float insideForce; // 0.43 // gravitycounter 6, force 0.255
+    // public float gravityCounter;
     public float delayAfterThrowingAllBalls;
     private List<Rigidbody> currentBallsRigidbodies = new();
+    private Vector3 originalPosition;
+    private Quaternion originalRotation;
     private int currentBallIndex = 0;
     private int ballsToThrow;
     private bool didPreviousBallReachPeak = true;
     private bool shouldLoop = false;
+    private float originalAlpha = 0.3f;
+    private float fadeDuration = 0.3f;
 
-    void Start()
+    private void Start()
     {
+        animatedBallMaterial.color = new Color(animatedBallMaterial.color.r, animatedBallMaterial.color.g, animatedBallMaterial.color.b, 0);
+        originalPosition = transform.position;
+        originalRotation = transform.rotation;
         foreach (Rigidbody ballRb in ballsRigidbodies)
         {
             ballRb.useGravity = false;
@@ -32,41 +45,84 @@ public class TutorialAnimationController : MonoBehaviour
         ballsRigidbodies[1].transform.position = catchingPointLeft.position;
         ballsRigidbodies[2].transform.position = catchingPointRight.position;
 
-        ShowOneBallTutorial();
+        // ShowOneBallTutorial();
         // ShowTwoBallsTutorial();
-        // ShowThreeBallsTutorial(newShouldLoop: false);
+        ShowThreeBallsTutorial(newShouldLoop: true);
     }
 
-    void FixedUpdate()
+    private void Update()
     {
-        ApplyCustomGravity();
-    }
-
-    private void ApplyCustomGravity()
-    {
-        foreach (Rigidbody ballRb in currentBallsRigidbodies)
+        if (shouldStickToPlayer)
         {
-            if (ballRb.useGravity)
-            {
-                ballRb.AddForce(gravityCounter * Vector3.up, ForceMode.Acceleration);
-            }
+            transform.position = headset.position;
+            transform.rotation = headset.rotation;
+        }
+        else
+        {
+            transform.position = originalPosition;
+            transform.rotation = originalRotation;
         }
     }
 
-    public void ShowThreeBallsTutorial(bool newShouldLoop = false)
+    // void FixedUpdate()
+    // {
+    //     ApplyCustomGravity();
+    // }
+
+    // private void ApplyCustomGravity()
+    // {
+    //     foreach (Rigidbody ballRb in currentBallsRigidbodies)
+    //     {
+    //         if (ballRb.useGravity)
+    //         {
+    //             ballRb.AddForce(gravityCounter * Vector3.up, ForceMode.Acceleration);
+    //         }
+    //     }
+    // }
+
+    public void HideTutorial()
+    {
+        StopAllCoroutines();
+        StartCoroutine(SmoothlyFadeOut());
+        foreach (Rigidbody ballRb in currentBallsRigidbodies)
+        {
+            ballRb.gameObject.SetActive(false);
+        }
+    }
+
+    public void ShowTutorial()
+    {
+        switch (simulationManager.GetCurrentNumberOfBalls())
+        {
+            case 1:
+                ShowOneBallTutorial();
+                break;
+            case 2:
+                ShowTwoBallsTutorial();
+                break;
+            case 3:
+                ShowThreeBallsTutorial();
+                break;
+            default:
+                ShowThreeBallsTutorial();
+                break;
+        }
+    }
+
+    private void ShowThreeBallsTutorial(bool newShouldLoop = false)
     {
         shouldLoop = newShouldLoop;
         InitializeTutorial(3);
         StartCoroutine(JugglingLoop());
     }
 
-    public void ShowTwoBallsTutorial()
+    private void ShowTwoBallsTutorial()
     {
         InitializeTutorial(2);
         StartCoroutine(JugglingLoop());
     }
 
-    public void ShowOneBallTutorial()
+    private void ShowOneBallTutorial()
     {
         InitializeTutorial(1);
         StartCoroutine(JugglingLoop());
@@ -79,6 +135,7 @@ public class TutorialAnimationController : MonoBehaviour
         {
             ballRb.gameObject.SetActive(true);
         }
+        StartCoroutine(SmoothlyFadeIn());
         ballsToThrow = ballCount;
     }
 
@@ -103,7 +160,7 @@ public class TutorialAnimationController : MonoBehaviour
                 }
                 currentBallIndex = (currentBallIndex + 1) % currentBallsRigidbodies.Count;
                 StartCoroutine(WaitForBallToReachPeak(currentBallRb));
-                StartCoroutine(WaitForBallToReachHandHeight(currentBallRb));
+                // StartCoroutine(WaitForBallToReachHandHeight(currentBallRb));
             }
             yield return null;
         }
@@ -154,7 +211,7 @@ public class TutorialAnimationController : MonoBehaviour
 
     private IEnumerator WaitForBallToReachHandHeight(Rigidbody ballRb)
     {
-        while (ballRb.transform.position.y >= throwingPointLeft.position.y)
+        while (Math.Round(ballRb.transform.localPosition.y, 2) >= throwingPointLeft.localPosition.y)
         {
             yield return null;
         }
@@ -174,10 +231,69 @@ public class TutorialAnimationController : MonoBehaviour
     private IEnumerator WaitForBallToReachPeak(Rigidbody ballRb)
     {
         yield return new WaitForSeconds(timeOfTransitionToThrowingPosition + 0.1f);
-        while (ballRb.velocity.y > 0 || ballRb.transform.position.y < throwingPointLeft.position.y)
+        while (ballRb.velocity.y > 0 || ballRb.transform.localPosition.y < throwingPointLeft.localPosition.y)
         {
             yield return null;
         }
         didPreviousBallReachPeak = true;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("AnimatedBall"))
+        {
+            Rigidbody ballRb = other.gameObject.GetComponent<Rigidbody>();
+            if (!ballRb.useGravity) return;
+            Debug.Log("Ball caught");
+            ballRb.useGravity = false;
+            if (ballRb.velocity.x > 0)
+            {
+                ballRb.velocity = Vector3.zero;
+                ballRb.angularVelocity = Vector3.zero;
+                ballRb.transform.position = catchingPointRight.position;
+            }
+            else
+            {
+                ballRb.velocity = Vector3.zero;
+                ballRb.angularVelocity = Vector3.zero;
+                ballRb.transform.position = catchingPointLeft.position;
+            }
+        }
+    }
+
+    private IEnumerator SmoothlyFadeIn()
+    {
+        float elapsedTime = 0;
+        Color startColor = animatedBallMaterial.color;
+        Color targetColor = new(startColor.r, startColor.g, startColor.b, originalAlpha);
+
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / fadeDuration);
+            Color newColor = Color.Lerp(startColor, targetColor, t);
+            animatedBallMaterial.color = newColor;
+            yield return null;
+        }
+
+        animatedBallMaterial.color = targetColor;
+    }
+
+    private IEnumerator SmoothlyFadeOut()
+    {
+        float elapsedTime = 0;
+        Color startColor = animatedBallMaterial.color;
+        Color targetColor = new(startColor.r, startColor.g, startColor.b, 0);
+
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / fadeDuration);
+            Color newColor = Color.Lerp(startColor, targetColor, t);
+            animatedBallMaterial.color = newColor;
+            yield return null;
+        }
+
+        animatedBallMaterial.color = targetColor;
     }
 }
