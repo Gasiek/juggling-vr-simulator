@@ -6,49 +6,49 @@ using UnityEngine;
 public class BallController : MonoBehaviour
 {
     public SimulatorEvent ballThrownTooLowEvent;
-    private Transform headset;
-    private Rigidbody ballRb;
-    private Transform ballTr;
-    private bool isBallAscending = false;
-    private float peakHeight;
-    private float ballHeightOffsetY = 0.1f;
+    // private Transform headset;
+    // private Rigidbody ballRb;
+    // private Transform ballTr;
+    // private bool isBallAscending = false;
+    // private float peakHeight;
+    // private float ballHeightOffsetY = 0.1f;
     private Hand previousHand = Hand.None;
 
-    private void Awake()
-    {
-        ballRb = GetComponent<Rigidbody>();
-        ballTr = transform;
-        headset = Camera.main.transform;
-    }
+    // private void Awake()
+    // {
+    //     ballRb = GetComponent<Rigidbody>();
+    //     ballTr = transform;
+    //     headset = Camera.main.transform;
+    // }
 
-    private void Update()
-    {
-        CheckPeakHeight();
-    }
+    // private void Update()
+    // {
+    //     CheckPeakHeight();
+    // }
 
-    void CheckPeakHeight()
-    {
-        if (ballRb.velocity.y > 0)
-        {
-            isBallAscending = true;
-        }
-        else if (isBallAscending && ballRb.velocity.y <= 0)
-        {
-            peakHeight = ballTr.position.y;
-            isBallAscending = false;
-            CheckHeightSuccess(peakHeight);
-        }
-    }
+    // void CheckPeakHeight()
+    // {
+    //     if (ballRb.velocity.y > 0)
+    //     {
+    //         isBallAscending = true;
+    //     }
+    //     else if (isBallAscending && ballRb.velocity.y <= 0)
+    //     {
+    //         peakHeight = ballTr.position.y;
+    //         isBallAscending = false;
+    //         CheckHeightSuccess(peakHeight);
+    //     }
+    // }
 
-    void CheckHeightSuccess(float height)
-    {
-        float minHeight = headset.position.y + ballHeightOffsetY;
+    // void CheckHeightSuccess(float height)
+    // {
+    //     float minHeight = headset.position.y + ballHeightOffsetY;
 
-        if (height < minHeight)
-        {
-            ballThrownTooLowEvent.Raise();
-        }
-    }
+    //     if (height < minHeight)
+    //     {
+    //         ballThrownTooLowEvent.Raise();
+    //     }
+    // }
 
     public Hand GetPreviousHand()
     {
