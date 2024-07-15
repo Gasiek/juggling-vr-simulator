@@ -1416,8 +1416,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -29.100048}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 0, y: -111.4}
+  m_SizeDelta: {x: 549.1, y: 142.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &431337936
 MonoBehaviour:
@@ -2129,6 +2129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ballPrefab: {fileID: 5907192801606185979, guid: 13c63e978a16a3949ac385a6729d4e91,
     type: 3}
+  tutorialAnimationController: {fileID: 1938011180}
   speedText: {fileID: 431337936}
   levelPassed: {fileID: 11400000, guid: acdee00507c9d5d40abd01a3c0ce581b, type: 2}
   ballsOriginsOnTable:
@@ -2137,6 +2138,13 @@ MonoBehaviour:
   - {fileID: 2254036667917731689}
   - {fileID: 2254036668908355489}
   - {fileID: 2254036667084210050}
+  tutorialSteps:
+  - {fileID: 11400000, guid: c001166b68f4c864ab37432378345e31, type: 2}
+  - {fileID: 11400000, guid: d3fbe6d2c199c404aa8ef8c9520ae043, type: 2}
+  - {fileID: 11400000, guid: de7161900eddbab4a805128994b022ff, type: 2}
+  - {fileID: 11400000, guid: 49c228437bcdf6446abf61c50944b7ce, type: 2}
+  - {fileID: 11400000, guid: d696bd582e9e28e4fbcc854e089f9688, type: 2}
+  - {fileID: 11400000, guid: cf8cd4d6ff48f074cac05683eaaa6188, type: 2}
   ballsParent: {fileID: 1821501149}
   currentNumberOfBallsInGame: 1
   increaseSpeedAction: {fileID: 3362557332156365769, guid: c348712bda248c246b8c49b3db54643f,
@@ -2270,9 +2278,9 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 588816618}
-          m_TargetAssemblyTypeName: SimulationManager, Assembly-CSharp
-          m_MethodName: StartNextLevel
+        - m_Target: {fileID: 588816622}
+          m_TargetAssemblyTypeName: CatchCounter, Assembly-CSharp
+          m_MethodName: ResetHighestScore
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -2282,9 +2290,9 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 588816622}
-          m_TargetAssemblyTypeName: CatchCounter, Assembly-CSharp
-          m_MethodName: ResetHighestScore
+        - m_Target: {fileID: 588816618}
+          m_TargetAssemblyTypeName: SimulationManager, Assembly-CSharp
+          m_MethodName: LoadNextTutorialStep
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -2650,14 +2658,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 761779451}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.13052624, y: -0, z: -0, w: 0.9914449}
+  m_LocalRotation: {x: -0.17364825, y: 0, z: 0, w: 0.9848078}
   m_LocalPosition: {x: 0, y: 1.1176, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 514099585}
   m_Father: {fileID: 1105523867}
-  m_LocalEulerAnglesHint: {x: -15, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -20, y: 0, z: 0}
 --- !u!1 &795914535
 GameObject:
   m_ObjectHideFlags: 0
@@ -4304,7 +4312,7 @@ PrefabInstance:
     - target: {fileID: 6598815579406187037, guid: 18ddb545287c546e19cc77dc9fbb2189,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5642,7 +5650,7 @@ Transform:
   m_GameObject: {fileID: 1624733201}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.06, z: 0.2}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6511,7 +6519,7 @@ Transform:
   m_GameObject: {fileID: 1938011179}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.96, z: 1.8}
+  m_LocalPosition: {x: 0, y: 1.42, z: 1.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6537,8 +6545,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 0.1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2, y: 0.1, z: 2}
+  m_Center: {x: 0, y: -0.5, z: 0}
 --- !u!1 &1963484770
 GameObject:
   m_ObjectHideFlags: 0
@@ -8920,7 +8928,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 29.099953}
-  m_SizeDelta: {x: 832, y: 50}
+  m_SizeDelta: {x: 832, y: 74.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2128654593
 MonoBehaviour:
@@ -9287,7 +9295,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6477160391426298951}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1

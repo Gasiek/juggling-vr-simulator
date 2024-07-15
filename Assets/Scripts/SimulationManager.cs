@@ -10,9 +10,11 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class SimulationManager : MonoBehaviour
 {
     public GameObject ballPrefab;
+    public TutorialAnimationController tutorialAnimationController;
     public TextMeshProUGUI speedText;
     public SimulatorEvent levelPassed;
     public Transform[] ballsOriginsOnTable;
+    public TutorialStep[] tutorialSteps;
     public Transform ballsParent;
     public int currentNumberOfBallsInGame = 1;
     [SerializeField] private InputActionReference increaseSpeedAction;
@@ -27,6 +29,7 @@ public class SimulationManager : MonoBehaviour
     private CatchCounter catchCounter;
     private BallResetHandler ballResetHandler;
     private string previouslyThrownBallId;
+    private int currentTutorialStep = -1;
 
     private void OnEnable()
     {
@@ -55,7 +58,8 @@ public class SimulationManager : MonoBehaviour
 
     void Start()
     {
-        SpawnBallsOnTable();
+        // SpawnBallsOnTable();
+        LoadNextTutorialStep();
     }
 
     private void OnIncreaseSpeed(InputAction.CallbackContext context)
@@ -64,7 +68,14 @@ public class SimulationManager : MonoBehaviour
         {
             return;
         }
-        speedMultiplier += 0.1f;
+        speedMultiplier = System.MathF.Round(speedMultiplier + 0.1f, 1);
+        speedText.text = speedMultiplier.ToString();
+        Time.timeScale = speedMultiplier;
+    }
+
+    private void SetSpeedMultiplier(float value)
+    {
+        speedMultiplier = value;
         speedText.text = speedMultiplier.ToString();
         Time.timeScale = speedMultiplier;
     }
@@ -75,7 +86,7 @@ public class SimulationManager : MonoBehaviour
         {
             return;
         }
-        speedMultiplier -= 0.1f;
+        speedMultiplier = System.MathF.Round(speedMultiplier - 0.1f, 1);
         speedText.text = speedMultiplier.ToString();
         Time.timeScale = speedMultiplier;
     }
@@ -97,6 +108,8 @@ public class SimulationManager : MonoBehaviour
         for (int i = 0; i < currentNumberOfBallsInGame; i++)
         {
             var ball = Instantiate(ballPrefab, ballsOriginsOnTable[i].position, Quaternion.identity, ballsParent);
+            BallController ballController = ball.GetComponent<BallController>();
+            ballController.UpdateGravityAdjustmentForce();
             Rigidbody ballRb = ball.GetComponent<Rigidbody>();
             XRGrabInteractable ballGrabInteractable = ball.GetComponent<XRGrabInteractable>();
             ballRb.velocity = Vector3.zero;
@@ -116,17 +129,17 @@ public class SimulationManager : MonoBehaviour
         balls.Clear();
     }
 
-    public void StartNextLevel()
-    {
-        StartCoroutine(IncreaseNumberOfBalls());
-    }
+    // public void StartNextLevel()
+    // {
+    //     StartCoroutine(IncreaseNumberOfBalls());
+    // }
 
-    private IEnumerator IncreaseNumberOfBalls()
-    {
-        yield return new WaitForSeconds(1f); // here should be some info that a person finished the level
-        currentNumberOfBallsInGame++;
-        SpawnBallsOnTable();
-    }
+    // private IEnumerator IncreaseNumberOfBalls()
+    // {
+    //     yield return new WaitForSeconds(1f); // here should be some info that a person finished the level
+    //     currentNumberOfBallsInGame++;
+    //     SpawnBallsOnTable();
+    // }
 
     private void CheckProgress() // TODO: This should happen in catch counter
     {
@@ -160,6 +173,19 @@ public class SimulationManager : MonoBehaviour
     {
         currentlyHeldBalls--;
         numberOfBallsHeldText.text = currentlyHeldBalls.ToString();
+    }
+
+    public void LoadNextTutorialStep()
+    {
+        tutorialAnimationController.HideTutorial();
+        currentTutorialStep++;
+        currentNumberOfBallsInGame = tutorialSteps[currentTutorialStep].numberOfBalls;
+        SetSpeedMultiplier(tutorialSteps[currentTutorialStep].speedMultiplier);
+        if (tutorialSteps[currentTutorialStep].showTutorial)
+        {
+            tutorialAnimationController.ShowTutorial(isPOV: tutorialSteps[currentTutorialStep].isTutorialPOV);
+        }
+        SpawnBallsOnTable();
     }
 
     public void SetBallGrounded(bool value)

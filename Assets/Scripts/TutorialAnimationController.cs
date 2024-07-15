@@ -30,7 +30,7 @@ public class TutorialAnimationController : MonoBehaviour
     private float originalAlpha = 0.3f;
     private float fadeDuration = 0.3f;
 
-    private void Start()
+    private void Awake()
     {
         animatedBallMaterial.color = new Color(animatedBallMaterial.color.r, animatedBallMaterial.color.g, animatedBallMaterial.color.b, 0);
         originalPosition = transform.position;
@@ -39,6 +39,7 @@ public class TutorialAnimationController : MonoBehaviour
         {
             ballRb.useGravity = false;
             ballRb.gameObject.SetActive(false);
+            Debug.Log("Ball disabled on start");
         }
 
         ballsRigidbodies[0].transform.position = catchingPointRight.position;
@@ -47,20 +48,23 @@ public class TutorialAnimationController : MonoBehaviour
 
         // ShowOneBallTutorial();
         // ShowTwoBallsTutorial();
-        ShowThreeBallsTutorial(newShouldLoop: true);
+        // ShowThreeBallsTutorial(newShouldLoop: true);
     }
 
     private void Update()
     {
         if (shouldStickToPlayer)
         {
-            transform.position = headset.position;
-            transform.rotation = headset.rotation;
+            Vector3 headsetEulerAngles = headset.rotation.eulerAngles;
+
+            Vector3 currentEulerAngles = transform.rotation.eulerAngles;
+            headsetEulerAngles.x = currentEulerAngles.x;
+
+            transform.SetPositionAndRotation(headset.position, Quaternion.Euler(headsetEulerAngles));
         }
         else
         {
-            transform.position = originalPosition;
-            transform.rotation = originalRotation;
+            transform.SetPositionAndRotation(originalPosition, originalRotation);
         }
     }
 
@@ -86,12 +90,14 @@ public class TutorialAnimationController : MonoBehaviour
         StartCoroutine(SmoothlyFadeOut());
         foreach (Rigidbody ballRb in currentBallsRigidbodies)
         {
+            Debug.Log("Ball disabled on hide");
             ballRb.gameObject.SetActive(false);
         }
     }
 
-    public void ShowTutorial()
+    public void ShowTutorial(bool isPOV)
     {
+        shouldStickToPlayer = isPOV;
         switch (simulationManager.GetCurrentNumberOfBalls())
         {
             case 1:
@@ -130,17 +136,26 @@ public class TutorialAnimationController : MonoBehaviour
 
     private void InitializeTutorial(int ballCount)
     {
+        didPreviousBallReachPeak = true;
+        currentBallIndex = 0;
+
         currentBallsRigidbodies = new List<Rigidbody>(ballsRigidbodies.GetRange(0, ballCount));
         foreach (Rigidbody ballRb in currentBallsRigidbodies)
         {
+            ballRb.useGravity = false;
             ballRb.gameObject.SetActive(true);
+            Debug.Log("Ball initialized");
         }
+        ballsRigidbodies[0].transform.position = catchingPointRight.position;
+        ballsRigidbodies[1].transform.position = catchingPointLeft.position;
+        ballsRigidbodies[2].transform.position = catchingPointRight.position;
         StartCoroutine(SmoothlyFadeIn());
         ballsToThrow = ballCount;
     }
 
     private IEnumerator JugglingLoop()
     {
+        Debug.Log("Juggling loop started");
         yield return new WaitForSeconds(1);
         while (true)
         {
