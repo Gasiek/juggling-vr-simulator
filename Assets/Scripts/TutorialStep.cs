@@ -9,4 +9,5 @@ public class TutorialStep : ScriptableObject
     public float speedMultiplier;
     public bool showTutorial;
     public bool isTutorialPOV;
+    public bool shouldBallStopAtThePeak;
 }

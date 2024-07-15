@@ -22,6 +22,7 @@ public class SimulationManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI numberOfBallsText;
     [SerializeField] private TextMeshProUGUI numberOfBallsHeldText;
     private bool isBallGrounded = false;
+    private bool shouldBallStopAtThePeak = false;
     private float speedMultiplier = 1f;
     private List<GameObject> balls = new();
     private int ballsToProgress = 10;
@@ -110,6 +111,7 @@ public class SimulationManager : MonoBehaviour
             var ball = Instantiate(ballPrefab, ballsOriginsOnTable[i].position, Quaternion.identity, ballsParent);
             BallController ballController = ball.GetComponent<BallController>();
             ballController.UpdateGravityAdjustmentForce();
+            ballController.SetShouldStopAtThePeak(shouldBallStopAtThePeak);
             Rigidbody ballRb = ball.GetComponent<Rigidbody>();
             XRGrabInteractable ballGrabInteractable = ball.GetComponent<XRGrabInteractable>();
             ballRb.velocity = Vector3.zero;
@@ -180,6 +182,7 @@ public class SimulationManager : MonoBehaviour
         tutorialAnimationController.HideTutorial();
         currentTutorialStep++;
         currentNumberOfBallsInGame = tutorialSteps[currentTutorialStep].numberOfBalls;
+        shouldBallStopAtThePeak = tutorialSteps[currentTutorialStep].shouldBallStopAtThePeak;
         SetSpeedMultiplier(tutorialSteps[currentTutorialStep].speedMultiplier);
         if (tutorialSteps[currentTutorialStep].showTutorial)
         {
