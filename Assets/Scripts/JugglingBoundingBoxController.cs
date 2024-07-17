@@ -8,7 +8,7 @@ public class JugglingBoundingBoxController : MonoBehaviour
     // public AudioSource failureSound;  // Sound to play on failure
     public Color failureColor;  // Color to set on failure
     public Color initialColor;
-    public SimulatorEvent ballThrownTooHighEvent;  // Event to raise when the ball goes out of bounds
+    // public SimulatorEvent ballThrownTooHighEvent;  // Event to raise when the ball goes out of bounds
     public Renderer boxRenderer;
     public bool shouldTriggerEvents = false;
 
@@ -53,7 +53,7 @@ public class JugglingBoundingBoxController : MonoBehaviour
     {
         if (shouldTriggerEvents && other.CompareTag("Ball"))
         {
-            ballThrownTooHighEvent.Raise();
+            // ballThrownTooHighEvent.Raise();
         }
     }
     public void IndicateFailure()

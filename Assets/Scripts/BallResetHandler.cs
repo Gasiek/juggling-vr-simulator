@@ -58,7 +58,7 @@ public class BallResetHandler : MonoBehaviour
         {
             if (resetCoroutine == null)
             {
-                resetCoroutine = StartCoroutine(ResetBallsAfterDelay(resetTime));
+                resetCoroutine = StartCoroutine(ResetBallsAfterDelay());
             }
         }
         else
@@ -71,10 +71,10 @@ public class BallResetHandler : MonoBehaviour
         }
     }
 
-    private IEnumerator ResetBallsAfterDelay(float delay)
+    private IEnumerator ResetBallsAfterDelay()
     {
-        yield return new WaitForSeconds(delay);
-        // if (grabbingCount < simulationManager.GetCurrentNumberOfBalls()) // TODO: Check if this is necessary
+        yield return new WaitForSeconds(resetTime);
+        // if (grabbingCount < simulationManager.GetCurrentNumberOfBalls())
         // {
         //     yield break;
         // }
@@ -101,16 +101,5 @@ public class BallResetHandler : MonoBehaviour
         interactor.attachTransform = attachmentPoint;
         interactor.StartManualInteraction((IXRSelectInteractable)ballGrabInteractable);
         interactor.EndManualInteraction();
-        // simulationManager.OnBallGrabbed();
-    }
-
-    public void RegisterInstantiatedBall(XRGrabInteractable ball)
-    {
-        balls.Add(ball);
-    }
-
-    public void ClearBalls()
-    {
-        balls.Clear();
     }
 }

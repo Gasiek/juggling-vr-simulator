@@ -11,12 +11,9 @@ public class ProjectileRenderer : MonoBehaviour
     [SerializeField]
     [Range(0.1f, 0.25f)]
     private float TimeBetweenPoints = 0.1f;
-
     private Rigidbody rb;
     private LineRenderer lineRenderer;
 
-    private Vector3 previousBallPosition;
-    private Vector3 ballVelocity;
 
     private void Awake()
     {
@@ -25,15 +22,8 @@ public class ProjectileRenderer : MonoBehaviour
         lineRenderer.enabled = false;
     }
 
-    void Start()
-    {
-        previousBallPosition = rb.position;
-    }
-
     void Update()
     {
-        // ballVelocity = (rb.position - previousBallPosition) / Time.deltaTime;
-        // previousBallPosition = rb.position;
         if (rb.velocity.y > 0)
         {
             DrawProjection(rb.velocity);
@@ -49,7 +39,6 @@ public class ProjectileRenderer : MonoBehaviour
         lineRenderer.enabled = true;
         lineRenderer.positionCount = Mathf.CeilToInt(LinePoints / TimeBetweenPoints) + 1;
         Vector3 startPosition = transform.position;
-        // Vector3 startVelocity = rb.velocity;
         int i = 0;
         lineRenderer.SetPosition(i, startPosition);
         for (float t = TimeBetweenPoints; t < LinePoints; t += TimeBetweenPoints)

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [CreateAssetMenu(fileName = "New Simulator Event", menuName = "Simulator Event")]
 public class SimulatorEvent : ScriptableObject
 {
-    private readonly List<SimulatorEventListener> eventListeners = new List<SimulatorEventListener>();
+    private readonly List<SimulatorEventListener> eventListeners = new();
 
     [ContextMenu("Raise Event")]
     public void Raise()

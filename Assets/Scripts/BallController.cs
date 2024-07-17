@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
+    public SimulationManager simulationManager;
     public AudioClip collisionSound;
     public AudioClip throwSound;
     private Rigidbody ballRb;
@@ -13,7 +14,6 @@ public class BallController : MonoBehaviour
     private bool isBallAscending;
     private bool isBallStoppedAtPeak;
     private Vector3 velocityAtPeak;
-    private SimulationManager simulationManager;
 
     private void Awake()
     {
@@ -87,8 +87,14 @@ public class BallController : MonoBehaviour
         audioSource.PlayOneShot(throwSound);
     }
 
-    public void SetSimulationmanager(SimulationManager simulationManagerRef)
+    public void Spawn(Vector3 initialPosition)
     {
-        simulationManager = simulationManagerRef;
+        transform.SetPositionAndRotation(initialPosition, Quaternion.identity);
+        ballRb.velocity = Vector3.zero;
+        ballRb.angularVelocity = Vector3.zero;
+        ballRb.useGravity = true;
+        isBallStoppedAtPeak = false;
+        isBallAscending = false;
+        gameObject.SetActive(true);
     }
 }

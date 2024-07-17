@@ -8,7 +8,6 @@ public class TutorialAnimationController : MonoBehaviour
     public bool shouldStickToPlayer = false;
     public SimulationManager simulationManager;
     public Transform headset;
-    // public Vector3 headsetOffset;
     public Transform throwingPointLeft;
     public Transform throwingPointRight;
     public Transform catchingPointLeft;
@@ -18,7 +17,6 @@ public class TutorialAnimationController : MonoBehaviour
     public float timeOfTransitionToThrowingPosition;
     public float upwardForce; // 3.5 // gravitycounter 6, force 2.3
     public float insideForce; // 0.43 // gravitycounter 6, force 0.255
-    // public float gravityCounter;
     public float delayAfterThrowingAllBalls;
     private List<Rigidbody> currentBallsRigidbodies = new();
     private Vector3 originalPosition;
@@ -35,20 +33,16 @@ public class TutorialAnimationController : MonoBehaviour
         animatedBallMaterial.color = new Color(animatedBallMaterial.color.r, animatedBallMaterial.color.g, animatedBallMaterial.color.b, 0);
         originalPosition = transform.position;
         originalRotation = transform.rotation;
+
         foreach (Rigidbody ballRb in ballsRigidbodies)
         {
             ballRb.useGravity = false;
             ballRb.gameObject.SetActive(false);
-            Debug.Log("Ball disabled on start");
         }
 
         ballsRigidbodies[0].transform.position = catchingPointRight.position;
         ballsRigidbodies[1].transform.position = catchingPointLeft.position;
         ballsRigidbodies[2].transform.position = catchingPointRight.position;
-
-        // ShowOneBallTutorial();
-        // ShowTwoBallsTutorial();
-        // ShowThreeBallsTutorial(newShouldLoop: true);
     }
 
     private void Update()
@@ -74,7 +68,6 @@ public class TutorialAnimationController : MonoBehaviour
         StartCoroutine(SmoothlyFadeOut());
         foreach (Rigidbody ballRb in currentBallsRigidbodies)
         {
-            Debug.Log("Ball disabled on hide");
             ballRb.gameObject.SetActive(false);
         }
     }
@@ -128,7 +121,6 @@ public class TutorialAnimationController : MonoBehaviour
         {
             ballRb.useGravity = false;
             ballRb.gameObject.SetActive(true);
-            Debug.Log("Ball initialized");
         }
         ballsRigidbodies[0].transform.position = catchingPointRight.position;
         ballsRigidbodies[1].transform.position = catchingPointLeft.position;
@@ -139,7 +131,6 @@ public class TutorialAnimationController : MonoBehaviour
 
     private IEnumerator JugglingLoop()
     {
-        Debug.Log("Juggling loop started");
         yield return new WaitForSeconds(1);
         while (true)
         {
@@ -224,7 +215,6 @@ public class TutorialAnimationController : MonoBehaviour
         {
             Rigidbody ballRb = other.gameObject.GetComponent<Rigidbody>();
             if (!ballRb.useGravity) return;
-            Debug.Log("Ball caught");
             ballRb.useGravity = false;
             if (ballRb.velocity.x > 0)
             {

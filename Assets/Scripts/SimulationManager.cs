@@ -10,18 +10,17 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class SimulationManager : MonoBehaviour
 {
-    public GameObject ballPrefab;
+    public BallController[] initialBalls;
     public TutorialAnimationController tutorialAnimationController;
     public TextMeshProUGUI speedText;
     public SimulatorEvent levelPassed;
     public Transform[] ballsOriginsOnTable;
     public TutorialStep[] tutorialSteps;
-    public Transform ballsParent;
-    public int currentNumberOfBallsInGame = 1;
     [SerializeField] private InputActionReference increaseSpeedAction;
     [SerializeField] private InputActionReference decreaseSpeedAction;
     [SerializeField] private TextMeshProUGUI numberOfBallsText;
     [SerializeField] private TextMeshProUGUI numberOfBallsHeldText;
+    private int currentNumberOfBallsInGame = 1;
     private bool isBallGrounded = false;
     private bool shouldBallStopAtThePeak = false;
     private float speedMultiplier = 1f;
@@ -29,9 +28,9 @@ public class SimulationManager : MonoBehaviour
     private int ballsToProgress = 10;
     private int currentlyHeldBalls = 0;
     private CatchCounter catchCounter;
-    private BallResetHandler ballResetHandler;
     private string previouslyThrownBallId;
     private int currentTutorialStep = -1;
+    private Vector3 originalGravity;
 
     private void OnEnable()
     {
@@ -55,12 +54,11 @@ public class SimulationManager : MonoBehaviour
     private void Awake()
     {
         catchCounter = GetComponent<CatchCounter>();
-        ballResetHandler = GetComponent<BallResetHandler>();
     }
 
     void Start()
     {
-        // SpawnBallsOnTable();
+        originalGravity = Physics.gravity;
         LoadNextTutorialStep();
     }
 
@@ -72,14 +70,14 @@ public class SimulationManager : MonoBehaviour
         }
         speedMultiplier = MathF.Round(speedMultiplier + 0.1f, 1);
         speedText.text = speedMultiplier.ToString();
-        Physics.gravity = new Vector3(0, Physics.gravity.y * speedMultiplier, 0);
+        Physics.gravity = new Vector3(0, originalGravity.y * speedMultiplier, 0);
     }
 
     private void SetSpeedMultiplier(float value)
     {
         speedMultiplier = value;
         speedText.text = speedMultiplier.ToString();
-        Physics.gravity = new Vector3(0, Physics.gravity.y * speedMultiplier, 0);
+        Physics.gravity = new Vector3(0, originalGravity.y * speedMultiplier, 0);
     }
 
     private void OnDecreaseSpeed(InputAction.CallbackContext context)
@@ -90,7 +88,7 @@ public class SimulationManager : MonoBehaviour
         }
         speedMultiplier = MathF.Round(speedMultiplier - 0.1f, 1);
         speedText.text = speedMultiplier.ToString();
-        Physics.gravity = new Vector3(0, Physics.gravity.y * speedMultiplier, 0);
+        Physics.gravity = new Vector3(0, originalGravity.y * speedMultiplier, 0);
     }
 
     public float GetSpeedMultiplier()
@@ -100,29 +98,17 @@ public class SimulationManager : MonoBehaviour
 
     public void SpawnBallsOnTable()
     {
-        if (currentNumberOfBallsInGame > ballsOriginsOnTable.Length)
-        {
-            currentNumberOfBallsInGame = ballsOriginsOnTable.Length;
-        }
-        StartCoroutine(DestroyAndSpawnBalls());
+        StartCoroutine(DespawnAndSpawnBalls());
     }
 
-    private IEnumerator DestroyAndSpawnBalls()
+    private IEnumerator DespawnAndSpawnBalls()
     {
-        DestroyAllBalls();
-        ballResetHandler.ClearBalls();
+        DeactivateAllBalls();
         yield return new WaitForEndOfFrame();
         for (int i = 0; i < currentNumberOfBallsInGame; i++)
         {
-            var ball = Instantiate(ballPrefab, ballsOriginsOnTable[i].position, Quaternion.identity, ballsParent);
-            BallController ballController = ball.GetComponent<BallController>();
-            ballController.SetSimulationmanager(this);
-            Rigidbody ballRb = ball.GetComponent<Rigidbody>();
-            XRGrabInteractable ballGrabInteractable = ball.GetComponent<XRGrabInteractable>();
-            ballRb.velocity = Vector3.zero;
-            ballRb.angularVelocity = Vector3.zero;
-            ballResetHandler.RegisterInstantiatedBall(ballGrabInteractable);
-            balls.Add(ball);
+            initialBalls[i].Spawn(ballsOriginsOnTable[i].position);
+            balls.Add(initialBalls[i].gameObject);
         }
         numberOfBallsText.text = currentNumberOfBallsInGame.ToString();
     }
@@ -132,26 +118,14 @@ public class SimulationManager : MonoBehaviour
         return balls[-1].transform.GetInstanceID().ToString() == currentBallId;
     }
 
-    private void DestroyAllBalls()
+    private void DeactivateAllBalls()
     {
-        foreach (var ball in balls)
+        foreach (var ball in initialBalls)
         {
-            Destroy(ball);
+            ball.gameObject.SetActive(false);
         }
         balls.Clear();
     }
-
-    // public void StartNextLevel()
-    // {
-    //     StartCoroutine(IncreaseNumberOfBalls());
-    // }
-
-    // private IEnumerator IncreaseNumberOfBalls()
-    // {
-    //     yield return new WaitForSeconds(1f); // here should be some info that a person finished the level
-    //     currentNumberOfBallsInGame++;
-    //     SpawnBallsOnTable();
-    // }
 
     private void CheckProgress() // TODO: This should happen in catch counter
     {
@@ -216,11 +190,6 @@ public class SimulationManager : MonoBehaviour
     public bool IsBallGrounded()
     {
         return isBallGrounded;
-    }
-
-    public int GetCurrentlyHeldBalls()
-    {
-        return currentlyHeldBalls;
     }
 
     public void SetPreviouslyThrownBallId(string id)
