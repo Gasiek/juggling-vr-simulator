@@ -16,3 +16,4 @@ MonoBehaviour:
   speedMultiplier: 1
   showTutorial: 1
   isTutorialPOV: 1
+  shouldBallStopAtThePeak: 1

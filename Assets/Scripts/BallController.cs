@@ -7,25 +7,18 @@ public class BallController : MonoBehaviour
 {
     public AudioClip collisionSound;
     public AudioClip throwSound;
-    // public SimulatorEvent ballThrownTooLowEvent;
-    // private Transform headset;
     private Rigidbody ballRb;
-    private Transform ballTr;
-    // private float ballHeightOffsetY = 0.1f;
     private Hand previousHand = Hand.None;
-    private float gravityAdjustmentForce = 1;
     private AudioSource audioSource;
-    // private object peakHeight;
-    private bool shouldStopAtThePeak;
     private bool isBallAscending;
+    private bool isBallStoppedAtPeak;
     private Vector3 velocityAtPeak;
+    private SimulationManager simulationManager;
 
     private void Awake()
     {
         ballRb = GetComponent<Rigidbody>();
         audioSource = GetComponent<AudioSource>();
-        ballTr = transform;
-        // headset = Camera.main.transform;
     }
 
     private void Update()
@@ -41,9 +34,8 @@ public class BallController : MonoBehaviour
         }
         else if (isBallAscending && ballRb.velocity.y <= 0)
         {
-            // peakHeight = ballTr.position.y;
             isBallAscending = false;
-            if (shouldStopAtThePeak) // we could also check some condition to not stop a ball that bounced from the ground etc.
+            if (simulationManager.GetShouldBallStopAtThePeak() && !simulationManager.HasNextBallBeenThrown(gameObject.GetInstanceID().ToString())) // we could also check some condition to not stop a ball that bounced from the ground etc.
             {
                 StopBallAtThePeak();
             }
@@ -52,6 +44,7 @@ public class BallController : MonoBehaviour
 
     private void StopBallAtThePeak()
     {
+        isBallStoppedAtPeak = true;
         velocityAtPeak = ballRb.velocity;
         ballRb.velocity = Vector3.zero;
         ballRb.useGravity = false;
@@ -60,26 +53,9 @@ public class BallController : MonoBehaviour
 
     public void ReleaseBallFromThePeak()
     {
+        if (!isBallStoppedAtPeak) return;
         ballRb.useGravity = true;
         ballRb.velocity = velocityAtPeak;
-    }
-
-    // void CheckHeightSuccess(float height)
-    // {
-    //     float minHeight = headset.position.y + ballHeightOffsetY;
-
-    //     if (height < minHeight)
-    //     {
-    //         ballThrownTooLowEvent.Raise();
-    //     }
-    // }
-
-    void FixedUpdate()
-    {
-        if (Time.timeScale != 1.0f)
-        {
-            ballRb.AddForce(Vector3.down * gravityAdjustmentForce, ForceMode.Acceleration);
-        }
     }
 
     public Hand GetPreviousHand()
@@ -92,9 +68,13 @@ public class BallController : MonoBehaviour
         previousHand = hand;
     }
 
-    public void UpdateGravityAdjustmentForce()
+    public void AdjustVelocityOnRelease()
     {
-        gravityAdjustmentForce = (1.0f / Time.timeScale - 1.0f) * Physics.gravity.magnitude;
+        float currentSpeedMultiplier = simulationManager.GetSpeedMultiplier();
+        if (ballRb.velocity.y > 0)
+        {
+            ballRb.velocity = new Vector3(ballRb.velocity.x, ballRb.velocity.y * (1 / currentSpeedMultiplier), ballRb.velocity.z);
+        }
     }
 
     private void OnCollisionEnter(Collision other)
@@ -107,8 +87,8 @@ public class BallController : MonoBehaviour
         audioSource.PlayOneShot(throwSound);
     }
 
-    public void SetShouldStopAtThePeak(bool newValue)
+    public void SetSimulationmanager(SimulationManager simulationManagerRef)
     {
-        shouldStopAtThePeak = newValue;
+        simulationManager = simulationManagerRef;
     }
 }

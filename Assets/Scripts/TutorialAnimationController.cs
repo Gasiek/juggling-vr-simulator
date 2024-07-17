@@ -68,22 +68,6 @@ public class TutorialAnimationController : MonoBehaviour
         }
     }
 
-    // void FixedUpdate()
-    // {
-    //     ApplyCustomGravity();
-    // }
-
-    // private void ApplyCustomGravity()
-    // {
-    //     foreach (Rigidbody ballRb in currentBallsRigidbodies)
-    //     {
-    //         if (ballRb.useGravity)
-    //         {
-    //             ballRb.AddForce(gravityCounter * Vector3.up, ForceMode.Acceleration);
-    //         }
-    //     }
-    // }
-
     public void HideTutorial()
     {
         StopAllCoroutines();
@@ -175,7 +159,6 @@ public class TutorialAnimationController : MonoBehaviour
                 }
                 currentBallIndex = (currentBallIndex + 1) % currentBallsRigidbodies.Count;
                 StartCoroutine(WaitForBallToReachPeak(currentBallRb));
-                // StartCoroutine(WaitForBallToReachHandHeight(currentBallRb));
             }
             yield return null;
         }
@@ -186,13 +169,14 @@ public class TutorialAnimationController : MonoBehaviour
         ballRb.useGravity = true;
         ballRb.velocity = Vector3.zero;
         Vector3 force;
+        float currentSpeedMultiplier = simulationManager.GetSpeedMultiplier();
         if (ballRb.transform.position.x > 0)
         {
-            force = Vector3.up * upwardForce + Vector3.left * insideForce;
+            force = currentSpeedMultiplier * upwardForce * Vector3.up + Vector3.left * insideForce;
         }
         else
         {
-            force = Vector3.up * upwardForce + Vector3.right * insideForce;
+            force = currentSpeedMultiplier * upwardForce * Vector3.up + Vector3.right * insideForce;
         }
 
         ballRb.AddForce(force, ForceMode.Impulse);
@@ -222,25 +206,6 @@ public class TutorialAnimationController : MonoBehaviour
 
         ballRb.transform.position = targetPosition;
         ThrowBall(ballRb);
-    }
-
-    private IEnumerator WaitForBallToReachHandHeight(Rigidbody ballRb)
-    {
-        while (Math.Round(ballRb.transform.localPosition.y, 2) >= throwingPointLeft.localPosition.y)
-        {
-            yield return null;
-        }
-        ballRb.useGravity = false;
-        ballRb.velocity = Vector3.zero;
-        ballRb.angularVelocity = Vector3.zero;
-        if (ballRb.transform.localPosition.x > 0)
-        {
-            ballRb.transform.position = catchingPointRight.position;
-        }
-        else
-        {
-            ballRb.transform.position = catchingPointLeft.position;
-        }
     }
 
     private IEnumerator WaitForBallToReachPeak(Rigidbody ballRb)

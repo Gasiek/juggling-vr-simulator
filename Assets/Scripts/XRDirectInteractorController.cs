@@ -65,9 +65,10 @@ public class XRDirectInteractorController : MonoBehaviour
     {
         if (args.interactableObject.transform.CompareTag("Ball"))
         {
-            // here we should change the velocity to adjust with the speed multiplier
             ballReleasedEvent.Raise();
-            args.interactableObject.transform.GetComponent<BallController>().PlayThrowSound();
+            BallController ballController = args.interactableObject.transform.GetComponent<BallController>();
+            ballController.PlayThrowSound();
+            ballController.AdjustVelocityOnRelease();
             string currentBallId = args.interactableObject.transform.GetInstanceID().ToString();
             if (currentBallId == simulationManager.GetPreviouslyThrownBallId() && simulationManager.GetCurrentNumberOfBalls() > 1)
             {

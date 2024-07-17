@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -69,16 +70,16 @@ public class SimulationManager : MonoBehaviour
         {
             return;
         }
-        speedMultiplier = System.MathF.Round(speedMultiplier + 0.1f, 1);
+        speedMultiplier = MathF.Round(speedMultiplier + 0.1f, 1);
         speedText.text = speedMultiplier.ToString();
-        Time.timeScale = speedMultiplier;
+        Physics.gravity = new Vector3(0, Physics.gravity.y * speedMultiplier, 0);
     }
 
     private void SetSpeedMultiplier(float value)
     {
         speedMultiplier = value;
         speedText.text = speedMultiplier.ToString();
-        Time.timeScale = speedMultiplier;
+        Physics.gravity = new Vector3(0, Physics.gravity.y * speedMultiplier, 0);
     }
 
     private void OnDecreaseSpeed(InputAction.CallbackContext context)
@@ -87,9 +88,14 @@ public class SimulationManager : MonoBehaviour
         {
             return;
         }
-        speedMultiplier = System.MathF.Round(speedMultiplier - 0.1f, 1);
+        speedMultiplier = MathF.Round(speedMultiplier - 0.1f, 1);
         speedText.text = speedMultiplier.ToString();
-        Time.timeScale = speedMultiplier;
+        Physics.gravity = new Vector3(0, Physics.gravity.y * speedMultiplier, 0);
+    }
+
+    public float GetSpeedMultiplier()
+    {
+        return speedMultiplier;
     }
 
     public void SpawnBallsOnTable()
@@ -110,8 +116,7 @@ public class SimulationManager : MonoBehaviour
         {
             var ball = Instantiate(ballPrefab, ballsOriginsOnTable[i].position, Quaternion.identity, ballsParent);
             BallController ballController = ball.GetComponent<BallController>();
-            ballController.UpdateGravityAdjustmentForce();
-            ballController.SetShouldStopAtThePeak(shouldBallStopAtThePeak);
+            ballController.SetSimulationmanager(this);
             Rigidbody ballRb = ball.GetComponent<Rigidbody>();
             XRGrabInteractable ballGrabInteractable = ball.GetComponent<XRGrabInteractable>();
             ballRb.velocity = Vector3.zero;
@@ -120,6 +125,11 @@ public class SimulationManager : MonoBehaviour
             balls.Add(ball);
         }
         numberOfBallsText.text = currentNumberOfBallsInGame.ToString();
+    }
+
+    public bool HasNextBallBeenThrown(string currentBallId)
+    {
+        return balls[-1].transform.GetInstanceID().ToString() == currentBallId;
     }
 
     private void DestroyAllBalls()
@@ -175,6 +185,13 @@ public class SimulationManager : MonoBehaviour
     {
         currentlyHeldBalls--;
         numberOfBallsHeldText.text = currentlyHeldBalls.ToString();
+        MoveBallToTheEndOfList();
+    }
+
+    private void MoveBallToTheEndOfList()
+    {
+        balls.Add(balls[0]);
+        balls.RemoveAt(0);
     }
 
     public void LoadNextTutorialStep()
@@ -214,5 +231,10 @@ public class SimulationManager : MonoBehaviour
     public string GetPreviouslyThrownBallId()
     {
         return previouslyThrownBallId;
+    }
+
+    public bool GetShouldBallStopAtThePeak()
+    {
+        return shouldBallStopAtThePeak;
     }
 }

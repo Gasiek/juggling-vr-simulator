@@ -2145,6 +2145,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 49c228437bcdf6446abf61c50944b7ce, type: 2}
   - {fileID: 11400000, guid: d696bd582e9e28e4fbcc854e089f9688, type: 2}
   - {fileID: 11400000, guid: cf8cd4d6ff48f074cac05683eaaa6188, type: 2}
+  - {fileID: 11400000, guid: 74ae95e0b40984c4bae1dc799d68894e, type: 2}
+  - {fileID: 11400000, guid: f3dad1c85300a9d4f9014e57f40a83f6, type: 2}
+  - {fileID: 11400000, guid: cbf95c5f12f1d7c4281ba226ac023d19, type: 2}
+  - {fileID: 11400000, guid: 16da5f30614b76f418cc210793c89368, type: 2}
+  - {fileID: 11400000, guid: 2c850e274fa637f4ab34b5519fe2d30e, type: 2}
   ballsParent: {fileID: 1821501149}
   currentNumberOfBallsInGame: 1
   increaseSpeedAction: {fileID: 3362557332156365769, guid: c348712bda248c246b8c49b3db54643f,
@@ -3767,7 +3772,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: -5.78, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -1.3, y: 1.53}
+  m_AnchoredPosition: {x: -1.3, y: 1.6}
   m_SizeDelta: {x: 1300, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1021928382
@@ -9295,7 +9300,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6477160391426298951}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
