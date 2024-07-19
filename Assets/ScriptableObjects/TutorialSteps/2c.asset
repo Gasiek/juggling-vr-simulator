@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 2c
   m_EditorClassIdentifier: 
   numberOfBalls: 2
-  speedMultiplier: 1
+  speedMultiplier: 0.75
   showTutorial: 1
   isTutorialPOV: 1
   shouldBallStopAtThePeak: 1

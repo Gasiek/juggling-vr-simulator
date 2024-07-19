@@ -745,6 +745,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ball 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5907192801606185979, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2259,10 +2264,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d696bd582e9e28e4fbcc854e089f9688, type: 2}
   - {fileID: 11400000, guid: cf8cd4d6ff48f074cac05683eaaa6188, type: 2}
   - {fileID: 11400000, guid: 74ae95e0b40984c4bae1dc799d68894e, type: 2}
+  - {fileID: 11400000, guid: 8e6dae1adf0ed494bab6dcecbb8b7a6e, type: 2}
+  - {fileID: 11400000, guid: 4a6917e20ced2184f955a7a5ec405aaa, type: 2}
   - {fileID: 11400000, guid: f3dad1c85300a9d4f9014e57f40a83f6, type: 2}
   - {fileID: 11400000, guid: cbf95c5f12f1d7c4281ba226ac023d19, type: 2}
   - {fileID: 11400000, guid: 16da5f30614b76f418cc210793c89368, type: 2}
   - {fileID: 11400000, guid: 2c850e274fa637f4ab34b5519fe2d30e, type: 2}
+  - {fileID: 11400000, guid: 34bb4651feaaa824ca204d7e677104d3, type: 2}
+  - {fileID: 11400000, guid: 05c31c43c7ee20649be56e8c8bab116b, type: 2}
   increaseSpeedAction: {fileID: 3362557332156365769, guid: c348712bda248c246b8c49b3db54643f,
     type: 3}
   decreaseSpeedAction: {fileID: 1531410881686281634, guid: c348712bda248c246b8c49b3db54643f,
@@ -3406,6 +3415,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ball 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907192801606185979, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6191,6 +6205,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Ball 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5907192801606185979, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
