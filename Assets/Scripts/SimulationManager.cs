@@ -22,6 +22,7 @@ public class SimulationManager : MonoBehaviour
     private bool isBallGrounded = false;
     private bool shouldBallStopAtThePeak = false;
     private float currentSpeedMultiplier = 1f;
+    private float rootOfCurrentSpeedMultiplier = 1f;
     private int ballsToProgress = 10;
     private int currentlyHeldBalls = 0;
     private CatchCounter catchCounter;
@@ -62,32 +63,33 @@ public class SimulationManager : MonoBehaviour
 
     private void OnIncreaseSpeed(InputAction.CallbackContext context)
     {
-        if (currentSpeedMultiplier >= 1.5f)
-        {
-            return;
-        }
-        SetSpeedMultiplier(MathF.Round(currentSpeedMultiplier + 0.1f, 1));
+        // if (currentSpeedMultiplier >= 1.5f)
+        // {
+        //     return;
+        // }
+        // SetSpeedMultiplier(MathF.Round(currentSpeedMultiplier + 0.1f, 1));
     }
 
     private void SetSpeedMultiplier(float value)
     {
         currentSpeedMultiplier = value;
-        speedText.text = currentSpeedMultiplier.ToString();
-        Physics.gravity = new Vector3(0, originalGravity.y * currentSpeedMultiplier * currentSpeedMultiplier, 0);
+        rootOfCurrentSpeedMultiplier = Mathf.Sqrt(currentSpeedMultiplier);
+        speedText.text = rootOfCurrentSpeedMultiplier.ToString();
+        Physics.gravity = new Vector3(0, originalGravity.y * currentSpeedMultiplier, 0);
     }
 
     private void OnDecreaseSpeed(InputAction.CallbackContext context)
     {
-        if (currentSpeedMultiplier <= 0.5f)
-        {
-            return;
-        }
-        SetSpeedMultiplier(MathF.Round(currentSpeedMultiplier - 0.1f, 1));
+        // if (currentSpeedMultiplier <= 0.5f)
+        // {
+        // return;
+        // }
+        // SetSpeedMultiplier(MathF.Round(currentSpeedMultiplier - 0.1f, 1));
     }
 
-    public float GetCurrentSpeedMultiplier()
+    public float GetRootOfCurrentSpeedMultiplier()
     {
-        return currentSpeedMultiplier;
+        return rootOfCurrentSpeedMultiplier;
     }
 
     public void SpawnBallsOnTable()
@@ -214,5 +216,10 @@ public class SimulationManager : MonoBehaviour
     public Vector3 GetOriginalGravity()
     {
         return originalGravity;
+    }
+
+    public float GetCurrentSpeedMultiplier()
+    {
+        return currentSpeedMultiplier;
     }
 }

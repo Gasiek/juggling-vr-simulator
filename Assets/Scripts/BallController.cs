@@ -14,6 +14,8 @@ public class BallController : MonoBehaviour
     private bool isBallAscending;
     private bool isBallStoppedAtPeak;
     private Vector3 velocityAtPeak;
+    private bool ballCollidedWithEnvironment;
+    private float gravityMultiplier = 1f;
 
     private void Awake()
     {
@@ -28,7 +30,7 @@ public class BallController : MonoBehaviour
 
     private void IsPeaking()
     {
-        if (ballRb.isKinematic) return;
+        if (ballRb.isKinematic || ballCollidedWithEnvironment) return;
         if (ballRb.velocity.y > 0)
         {
             isBallAscending = true;
@@ -47,6 +49,7 @@ public class BallController : MonoBehaviour
 
     private void StopBallAtThePeak()
     {
+        Debug.Log("Ball stopped at the peak");
         isBallStoppedAtPeak = true;
         velocityAtPeak = ballRb.velocity;
         ballRb.velocity = Vector3.zero;
@@ -71,18 +74,27 @@ public class BallController : MonoBehaviour
         previousHand = hand;
     }
 
+    public void UpdateGravityMultiplier()
+    {
+        gravityMultiplier = simulationManager.GetCurrentSpeedMultiplier();
+    }
+
     public void AdjustVelocityOnRelease()
     {
-        float currentSpeedMultiplier = simulationManager.GetCurrentSpeedMultiplier();
-        if (ballRb.velocity.y > 0)
-        {
-            ballRb.velocity *= currentSpeedMultiplier;
-        }
+        StartCoroutine(AdjustVelocityOnReleaseCoroutine());
+    }
+
+    private IEnumerator AdjustVelocityOnReleaseCoroutine()
+    {
+        yield return new WaitForFixedUpdate();
+        float rootOfCurrentSpeedMultiplier = simulationManager.GetRootOfCurrentSpeedMultiplier();
+        ballRb.velocity *= rootOfCurrentSpeedMultiplier;
     }
 
     private void OnCollisionEnter(Collision other)
     {
         audioSource.PlayOneShot(collisionSound);
+        ballCollidedWithEnvironment = true;
     }
 
     public void SetIsBallStoppedAtPeak(bool value)
@@ -100,6 +112,7 @@ public class BallController : MonoBehaviour
         transform.SetPositionAndRotation(initialPosition, Quaternion.identity);
         ballRb.velocity = Vector3.zero;
         ballRb.angularVelocity = Vector3.zero;
+        ballCollidedWithEnvironment = false;
         ballRb.useGravity = true;
         isBallStoppedAtPeak = false;
         isBallAscending = false;
@@ -108,8 +121,8 @@ public class BallController : MonoBehaviour
 
     public void OnBallGrabbed()
     {
+        ballCollidedWithEnvironment = false;
         ballRb.useGravity = true;
-        isBallStoppedAtPeak = false;
         isBallAscending = false;
         audioSource.PlayOneShot(collisionSound);
     }

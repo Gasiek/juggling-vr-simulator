@@ -70,6 +70,7 @@ public class XRDirectInteractorController : MonoBehaviour
             ballReleasedEvent.Raise();
             BallController ballController = args.interactableObject.transform.GetComponent<BallController>();
             ballController.PlayThrowSound();
+            ballController.UpdateGravityMultiplier();
             ballController.AdjustVelocityOnRelease();
             string currentBallId = args.interactableObject.transform.GetInstanceID().ToString();
             if (currentBallId == simulationManager.GetPreviouslyThrownBallId() && simulationManager.GetCurrentNumberOfBalls() > 1)

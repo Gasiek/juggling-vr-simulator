@@ -20,7 +20,6 @@ public class TutorialAnimationController : MonoBehaviour
     public float delayAfterThrowingAllBalls;
     private List<Rigidbody> currentBallsRigidbodies = new();
     private Vector3 originalPosition;
-    private Quaternion originalRotation;
     private int currentBallIndex = 0;
     private int ballsToThrow;
     private bool didPreviousBallReachPeak = true;
@@ -32,7 +31,6 @@ public class TutorialAnimationController : MonoBehaviour
     {
         animatedBallMaterial.color = new Color(animatedBallMaterial.color.r, animatedBallMaterial.color.g, animatedBallMaterial.color.b, 0);
         originalPosition = transform.position;
-        originalRotation = transform.rotation;
 
         foreach (Rigidbody ballRb in ballsRigidbodies)
         {
@@ -49,16 +47,11 @@ public class TutorialAnimationController : MonoBehaviour
     {
         if (shouldStickToPlayer)
         {
-            Vector3 headsetEulerAngles = headset.rotation.eulerAngles;
-
-            Vector3 currentEulerAngles = transform.rotation.eulerAngles;
-            headsetEulerAngles.x = currentEulerAngles.x;
-
-            transform.SetPositionAndRotation(headset.position, Quaternion.Euler(headsetEulerAngles));
+            transform.position = headset.position;
         }
         else
         {
-            transform.SetPositionAndRotation(originalPosition, originalRotation);
+            transform.position = originalPosition;
         }
     }
 
@@ -160,14 +153,14 @@ public class TutorialAnimationController : MonoBehaviour
         ballRb.useGravity = true;
         ballRb.velocity = Vector3.zero;
         Vector3 force;
-        float currentSpeedMultiplier = simulationManager.GetCurrentSpeedMultiplier();
+        float rootOfCurrentSpeedMultiplier = simulationManager.GetRootOfCurrentSpeedMultiplier();
         if (ballRb.transform.position.x > 0)
         {
-            force = currentSpeedMultiplier * (upwardForce * Vector3.up + Vector3.left * insideForce);
+            force = rootOfCurrentSpeedMultiplier * (upwardForce * Vector3.up + Vector3.left * insideForce);
         }
         else
         {
-            force = currentSpeedMultiplier * (upwardForce * Vector3.up + Vector3.right * insideForce);
+            force = rootOfCurrentSpeedMultiplier * (upwardForce * Vector3.up + Vector3.right * insideForce);
         }
 
         ballRb.AddForce(force, ForceMode.Impulse);

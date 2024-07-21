@@ -119,7 +119,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5907192801606185979}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 0.8
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -420,6 +420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3fe9578a377a1d489d5b50d11a84e1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  simulationManager: {fileID: 0}
   collisionSound: {fileID: 8300000, guid: 736c3be2ca491a7468a3a94c7e3a2e6f, type: 3}
   throwSound: {fileID: 8300000, guid: 00e6fda77596ee84291cf323f4039a9f, type: 3}
 --- !u!82 &408013633383286458
