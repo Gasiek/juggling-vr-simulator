@@ -49,7 +49,6 @@ public class BallController : MonoBehaviour
 
     private void StopBallAtThePeak()
     {
-        Debug.Log("Ball stopped at the peak");
         isBallStoppedAtPeak = true;
         velocityAtPeak = ballRb.velocity;
         ballRb.velocity = Vector3.zero;
@@ -124,6 +123,7 @@ public class BallController : MonoBehaviour
         ballCollidedWithEnvironment = false;
         ballRb.useGravity = true;
         isBallAscending = false;
+        isBallStoppedAtPeak = false;
         audioSource.PlayOneShot(collisionSound);
     }
 }
