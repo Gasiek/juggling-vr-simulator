@@ -73,10 +73,10 @@ public class BallController : MonoBehaviour
 
     public void AdjustVelocityOnRelease()
     {
-        float currentSpeedMultiplier = simulationManager.GetSpeedMultiplier();
+        float currentSpeedMultiplier = simulationManager.GetCurrentSpeedMultiplier();
         if (ballRb.velocity.y > 0)
         {
-            ballRb.velocity = new Vector3(ballRb.velocity.x, ballRb.velocity.y * currentSpeedMultiplier, ballRb.velocity.z);
+            ballRb.velocity *= currentSpeedMultiplier;
         }
     }
 

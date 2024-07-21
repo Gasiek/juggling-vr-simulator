@@ -14,7 +14,6 @@ public class SimulationManager : MonoBehaviour
     public SimulatorEvent flashHappend;
     public Transform[] ballsOriginsOnTable;
     public TutorialStep[] tutorialSteps;
-    public HeadsetPositionResetter headsetPositionResetter;
     [SerializeField] private InputActionReference increaseSpeedAction;
     [SerializeField] private InputActionReference decreaseSpeedAction;
     [SerializeField] private TextMeshProUGUI numberOfBallsText;
@@ -22,7 +21,7 @@ public class SimulationManager : MonoBehaviour
     private int currentNumberOfBallsInGame = 1;
     private bool isBallGrounded = false;
     private bool shouldBallStopAtThePeak = false;
-    private float speedMultiplier = 1f;
+    private float currentSpeedMultiplier = 1f;
     private int ballsToProgress = 10;
     private int currentlyHeldBalls = 0;
     private CatchCounter catchCounter;
@@ -63,36 +62,32 @@ public class SimulationManager : MonoBehaviour
 
     private void OnIncreaseSpeed(InputAction.CallbackContext context)
     {
-        if (speedMultiplier >= 1.5f)
+        if (currentSpeedMultiplier >= 1.5f)
         {
             return;
         }
-        speedMultiplier = MathF.Round(speedMultiplier + 0.1f, 1);
-        speedText.text = speedMultiplier.ToString();
-        Physics.gravity = new Vector3(0, originalGravity.y * speedMultiplier, 0);
+        SetSpeedMultiplier(MathF.Round(currentSpeedMultiplier + 0.1f, 1));
     }
 
     private void SetSpeedMultiplier(float value)
     {
-        speedMultiplier = value;
-        speedText.text = speedMultiplier.ToString();
-        Physics.gravity = new Vector3(0, originalGravity.y * speedMultiplier, 0);
+        currentSpeedMultiplier = value;
+        speedText.text = currentSpeedMultiplier.ToString();
+        Physics.gravity = new Vector3(0, originalGravity.y * currentSpeedMultiplier * currentSpeedMultiplier, 0);
     }
 
     private void OnDecreaseSpeed(InputAction.CallbackContext context)
     {
-        if (speedMultiplier <= 0.5f)
+        if (currentSpeedMultiplier <= 0.5f)
         {
             return;
         }
-        speedMultiplier = MathF.Round(speedMultiplier - 0.1f, 1);
-        speedText.text = speedMultiplier.ToString();
-        Physics.gravity = new Vector3(0, originalGravity.y * speedMultiplier, 0);
+        SetSpeedMultiplier(MathF.Round(currentSpeedMultiplier - 0.1f, 1));
     }
 
-    public float GetSpeedMultiplier()
+    public float GetCurrentSpeedMultiplier()
     {
-        return speedMultiplier;
+        return currentSpeedMultiplier;
     }
 
     public void SpawnBallsOnTable()
@@ -214,5 +209,10 @@ public class SimulationManager : MonoBehaviour
     public void ResetBallsIdQueue()
     {
         ballsIdQueue.Clear();
+    }
+
+    public Vector3 GetOriginalGravity()
+    {
+        return originalGravity;
     }
 }

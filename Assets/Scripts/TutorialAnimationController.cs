@@ -160,14 +160,14 @@ public class TutorialAnimationController : MonoBehaviour
         ballRb.useGravity = true;
         ballRb.velocity = Vector3.zero;
         Vector3 force;
-        float currentSpeedMultiplier = simulationManager.GetSpeedMultiplier();
+        float currentSpeedMultiplier = simulationManager.GetCurrentSpeedMultiplier();
         if (ballRb.transform.position.x > 0)
         {
-            force = currentSpeedMultiplier * upwardForce * Vector3.up + Vector3.left * insideForce;
+            force = currentSpeedMultiplier * (upwardForce * Vector3.up + Vector3.left * insideForce);
         }
         else
         {
-            force = currentSpeedMultiplier * upwardForce * Vector3.up + Vector3.right * insideForce;
+            force = currentSpeedMultiplier * (upwardForce * Vector3.up + Vector3.right * insideForce);
         }
 
         ballRb.AddForce(force, ForceMode.Impulse);

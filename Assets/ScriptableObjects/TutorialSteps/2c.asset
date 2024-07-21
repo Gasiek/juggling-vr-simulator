@@ -15,5 +15,5 @@ MonoBehaviour:
   numberOfBalls: 2
   speedMultiplier: 0.75
   showTutorial: 1
-  isTutorialPOV: 0
+  isTutorialPOV: 1
   shouldBallStopAtThePeak: 1
