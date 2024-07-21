@@ -28,6 +28,7 @@ public class BallController : MonoBehaviour
 
     private void IsPeaking()
     {
+        if (ballRb.isKinematic) return;
         if (ballRb.velocity.y > 0)
         {
             isBallAscending = true;
@@ -35,7 +36,9 @@ public class BallController : MonoBehaviour
         else if (isBallAscending && ballRb.velocity.y <= 0)
         {
             isBallAscending = false;
-            if (simulationManager.GetShouldBallStopAtThePeak() && !simulationManager.HasNextBallBeenThrown(gameObject.GetInstanceID().ToString())) // we could also check some condition to not stop a ball that bounced from the ground etc.
+            if (simulationManager.GetShouldBallStopAtThePeak() // if this is a tutorial step where this should happen
+                && simulationManager.GetBallsThrownSincePreviousFlash() <= simulationManager.GetCurrentNumberOfBalls() - 1 // last ball of the flash shouldn't stop at the peak
+                && simulationManager.GetPreviouslyThrownBallId() == transform.GetInstanceID().ToString()) // we could also check some condition to not stop a ball that bounced from the ground etc.
             {
                 StopBallAtThePeak();
             }
@@ -73,13 +76,18 @@ public class BallController : MonoBehaviour
         float currentSpeedMultiplier = simulationManager.GetSpeedMultiplier();
         if (ballRb.velocity.y > 0)
         {
-            ballRb.velocity = new Vector3(ballRb.velocity.x, ballRb.velocity.y * (1 / currentSpeedMultiplier), ballRb.velocity.z);
+            ballRb.velocity = new Vector3(ballRb.velocity.x, ballRb.velocity.y * currentSpeedMultiplier, ballRb.velocity.z);
         }
     }
 
     private void OnCollisionEnter(Collision other)
     {
         audioSource.PlayOneShot(collisionSound);
+    }
+
+    public void SetIsBallStoppedAtPeak(bool value)
+    {
+        isBallStoppedAtPeak = value;
     }
 
     public void PlayThrowSound()
@@ -96,5 +104,13 @@ public class BallController : MonoBehaviour
         isBallStoppedAtPeak = false;
         isBallAscending = false;
         gameObject.SetActive(true);
+    }
+
+    public void OnBallGrabbed()
+    {
+        ballRb.useGravity = true;
+        isBallStoppedAtPeak = false;
+        isBallAscending = false;
+        audioSource.PlayOneShot(collisionSound);
     }
 }

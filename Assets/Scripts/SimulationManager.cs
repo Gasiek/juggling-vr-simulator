@@ -2,11 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
-using UnityEngine.XR.Interaction.Toolkit;
 
 public class SimulationManager : MonoBehaviour
 {
@@ -14,8 +11,10 @@ public class SimulationManager : MonoBehaviour
     public TutorialAnimationController tutorialAnimationController;
     public TextMeshProUGUI speedText;
     public SimulatorEvent levelPassed;
+    public SimulatorEvent flashHappend;
     public Transform[] ballsOriginsOnTable;
     public TutorialStep[] tutorialSteps;
+    public HeadsetPositionResetter headsetPositionResetter;
     [SerializeField] private InputActionReference increaseSpeedAction;
     [SerializeField] private InputActionReference decreaseSpeedAction;
     [SerializeField] private TextMeshProUGUI numberOfBallsText;
@@ -24,13 +23,13 @@ public class SimulationManager : MonoBehaviour
     private bool isBallGrounded = false;
     private bool shouldBallStopAtThePeak = false;
     private float speedMultiplier = 1f;
-    private List<GameObject> balls = new();
     private int ballsToProgress = 10;
     private int currentlyHeldBalls = 0;
     private CatchCounter catchCounter;
-    private string previouslyThrownBallId;
     private int currentTutorialStep = -1;
     private Vector3 originalGravity;
+    private int ballsThrownSincePreviousFlash = 0;
+    private List<string> ballsIdQueue = new();
 
     private void OnEnable()
     {
@@ -104,18 +103,14 @@ public class SimulationManager : MonoBehaviour
     private IEnumerator DespawnAndSpawnBalls()
     {
         DeactivateAllBalls();
+        ResetBallsIdQueue();
+        ballsThrownSincePreviousFlash = 0;
         yield return new WaitForEndOfFrame();
         for (int i = 0; i < currentNumberOfBallsInGame; i++)
         {
             initialBalls[i].Spawn(ballsOriginsOnTable[i].position);
-            balls.Add(initialBalls[i].gameObject);
         }
         numberOfBallsText.text = currentNumberOfBallsInGame.ToString();
-    }
-
-    public bool HasNextBallBeenThrown(string currentBallId)
-    {
-        return balls[-1].transform.GetInstanceID().ToString() == currentBallId;
     }
 
     private void DeactivateAllBalls()
@@ -124,13 +119,13 @@ public class SimulationManager : MonoBehaviour
         {
             ball.gameObject.SetActive(false);
         }
-        balls.Clear();
     }
 
     private void CheckProgress() // TODO: This should happen in catch counter
     {
         if (currentlyHeldBalls == currentNumberOfBallsInGame)
         {
+            ballsThrownSincePreviousFlash = 0;
             if (catchCounter.GetCurrentScore() >= ballsToProgress)
             {
                 levelPassed.Raise();
@@ -153,19 +148,28 @@ public class SimulationManager : MonoBehaviour
     {
         currentlyHeldBalls++;
         numberOfBallsHeldText.text = currentlyHeldBalls.ToString();
+        if (currentlyHeldBalls == currentNumberOfBallsInGame)
+        {
+            flashHappend.Raise();
+        }
     }
 
     public void OnBallReleased()
     {
         currentlyHeldBalls--;
+        ballsThrownSincePreviousFlash++;
         numberOfBallsHeldText.text = currentlyHeldBalls.ToString();
-        MoveBallToTheEndOfList();
     }
 
-    private void MoveBallToTheEndOfList()
+    public void RegisterReleasedBall(string releasedBallId)
     {
-        balls.Add(balls[0]);
-        balls.RemoveAt(0);
+        ballsIdQueue.RemoveAll(id => id == releasedBallId);
+        ballsIdQueue.Add(releasedBallId);
+    }
+
+    public void ResetAlreadyThrownBallsCounter()
+    {
+        ballsThrownSincePreviousFlash = 0;
     }
 
     public void LoadNextTutorialStep()
@@ -192,18 +196,23 @@ public class SimulationManager : MonoBehaviour
         return isBallGrounded;
     }
 
-    public void SetPreviouslyThrownBallId(string id)
-    {
-        previouslyThrownBallId = id;
-    }
-
     public string GetPreviouslyThrownBallId()
     {
-        return previouslyThrownBallId;
+        return ballsIdQueue.Count > 0 ? ballsIdQueue[^1] : "";
     }
 
     public bool GetShouldBallStopAtThePeak()
     {
         return shouldBallStopAtThePeak;
+    }
+
+    public int GetBallsThrownSincePreviousFlash()
+    {
+        return ballsThrownSincePreviousFlash;
+    }
+
+    public void ResetBallsIdQueue()
+    {
+        ballsIdQueue.Clear();
     }
 }

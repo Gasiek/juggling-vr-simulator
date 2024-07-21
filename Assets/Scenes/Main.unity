@@ -740,6 +740,11 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4721848101906819857, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: simulationManager
+      value: 
+      objectReference: {fileID: 588816618}
     - target: {fileID: 5907192801606185979, guid: 13c63e978a16a3949ac385a6729d4e91,
         type: 3}
       propertyPath: m_Name
@@ -748,7 +753,7 @@ PrefabInstance:
     - target: {fileID: 5907192801606185979, guid: 13c63e978a16a3949ac385a6729d4e91,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1736,8 +1741,8 @@ Transform:
   m_GameObject: {fileID: 514099584}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.100000024}
-  m_LocalScale: {x: 0.002, y: 0.002, z: 0.002}
+  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalScale: {x: 0.04, y: 0.04, z: 0.04}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 761779453}
@@ -2252,14 +2257,12 @@ MonoBehaviour:
   tutorialAnimationController: {fileID: 1938011180}
   speedText: {fileID: 431337936}
   levelPassed: {fileID: 11400000, guid: acdee00507c9d5d40abd01a3c0ce581b, type: 2}
+  flashHappend: {fileID: 11400000, guid: ea93f4cbfc6080845a90b7abd3661784, type: 2}
   ballsOriginsOnTable:
   - {fileID: 4650558551834562517}
   - {fileID: 2254036668162788649}
   - {fileID: 2254036667917731689}
   tutorialSteps:
-  - {fileID: 11400000, guid: c001166b68f4c864ab37432378345e31, type: 2}
-  - {fileID: 11400000, guid: d3fbe6d2c199c404aa8ef8c9520ae043, type: 2}
-  - {fileID: 11400000, guid: de7161900eddbab4a805128994b022ff, type: 2}
   - {fileID: 11400000, guid: 49c228437bcdf6446abf61c50944b7ce, type: 2}
   - {fileID: 11400000, guid: d696bd582e9e28e4fbcc854e089f9688, type: 2}
   - {fileID: 11400000, guid: cf8cd4d6ff48f074cac05683eaaa6188, type: 2}
@@ -2272,6 +2275,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2c850e274fa637f4ab34b5519fe2d30e, type: 2}
   - {fileID: 11400000, guid: 34bb4651feaaa824ca204d7e677104d3, type: 2}
   - {fileID: 11400000, guid: 05c31c43c7ee20649be56e8c8bab116b, type: 2}
+  headsetPositionResetter: {fileID: 959581082}
   increaseSpeedAction: {fileID: 3362557332156365769, guid: c348712bda248c246b8c49b3db54643f,
     type: 3}
   decreaseSpeedAction: {fileID: 1531410881686281634, guid: c348712bda248c246b8c49b3db54643f,
@@ -2385,6 +2389,30 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 588816618}
+          m_TargetAssemblyTypeName: SimulationManager, Assembly-CSharp
+          m_MethodName: ResetBallsIdQueue
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 588816618}
+          m_TargetAssemblyTypeName: SimulationManager, Assembly-CSharp
+          m_MethodName: ResetAlreadyThrownBallsCounter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   - simulatorEvent: {fileID: 11400000, guid: acdee00507c9d5d40abd01a3c0ce581b, type: 2}
     response:
       m_PersistentCalls:
@@ -2432,6 +2460,42 @@ MonoBehaviour:
         - m_Target: {fileID: 588816618}
           m_TargetAssemblyTypeName: SimulationManager, Assembly-CSharp
           m_MethodName: OnBallReleased
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 189798279}
+          m_TargetAssemblyTypeName: BallController, Assembly-CSharp
+          m_MethodName: ReleaseBallFromThePeak
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1761596621}
+          m_TargetAssemblyTypeName: BallController, Assembly-CSharp
+          m_MethodName: ReleaseBallFromThePeak
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 873350173}
+          m_TargetAssemblyTypeName: BallController, Assembly-CSharp
+          m_MethodName: ReleaseBallFromThePeak
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -2508,6 +2572,34 @@ MonoBehaviour:
         - m_Target: {fileID: 588816622}
           m_TargetAssemblyTypeName: CatchCounter, Assembly-CSharp
           m_MethodName: ResetCurrentScore
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - simulatorEvent: {fileID: 11400000, guid: ea93f4cbfc6080845a90b7abd3661784, type: 2}
+    response:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 588816618}
+          m_TargetAssemblyTypeName: SimulationManager, Assembly-CSharp
+          m_MethodName: ResetAlreadyThrownBallsCounter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 588816618}
+          m_TargetAssemblyTypeName: SimulationManager, Assembly-CSharp
+          m_MethodName: ResetBallsIdQueue
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -3411,6 +3503,11 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4721848101906819857, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: simulationManager
+      value: 
+      objectReference: {fileID: 588816618}
     - target: {fileID: 5907192801606185979, guid: 13c63e978a16a3949ac385a6729d4e91,
         type: 3}
       propertyPath: m_Name
@@ -3419,7 +3516,7 @@ PrefabInstance:
     - target: {fileID: 5907192801606185979, guid: 13c63e978a16a3949ac385a6729d4e91,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3618,8 +3715,8 @@ Transform:
   m_GameObject: {fileID: 932129874}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.100000024}
-  m_LocalScale: {x: 0.002, y: 0.002, z: 0.002}
+  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalScale: {x: 0.04, y: 0.04, z: 0.04}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 186927060}
@@ -3703,6 +3800,7 @@ GameObject:
   - component: {fileID: 959581078}
   - component: {fileID: 959581081}
   - component: {fileID: 959581080}
+  - component: {fileID: 959581082}
   m_Layer: 0
   m_Name: XR Origin (XR Rig)
   m_TagString: Untagged
@@ -3756,7 +3854,7 @@ MonoBehaviour:
   m_Camera: {fileID: 186927063}
   m_OriginBaseGameObject: {fileID: 959581076}
   m_CameraFloorOffsetObject: {fileID: 255805287}
-  m_RequestedTrackingOriginMode: 0
+  m_RequestedTrackingOriginMode: 2
   m_CameraYOffset: 1.1176
 --- !u!114 &959581080
 MonoBehaviour:
@@ -3799,6 +3897,18 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &959581082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 959581076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f68ba70c92b0c24e9152831830e5ded, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &999175016
 GameObject:
   m_ObjectHideFlags: 0
@@ -5831,7 +5941,7 @@ Transform:
   m_GameObject: {fileID: 1624733201}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: 0.3}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6201,6 +6311,11 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4721848101906819857, guid: 13c63e978a16a3949ac385a6729d4e91,
+        type: 3}
+      propertyPath: simulationManager
+      value: 
+      objectReference: {fileID: 588816618}
     - target: {fileID: 5907192801606185979, guid: 13c63e978a16a3949ac385a6729d4e91,
         type: 3}
       propertyPath: m_Name
@@ -6209,7 +6324,7 @@ PrefabInstance:
     - target: {fileID: 5907192801606185979, guid: 13c63e978a16a3949ac385a6729d4e91,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -40,11 +40,13 @@ public class XRDirectInteractorController : MonoBehaviour
     {
         if (args.interactableObject.transform.CompareTag("Ball"))
         {
+
+            BallController ballController = args.interactableObject.transform.GetComponent<BallController>();
+            ballController.OnBallGrabbed();
             if (args.interactorObject.transform.TryGetComponent<XRBaseController>(out var controller))
             {
                 controller.SendHapticImpulse(0.8f, 0.2f);
             }
-            BallController ballController = args.interactableObject.transform.GetComponent<BallController>();
             if (ballController.GetPreviousHand() == Hand.None)
             {
                 ballGrabbedEvent.Raise();
@@ -74,7 +76,7 @@ public class XRDirectInteractorController : MonoBehaviour
             {
                 wrongBallThrownEvent.Raise();
             }
-            simulationManager.SetPreviouslyThrownBallId(currentBallId);
+            simulationManager.RegisterReleasedBall(currentBallId);
         }
     }
 }
