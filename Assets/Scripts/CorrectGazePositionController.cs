@@ -12,6 +12,6 @@ public class CorrectGazePositionController : MonoBehaviour
 
         Quaternion headsetRotation = headset.rotation;
 
-        transform.rotation = Quaternion.Euler(-15, headsetRotation.eulerAngles.y, headsetRotation.eulerAngles.z);
+        transform.rotation = Quaternion.Euler(-25, headsetRotation.eulerAngles.y, headsetRotation.eulerAngles.z);
     }
 }
