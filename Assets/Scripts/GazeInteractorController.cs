@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class GazeInteractorController : MonoBehaviour
@@ -19,13 +20,15 @@ public class GazeInteractorController : MonoBehaviour
     private Coroutine hideGazeCoroutine;
     public float fadeInDuration;
     public float fadeOutDuration;
+    public CanvasGroup gazeCanvas;
+    public CanvasGroup correctGazeCanvas;
+
 
     private void Update()
     {
         float angleDifference = correctGazeTransform.rotation.eulerAngles.x - headset.rotation.eulerAngles.x;
         if (angleDifference > 180) angleDifference -= 360;
         if (angleDifference < -180) angleDifference += 360;
-        Debug.Log(angleDifference);
 
         if (angleDifference < 6 && angleDifference > -6)
         {
@@ -121,5 +124,29 @@ public class GazeInteractorController : MonoBehaviour
         }
 
         canvasGroup.alpha = endAlpha; // Ensure it reaches the end alpha value
+    }
+
+    public void EnableGazeCheck()
+    {
+        gazeCanvas.DOFade(1, 1f);
+        correctGazeCanvas.DOFade(1, 1f);
+        enabled = true;
+    }
+
+    private void OnEnable()
+    {
+        Invoke(nameof(EnableGazeCheck), 2);
+    }
+
+    private void OnDisable()
+    {
+        DisableGazeCheck();
+    }
+
+    public void DisableGazeCheck()
+    {
+        gazeCanvas.DOFade(0, 0.5f);
+        correctGazeCanvas.DOFade(0, 0.5f);
+        enabled = false;
     }
 }

@@ -13,14 +13,12 @@ public class ProjectileRenderer : MonoBehaviour
     private float TimeBetweenPoints = 0.1f;
     private Rigidbody rb;
     private LineRenderer lineRenderer;
-    private BallController ballController;
 
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         lineRenderer = GetComponent<LineRenderer>();
-        ballController = GetComponent<BallController>();
         lineRenderer.enabled = false;
     }
 

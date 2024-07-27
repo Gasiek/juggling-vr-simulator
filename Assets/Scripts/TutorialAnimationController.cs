@@ -24,8 +24,9 @@ public class TutorialAnimationController : MonoBehaviour
     private int ballsToThrow;
     private bool didPreviousBallReachPeak = true;
     private bool shouldLoop = false;
-    private float originalAlpha = 0.3f;
+    private float originalAlpha = 1;
     private float fadeDuration = 0.3f;
+    private bool tutorialIsPlaying;
 
     private void Awake()
     {
@@ -57,6 +58,8 @@ public class TutorialAnimationController : MonoBehaviour
 
     public void HideTutorial()
     {
+        if (!tutorialIsPlaying) return;
+        tutorialIsPlaying = false;
         StopAllCoroutines();
         StartCoroutine(SmoothlyFadeOut());
         foreach (Rigidbody ballRb in currentBallsRigidbodies)
@@ -67,6 +70,8 @@ public class TutorialAnimationController : MonoBehaviour
 
     public void ShowTutorial(bool isPOV)
     {
+        if (tutorialIsPlaying) return;
+        tutorialIsPlaying = true;
         shouldStickToPlayer = isPOV;
         switch (simulationManager.GetCurrentNumberOfBalls())
         {

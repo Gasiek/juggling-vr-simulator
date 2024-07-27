@@ -7,16 +7,12 @@ public class CatchCounter : MonoBehaviour
 {
     [SerializeField] private SimulationManager simulationManager;
     public TextMeshProUGUI currentScoreText;
-    public TextMeshProUGUI highestScoreText;
     private int currentScore = 0;
-    private int highestScore = 0;
 
     private void Start()
     {
         currentScore = 0;
-        highestScore = PlayerPrefs.GetInt("HighestScore", 0);
-        currentScoreText.text = currentScore.ToString();
-        highestScoreText.text = highestScore.ToString();
+        currentScoreText.text = currentScore.ToString() + " / " + simulationManager.GetBallsToProgress();
     }
 
     public void UpdateCurrentScore()
@@ -26,31 +22,20 @@ public class CatchCounter : MonoBehaviour
             return;
         }
         currentScore++;
-        currentScoreText.text = currentScore.ToString();
-        if (currentScore > highestScore)
-        {
-            UpdateHighestScore();
-        }
+        currentScoreText.text = currentScore.ToString() + " / " + simulationManager.GetBallsToProgress();
     }
 
-    private void UpdateHighestScore()
-    {
-        highestScore = currentScore;
-        highestScoreText.text = highestScore.ToString();
-        PlayerPrefs.SetInt("HighestScore", highestScore);
-    }
+    // private void UpdateHighestScore()
+    // {
+    //     highestScore = currentScore;
+    //     highestScoreText.text = highestScore.ToString();
+    //     PlayerPrefs.SetInt("HighestScore", highestScore);
+    // }
 
     public void ResetCurrentScore()
     {
         currentScore = 0;
-        currentScoreText.text = currentScore.ToString();
-    }
-
-    public void ResetHighestScore()
-    {
-        highestScore = 0;
-        highestScoreText.text = highestScore.ToString();
-        PlayerPrefs.SetInt("HighestScore", highestScore);
+        currentScoreText.text = currentScore.ToString() + " / " + simulationManager.GetBallsToProgress();
     }
 
     public int GetCurrentScore()

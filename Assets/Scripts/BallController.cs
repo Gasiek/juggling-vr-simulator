@@ -15,7 +15,6 @@ public class BallController : MonoBehaviour
     private bool isBallStoppedAtPeak;
     private Vector3 velocityAtPeak;
     private bool ballCollidedWithEnvironment;
-    private float gravityMultiplier = 1f;
 
     private void Awake()
     {
@@ -39,7 +38,7 @@ public class BallController : MonoBehaviour
         {
             isBallAscending = false;
             if (simulationManager.GetShouldBallStopAtThePeak() // if this is a tutorial step where this should happen
-                && simulationManager.GetBallsThrownSincePreviousFlash() <= simulationManager.GetCurrentNumberOfBalls() - 1 // last ball of the flash shouldn't stop at the peak
+                && simulationManager.GetBallsThrownSincePreviousFlash() <= (simulationManager.GetCurrentNumberOfBalls() - 1) // last ball of the flash shouldn't stop at the peak
                 && simulationManager.GetPreviouslyThrownBallId() == transform.GetInstanceID().ToString()) // we could also check some condition to not stop a ball that bounced from the ground etc.
             {
                 StopBallAtThePeak();
@@ -73,27 +72,30 @@ public class BallController : MonoBehaviour
         previousHand = hand;
     }
 
-    public void UpdateGravityMultiplier()
-    {
-        gravityMultiplier = simulationManager.GetCurrentSpeedMultiplier();
-    }
-
     public void AdjustVelocityOnRelease()
     {
-        StartCoroutine(AdjustVelocityOnReleaseCoroutine());
+        if (gameObject.activeSelf)
+        {
+            StartCoroutine(AdjustVelocityOnReleaseCoroutine());
+        }
     }
 
     private IEnumerator AdjustVelocityOnReleaseCoroutine()
     {
         yield return new WaitForFixedUpdate();
         float rootOfCurrentSpeedMultiplier = simulationManager.GetRootOfCurrentSpeedMultiplier();
-        ballRb.velocity *= rootOfCurrentSpeedMultiplier;
+        // ballRb.velocity = new Vector3(.2f, 5, 0) * rootOfCurrentSpeedMultiplier;
+        ballRb.velocity = new Vector3(ballRb.velocity.x, ballRb.velocity.y, 0) * rootOfCurrentSpeedMultiplier;
     }
 
     private void OnCollisionEnter(Collision other)
     {
         audioSource.PlayOneShot(collisionSound);
-        ballCollidedWithEnvironment = true;
+        if (!other.gameObject.CompareTag("Ball"))
+        {
+            ballCollidedWithEnvironment = true;
+            previousHand = Hand.None;
+        }
     }
 
     public void SetIsBallStoppedAtPeak(bool value)

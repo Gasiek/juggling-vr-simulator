@@ -1898,16 +1898,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Increase Speed",
-                    "type": "Button",
-                    "id": "c4d8e113-b63b-4371-a7d5-fbb7909bea78",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Decrease Speed",
+                    "name": "Try resetting balls",
                     "type": "Button",
                     "id": "3ef68a1f-6cae-498a-978c-b54788153ac1",
                     "expectedControlType": "Button",
@@ -1985,23 +1976,12 @@
                 },
                 {
                     "name": "",
-                    "id": "4429a244-4c2c-4d37-8ffd-365d420830e9",
-                    "path": "<XRController>{RightHand}/{SecondaryButton}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Increase Speed",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "0ab25094-9c63-4682-a80a-6206abde7759",
                     "path": "<XRController>{RightHand}/{PrimaryButton}",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Decrease Speed",
+                    "action": "Try resetting balls",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

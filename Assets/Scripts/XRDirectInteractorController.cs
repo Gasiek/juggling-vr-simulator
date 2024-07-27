@@ -40,7 +40,6 @@ public class XRDirectInteractorController : MonoBehaviour
     {
         if (args.interactableObject.transform.CompareTag("Ball"))
         {
-
             BallController ballController = args.interactableObject.transform.GetComponent<BallController>();
             ballController.OnBallGrabbed();
             if (args.interactorObject.transform.TryGetComponent<XRBaseController>(out var controller))
@@ -57,7 +56,10 @@ public class XRDirectInteractorController : MonoBehaviour
             }
             else
             {
+                // if (simulationManager.GetPreviouslyThrownBallId() != "")// this means that no ball has been thrown yet
+                // {
                 ballGrabbedCorrectlyEvent.Raise();
+                // }
             }
             ballController.SetPreviousHand(thisHand);
         }
@@ -70,7 +72,6 @@ public class XRDirectInteractorController : MonoBehaviour
             ballReleasedEvent.Raise();
             BallController ballController = args.interactableObject.transform.GetComponent<BallController>();
             ballController.PlayThrowSound();
-            ballController.UpdateGravityMultiplier();
             ballController.AdjustVelocityOnRelease();
             string currentBallId = args.interactableObject.transform.GetInstanceID().ToString();
             if (currentBallId == simulationManager.GetPreviouslyThrownBallId() && simulationManager.GetCurrentNumberOfBalls() > 1)

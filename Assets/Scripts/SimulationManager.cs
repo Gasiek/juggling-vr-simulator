@@ -14,8 +14,6 @@ public class SimulationManager : MonoBehaviour
     public SimulatorEvent flashHappend;
     public Transform[] ballsOriginsOnTable;
     public TutorialStep[] tutorialSteps;
-    [SerializeField] private InputActionReference increaseSpeedAction;
-    [SerializeField] private InputActionReference decreaseSpeedAction;
     [SerializeField] private TextMeshProUGUI numberOfBallsText;
     [SerializeField] private TextMeshProUGUI numberOfBallsHeldText;
     private int currentNumberOfBallsInGame = 1;
@@ -31,24 +29,6 @@ public class SimulationManager : MonoBehaviour
     private int ballsThrownSincePreviousFlash = 0;
     private List<string> ballsIdQueue = new();
 
-    private void OnEnable()
-    {
-        increaseSpeedAction.action.performed += OnIncreaseSpeed;
-        decreaseSpeedAction.action.performed += OnDecreaseSpeed;
-
-        increaseSpeedAction.action.Enable();
-        decreaseSpeedAction.action.Enable();
-    }
-
-    private void OnDisable()
-    {
-        increaseSpeedAction.action.performed -= OnIncreaseSpeed;
-        decreaseSpeedAction.action.performed -= OnDecreaseSpeed;
-
-        increaseSpeedAction.action.Disable();
-        decreaseSpeedAction.action.Disable();
-    }
-
 
     private void Awake()
     {
@@ -61,30 +41,12 @@ public class SimulationManager : MonoBehaviour
         LoadNextTutorialStep();
     }
 
-    private void OnIncreaseSpeed(InputAction.CallbackContext context)
-    {
-        // if (currentSpeedMultiplier >= 1.5f)
-        // {
-        //     return;
-        // }
-        // SetSpeedMultiplier(MathF.Round(currentSpeedMultiplier + 0.1f, 1));
-    }
-
     private void SetSpeedMultiplier(float value)
     {
         currentSpeedMultiplier = value;
         rootOfCurrentSpeedMultiplier = Mathf.Sqrt(currentSpeedMultiplier);
         speedText.text = rootOfCurrentSpeedMultiplier.ToString();
         Physics.gravity = new Vector3(0, originalGravity.y * currentSpeedMultiplier, 0);
-    }
-
-    private void OnDecreaseSpeed(InputAction.CallbackContext context)
-    {
-        // if (currentSpeedMultiplier <= 0.5f)
-        // {
-        // return;
-        // }
-        // SetSpeedMultiplier(MathF.Round(currentSpeedMultiplier - 0.1f, 1));
     }
 
     public float GetRootOfCurrentSpeedMultiplier()
@@ -100,6 +62,7 @@ public class SimulationManager : MonoBehaviour
     private IEnumerator DespawnAndSpawnBalls()
     {
         DeactivateAllBalls();
+        yield return new WaitForSeconds(0.5f);
         ResetBallsIdQueue();
         ballsThrownSincePreviousFlash = 0;
         yield return new WaitForEndOfFrame();
@@ -118,16 +81,22 @@ public class SimulationManager : MonoBehaviour
         }
     }
 
-    private void CheckProgress() // TODO: This should happen in catch counter
+    public void CheckProgress() // TODO: This should happen in catch counter
     {
         if (currentlyHeldBalls == currentNumberOfBallsInGame)
         {
             ballsThrownSincePreviousFlash = 0;
             if (catchCounter.GetCurrentScore() >= ballsToProgress)
             {
-                levelPassed.Raise();
+                StartCoroutine(LevelPassedAfterDelay());
             }
         }
+    }
+
+    private IEnumerator LevelPassedAfterDelay()
+    {
+        yield return new WaitForSeconds(1);
+        levelPassed.Raise();
     }
 
     public int GetCurrentNumberOfBalls()
@@ -138,11 +107,11 @@ public class SimulationManager : MonoBehaviour
     public void OnBallGrabbedCorrectly()
     {
         catchCounter.UpdateCurrentScore();
-        CheckProgress();
     }
 
     public void OnBallGrabbed()
     {
+        Debug.Log("Ball grabbed");
         currentlyHeldBalls++;
         numberOfBallsHeldText.text = currentlyHeldBalls.ToString();
         if (currentlyHeldBalls == currentNumberOfBallsInGame)
@@ -153,6 +122,7 @@ public class SimulationManager : MonoBehaviour
 
     public void OnBallReleased()
     {
+        Debug.Log("Ball released");
         currentlyHeldBalls--;
         ballsThrownSincePreviousFlash++;
         numberOfBallsHeldText.text = currentlyHeldBalls.ToString();
@@ -221,5 +191,10 @@ public class SimulationManager : MonoBehaviour
     public float GetCurrentSpeedMultiplier()
     {
         return currentSpeedMultiplier;
+    }
+
+    public int GetBallsToProgress()
+    {
+        return ballsToProgress;
     }
 }
