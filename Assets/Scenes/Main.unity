@@ -1071,6 +1071,7 @@ MonoBehaviour:
   scaleAndFadeTime: 1.5
   numberOfCirclesPerPulse: 3
   initialScale: {x: 0.4, y: 0.4, z: 0.4}
+  catchCounter: {fileID: 588816622}
 --- !u!1 &255805287
 GameObject:
   m_ObjectHideFlags: 0
@@ -1202,7 +1203,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 340cb8721a900b643bed8bb04e7f9cf2, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -2605,6 +2606,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d696bd582e9e28e4fbcc854e089f9688, type: 2}
   - {fileID: 11400000, guid: cf8cd4d6ff48f074cac05683eaaa6188, type: 2}
   - {fileID: 11400000, guid: 67e210d63b89d5843a59c8af3c7a3e65, type: 2}
+  - {fileID: 11400000, guid: 09f506c49e28c0a488c42cfcee44c20e, type: 2}
+  - {fileID: 11400000, guid: 93a7c3416cc025940a342e79d6401b12, type: 2}
   - {fileID: 11400000, guid: f3dad1c85300a9d4f9014e57f40a83f6, type: 2}
   - {fileID: 11400000, guid: cbf95c5f12f1d7c4281ba226ac023d19, type: 2}
   - {fileID: 11400000, guid: 16da5f30614b76f418cc210793c89368, type: 2}
@@ -2755,18 +2758,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 1741602344}
-          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-          m_MethodName: set_enabled
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
-          m_CallState: 2
   - simulatorEvent: {fileID: 11400000, guid: acdee00507c9d5d40abd01a3c0ce581b, type: 2}
     response:
       m_PersistentCalls:
@@ -2799,6 +2790,18 @@ MonoBehaviour:
           m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
           m_MethodName: PlaySuccessSound
           m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1741602344}
+          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+          m_MethodName: set_enabled
+          m_Mode: 6
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2870,6 +2873,18 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1741602344}
+          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+          m_MethodName: set_enabled
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
           m_CallState: 2
   - simulatorEvent: {fileID: 11400000, guid: 2378e1367b24ae249abbe6753b639149, type: 2}
     response:
@@ -5922,7 +5937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 340cb8721a900b643bed8bb04e7f9cf2, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -7054,7 +7069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 340cb8721a900b643bed8bb04e7f9cf2, type: 2}
   m_Color: {r: 0.1764706, g: 0.34509805, b: 1, a: 0.92156863}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -7422,7 +7437,7 @@ PrefabInstance:
     - target: {fileID: 250204171105358071, guid: d9470993b9bd0a541a884d6f6704a421,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.213
+      value: 1.46
       objectReference: {fileID: 0}
     - target: {fileID: 472198468225971865, guid: d9470993b9bd0a541a884d6f6704a421,
         type: 3}
@@ -7507,7 +7522,7 @@ PrefabInstance:
     - target: {fileID: 2539275056921089690, guid: d9470993b9bd0a541a884d6f6704a421,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.213
+      value: 1.46
       objectReference: {fileID: 0}
     - target: {fileID: 2634280302739412277, guid: d9470993b9bd0a541a884d6f6704a421,
         type: 3}

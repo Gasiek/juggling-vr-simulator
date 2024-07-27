@@ -82,7 +82,8 @@ public class SimulationManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         ResetBallsIdQueue();
         ballsThrownSincePreviousFlash = 0;
-        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(0.5f);
+        // yield return new WaitForEndOfFrame();
         for (int i = 0; i < currentNumberOfBallsInGame; i++)
         {
             initialBalls[i].Spawn(ballsOriginsOnTable[i].position);
@@ -161,6 +162,10 @@ public class SimulationManager : MonoBehaviour
 
     public void LoadNextTutorialStep()
     {
+        if (currentTutorialStep == tutorialSteps.Length - 1)
+        {
+            return;
+        }
         tutorialAnimationController.HideTutorial();
         currentTutorialStep++;
         currentNumberOfBallsInGame = tutorialSteps[currentTutorialStep].numberOfBalls;
@@ -175,6 +180,10 @@ public class SimulationManager : MonoBehaviour
 
     private void LoadPreviousTutorialStep()
     {
+        if (currentTutorialStep == 0)
+        {
+            return;
+        }
         tutorialAnimationController.HideTutorial();
         currentTutorialStep--;
         currentNumberOfBallsInGame = tutorialSteps[currentTutorialStep].numberOfBalls;

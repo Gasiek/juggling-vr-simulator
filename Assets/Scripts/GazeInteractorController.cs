@@ -30,7 +30,7 @@ public class GazeInteractorController : MonoBehaviour
         if (angleDifference > 180) angleDifference -= 360;
         if (angleDifference < -180) angleDifference += 360;
 
-        if (angleDifference < 6 && angleDifference > -6)
+        if (angleDifference < 8 && angleDifference > -8)
         {
             StopAllCoroutines();
             hideLookDownCoroutine = StartCoroutine(HideImage(LookDownCanvasGroup));
@@ -43,7 +43,7 @@ public class GazeInteractorController : MonoBehaviour
         }
         else
         {
-            if (angleDifference > 10)
+            if (angleDifference > 13)
             {
                 LookUpCanvasGroup.alpha = 0;
                 if (currentLookDownCoroutine == null)
@@ -62,7 +62,7 @@ public class GazeInteractorController : MonoBehaviour
                     currentLookUpCoroutine = null;
                 }
             }
-            else if (angleDifference < -10)
+            else if (angleDifference < -13)
             {
                 LookDownCanvasGroup.alpha = 0;
                 if (currentLookUpCoroutine == null)

@@ -13,8 +13,7 @@ public class PulsatingCircles : MonoBehaviour
     public int numberOfCirclesPerPulse = 3;
     public Vector3 initialScale;
     private Coroutine pulsatingCirclesCoroutine;
-    private Vector3 spawnPosOffset = new Vector3(0, 0, 500);
-
+    public CatchCounter catchCounter;
 
     public void StartPulsatingCirclesAfterDelay(float delay)
     {
@@ -38,6 +37,7 @@ public class PulsatingCircles : MonoBehaviour
         yield return new WaitForSeconds(delay);
         while (true)
         {
+            catchCounter.ResetCurrentScore();
             for (int i = 0; i < numberOfCirclesPerPulse; i++)
             {
                 StartCoroutine(SpawnCircleWithDelay(i * circleDelay));
