@@ -990,6 +990,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Previous Level",
+                    "type": "Button",
+                    "id": "d288b481-6752-4470-9c18-44f8aa0e0c77",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Next Level",
+                    "type": "Button",
+                    "id": "f8bca0b5-7fdf-4807-8b2d-24c50f58a1fe",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1056,6 +1074,28 @@
                     "processors": "",
                     "groups": "Generic XR Controller",
                     "action": "Grab 2 Value",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9f1741d2-32eb-42dd-9b89-c8945c59837c",
+                    "path": "<XRController>{LeftHand}/{PrimaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Previous Level",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "096eb195-1810-493e-a764-a8f77af5b46a",
+                    "path": "<XRController>{LeftHand}/{SecondaryButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Next Level",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

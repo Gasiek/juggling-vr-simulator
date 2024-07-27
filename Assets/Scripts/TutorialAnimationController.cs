@@ -118,6 +118,8 @@ public class TutorialAnimationController : MonoBehaviour
         foreach (Rigidbody ballRb in currentBallsRigidbodies)
         {
             ballRb.useGravity = false;
+            ballRb.velocity = Vector3.zero;
+            ballRb.angularVelocity = Vector3.zero;
             ballRb.gameObject.SetActive(true);
         }
         ballsRigidbodies[0].transform.position = catchingPointRight.position;
@@ -129,7 +131,7 @@ public class TutorialAnimationController : MonoBehaviour
 
     private IEnumerator JugglingLoop()
     {
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2);
         while (true)
         {
             if (didPreviousBallReachPeak)

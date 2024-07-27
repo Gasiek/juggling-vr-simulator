@@ -12,6 +12,8 @@ public class SimulationManager : MonoBehaviour
     public TextMeshProUGUI speedText;
     public SimulatorEvent levelPassed;
     public SimulatorEvent flashHappend;
+    [SerializeField] private InputActionReference nextLevelAction;
+    [SerializeField] private InputActionReference previousLevelAction;
     public Transform[] ballsOriginsOnTable;
     public TutorialStep[] tutorialSteps;
     [SerializeField] private TextMeshProUGUI numberOfBallsText;
@@ -29,6 +31,21 @@ public class SimulationManager : MonoBehaviour
     private int ballsThrownSincePreviousFlash = 0;
     private List<string> ballsIdQueue = new();
 
+    private void OnEnable()
+    {
+        nextLevelAction.action.performed += _ => LoadNextTutorialStep();
+        nextLevelAction.action.Enable();
+        previousLevelAction.action.performed += _ => LoadPreviousTutorialStep();
+        previousLevelAction.action.Enable();
+    }
+
+    private void OnDisable()
+    {
+        nextLevelAction.action.performed -= _ => LoadNextTutorialStep();
+        nextLevelAction.action.Disable();
+        previousLevelAction.action.performed -= _ => LoadPreviousTutorialStep();
+        previousLevelAction.action.Disable();
+    }
 
     private void Awake()
     {
@@ -77,6 +94,9 @@ public class SimulationManager : MonoBehaviour
     {
         foreach (var ball in initialBalls)
         {
+            Rigidbody ballRigidbody = ball.GetComponent<Rigidbody>();
+            ballRigidbody.velocity = Vector3.zero;
+            ballRigidbody.angularVelocity = Vector3.zero;
             ball.gameObject.SetActive(false);
         }
     }
@@ -143,6 +163,20 @@ public class SimulationManager : MonoBehaviour
     {
         tutorialAnimationController.HideTutorial();
         currentTutorialStep++;
+        currentNumberOfBallsInGame = tutorialSteps[currentTutorialStep].numberOfBalls;
+        shouldBallStopAtThePeak = tutorialSteps[currentTutorialStep].shouldBallStopAtThePeak;
+        SetSpeedMultiplier(tutorialSteps[currentTutorialStep].speedMultiplier);
+        if (tutorialSteps[currentTutorialStep].showTutorial)
+        {
+            tutorialAnimationController.ShowTutorial(isPOV: tutorialSteps[currentTutorialStep].isTutorialPOV);
+        }
+        SpawnBallsOnTable();
+    }
+
+    private void LoadPreviousTutorialStep()
+    {
+        tutorialAnimationController.HideTutorial();
+        currentTutorialStep--;
         currentNumberOfBallsInGame = tutorialSteps[currentTutorialStep].numberOfBalls;
         shouldBallStopAtThePeak = tutorialSteps[currentTutorialStep].shouldBallStopAtThePeak;
         SetSpeedMultiplier(tutorialSteps[currentTutorialStep].speedMultiplier);

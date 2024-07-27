@@ -2558,6 +2558,10 @@ MonoBehaviour:
   speedText: {fileID: 431337936}
   levelPassed: {fileID: 11400000, guid: acdee00507c9d5d40abd01a3c0ce581b, type: 2}
   flashHappend: {fileID: 11400000, guid: ea93f4cbfc6080845a90b7abd3661784, type: 2}
+  nextLevelAction: {fileID: 7046118387768382456, guid: c348712bda248c246b8c49b3db54643f,
+    type: 3}
+  previousLevelAction: {fileID: -7438832034400202707, guid: c348712bda248c246b8c49b3db54643f,
+    type: 3}
   ballsOriginsOnTable:
   - {fileID: 4650558551834562517}
   - {fileID: 2254036668162788649}
