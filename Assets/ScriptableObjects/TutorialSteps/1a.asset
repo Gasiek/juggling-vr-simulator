@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 648dd257b120bee4f8e43716e426c648, type: 3}
   m_Name: 1a
   m_EditorClassIdentifier: 
+  trackGaze: 0
   numberOfBalls: 1
   speedMultiplier: 0.25
   showTutorial: 1

@@ -2602,6 +2602,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c001166b68f4c864ab37432378345e31, type: 2}
   - {fileID: 11400000, guid: d3fbe6d2c199c404aa8ef8c9520ae043, type: 2}
   - {fileID: 11400000, guid: de7161900eddbab4a805128994b022ff, type: 2}
+  - {fileID: 11400000, guid: 388955209d3faf748bb09fa990d92bfd, type: 2}
   - {fileID: 11400000, guid: 49c228437bcdf6446abf61c50944b7ce, type: 2}
   - {fileID: 11400000, guid: d696bd582e9e28e4fbcc854e089f9688, type: 2}
   - {fileID: 11400000, guid: cf8cd4d6ff48f074cac05683eaaa6188, type: 2}
@@ -2758,6 +2759,18 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 1741602344}
+          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+          m_MethodName: set_enabled
+          m_Mode: 6
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 1
+          m_CallState: 2
   - simulatorEvent: {fileID: 11400000, guid: acdee00507c9d5d40abd01a3c0ce581b, type: 2}
     response:
       m_PersistentCalls:
@@ -2873,18 +2886,6 @@ MonoBehaviour:
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
-          m_CallState: 2
-        - m_Target: {fileID: 1741602344}
-          m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
-          m_MethodName: set_enabled
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 1
           m_CallState: 2
   - simulatorEvent: {fileID: 11400000, guid: 2378e1367b24ae249abbe6753b639149, type: 2}
     response:
@@ -7107,6 +7108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 904b9cd47611f7041aa8d6df341d7ae9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  simulationManager: {fileID: 588816618}
   correctGazeTransform: {fileID: 223200546}
   headset: {fileID: 186927060}
   LookUpCanvasGroup: {fileID: 142256035}

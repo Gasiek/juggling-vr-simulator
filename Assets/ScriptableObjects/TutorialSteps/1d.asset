@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 648dd257b120bee4f8e43716e426c648, type: 3}
-  m_Name: 2b
+  m_Name: 1d
   m_EditorClassIdentifier: 
   trackGaze: 1
-  numberOfBalls: 2
-  speedMultiplier: 0.25
+  numberOfBalls: 1
+  speedMultiplier: 1
   showTutorial: 1
   isTutorialPOV: 0
   shouldBallStopAtThePeak: 0

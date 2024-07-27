@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class GazeInteractorController : MonoBehaviour
 {
+    public SimulationManager simulationManager;
     public Transform correctGazeTransform;
     public Transform headset;
     public CanvasGroup LookUpCanvasGroup;
@@ -126,8 +127,9 @@ public class GazeInteractorController : MonoBehaviour
         canvasGroup.alpha = endAlpha; // Ensure it reaches the end alpha value
     }
 
-    public void EnableGazeCheck()
+    private IEnumerator EnableGazeCheck()
     {
+        yield return new WaitForSeconds(2);
         gazeCanvas.DOFade(1, 1f);
         correctGazeCanvas.DOFade(1, 1f);
         enabled = true;
@@ -135,11 +137,23 @@ public class GazeInteractorController : MonoBehaviour
 
     private void OnEnable()
     {
-        Invoke(nameof(EnableGazeCheck), 2);
+        if (!simulationManager.GetShouldTrackGaze())
+        {
+            this.enabled = false;
+            return;
+        }
+        StartCoroutine(EnableGazeCheck());
     }
 
     private void OnDisable()
     {
+        StopAllCoroutines();
+        currentLookDownCoroutine = null;
+        currentLookUpCoroutine = null;
+        currentGazeCoroutine = null;
+        hideGazeCoroutine = null;
+        hideLookDownCoroutine = null;
+        hideLookUpCoroutine = null;
         DisableGazeCheck();
     }
 

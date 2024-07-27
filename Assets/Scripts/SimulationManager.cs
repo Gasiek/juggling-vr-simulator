@@ -21,6 +21,7 @@ public class SimulationManager : MonoBehaviour
     private int currentNumberOfBallsInGame = 1;
     private bool isBallGrounded = false;
     private bool shouldBallStopAtThePeak = false;
+    private bool shouldTrackGaze = false;
     private float currentSpeedMultiplier = 1f;
     private float rootOfCurrentSpeedMultiplier = 1f;
     private int ballsToProgress = 10;
@@ -168,6 +169,7 @@ public class SimulationManager : MonoBehaviour
         }
         tutorialAnimationController.HideTutorial();
         currentTutorialStep++;
+        shouldTrackGaze = tutorialSteps[currentTutorialStep].trackGaze;
         currentNumberOfBallsInGame = tutorialSteps[currentTutorialStep].numberOfBalls;
         shouldBallStopAtThePeak = tutorialSteps[currentTutorialStep].shouldBallStopAtThePeak;
         SetSpeedMultiplier(tutorialSteps[currentTutorialStep].speedMultiplier);
@@ -239,5 +241,10 @@ public class SimulationManager : MonoBehaviour
     public int GetBallsToProgress()
     {
         return ballsToProgress;
+    }
+
+    public bool GetShouldTrackGaze()
+    {
+        return shouldTrackGaze;
     }
 }
