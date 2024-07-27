@@ -8,10 +8,17 @@ public class TutorialAnimationController : MonoBehaviour
     public bool shouldStickToPlayer = false;
     public SimulationManager simulationManager;
     public Transform headset;
+    public Transform animatedLeftHand;
+    public Transform animatedRightHand;
+    public Transform handThrowingPointLeft;
+    public Transform handThrowingPointRight;
+    public Transform handCatchingPointLeft;
+    public Transform handCatchingPointRight;
     public Transform throwingPointLeft;
     public Transform throwingPointRight;
     public Transform catchingPointLeft;
     public Transform catchingPointRight;
+    public Material animatedHandMaterial;
     public Material animatedBallMaterial;
     public List<Rigidbody> ballsRigidbodies;
     public float timeOfTransitionToThrowingPosition;
@@ -31,6 +38,7 @@ public class TutorialAnimationController : MonoBehaviour
     private void Awake()
     {
         animatedBallMaterial.color = new Color(animatedBallMaterial.color.r, animatedBallMaterial.color.g, animatedBallMaterial.color.b, 0);
+        animatedHandMaterial.color = new Color(animatedHandMaterial.color.r, animatedHandMaterial.color.g, animatedHandMaterial.color.b, 0);
         originalPosition = transform.position;
 
         foreach (Rigidbody ballRb in ballsRigidbodies)
@@ -39,9 +47,12 @@ public class TutorialAnimationController : MonoBehaviour
             ballRb.gameObject.SetActive(false);
         }
 
-        ballsRigidbodies[0].transform.position = catchingPointRight.position;
-        ballsRigidbodies[1].transform.position = catchingPointLeft.position;
-        ballsRigidbodies[2].transform.position = catchingPointRight.position;
+        animatedLeftHand.gameObject.SetActive(false);
+        animatedRightHand.gameObject.SetActive(false);
+
+        ballsRigidbodies[0].transform.position = catchingPointLeft.position;
+        ballsRigidbodies[1].transform.position = catchingPointRight.position;
+        ballsRigidbodies[2].transform.position = catchingPointLeft.position;
     }
 
     private void Update()
@@ -66,6 +77,8 @@ public class TutorialAnimationController : MonoBehaviour
         {
             ballRb.gameObject.SetActive(false);
         }
+        animatedLeftHand.gameObject.SetActive(false);
+        animatedRightHand.gameObject.SetActive(false);
     }
 
     public void ShowTutorial(bool isPOV)
@@ -122,9 +135,13 @@ public class TutorialAnimationController : MonoBehaviour
             ballRb.angularVelocity = Vector3.zero;
             ballRb.gameObject.SetActive(true);
         }
-        ballsRigidbodies[0].transform.position = catchingPointRight.position;
-        ballsRigidbodies[1].transform.position = catchingPointLeft.position;
-        ballsRigidbodies[2].transform.position = catchingPointRight.position;
+        animatedLeftHand.gameObject.SetActive(true);
+        animatedRightHand.gameObject.SetActive(true);
+        ballsRigidbodies[0].transform.position = catchingPointLeft.position;
+        ballsRigidbodies[1].transform.position = catchingPointRight.position;
+        ballsRigidbodies[2].transform.position = catchingPointLeft.position;
+        animatedLeftHand.position = handCatchingPointLeft.position;
+        animatedRightHand.position = handCatchingPointRight.position;
         StartCoroutine(SmoothlyFadeIn());
         ballsToThrow = ballCount;
     }
@@ -143,6 +160,7 @@ public class TutorialAnimationController : MonoBehaviour
                 }
                 Rigidbody currentBallRb = currentBallsRigidbodies[currentBallIndex];
                 StartCoroutine(SmoothlyMoveBallToThrowingPositionAndThrow(currentBallRb));
+                StartCoroutine(SmoothlyMoveHandToThrowingPositionAndBack(currentBallRb.transform.position.x > 0 ? animatedLeftHand : animatedRightHand));
                 didPreviousBallReachPeak = false;
                 if (!shouldLoop)
                 {
@@ -173,6 +191,40 @@ public class TutorialAnimationController : MonoBehaviour
         ballRb.AddForce(force, ForceMode.Impulse);
     }
 
+    private IEnumerator SmoothlyMoveHandToThrowingPositionAndBack(Transform animatedHand)
+    {
+        float elapsedTime = 0;
+        Vector3 startingPosition = animatedHand.position;
+        Vector3 targetPosition;
+        if (animatedHand.position.x > 0)
+        {
+            targetPosition = handThrowingPointLeft.position;
+        }
+        else
+        {
+            targetPosition = handThrowingPointRight.position;
+        }
+
+        while (elapsedTime < timeOfTransitionToThrowingPosition)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / timeOfTransitionToThrowingPosition);
+            animatedHand.position = Vector3.Lerp(startingPosition, targetPosition, t);
+            yield return null;
+        }
+
+        animatedHand.position = targetPosition;
+        yield return new WaitForSeconds(0.1f);
+        elapsedTime = 0;
+        while (elapsedTime < timeOfTransitionToThrowingPosition)
+        {
+            elapsedTime += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsedTime / timeOfTransitionToThrowingPosition);
+            animatedHand.position = Vector3.Lerp(targetPosition, startingPosition, t);
+            yield return null;
+        }
+        animatedHand.position = startingPosition;
+    }
     private IEnumerator SmoothlyMoveBallToThrowingPositionAndThrow(Rigidbody ballRb)
     {
         float elapsedTime = 0;
@@ -180,11 +232,11 @@ public class TutorialAnimationController : MonoBehaviour
         Vector3 targetPosition;
         if (ballRb.transform.position.x > 0)
         {
-            targetPosition = throwingPointRight.position;
+            targetPosition = throwingPointLeft.position;
         }
         else
         {
-            targetPosition = throwingPointLeft.position;
+            targetPosition = throwingPointRight.position;
         }
 
         while (elapsedTime < timeOfTransitionToThrowingPosition)
@@ -220,13 +272,13 @@ public class TutorialAnimationController : MonoBehaviour
             {
                 ballRb.velocity = Vector3.zero;
                 ballRb.angularVelocity = Vector3.zero;
-                ballRb.transform.position = catchingPointRight.position;
+                ballRb.transform.position = catchingPointLeft.position;
             }
             else
             {
                 ballRb.velocity = Vector3.zero;
                 ballRb.angularVelocity = Vector3.zero;
-                ballRb.transform.position = catchingPointLeft.position;
+                ballRb.transform.position = catchingPointRight.position;
             }
         }
     }
@@ -235,35 +287,45 @@ public class TutorialAnimationController : MonoBehaviour
     {
         float elapsedTime = 0;
         Color startColor = animatedBallMaterial.color;
+        Color handStartColor = animatedHandMaterial.color;
         Color targetColor = new(startColor.r, startColor.g, startColor.b, originalAlpha);
+        Color handTargetColor = new(handStartColor.r, handStartColor.g, handStartColor.b, originalAlpha);
 
         while (elapsedTime < fadeDuration)
         {
             elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp01(elapsedTime / fadeDuration);
             Color newColor = Color.Lerp(startColor, targetColor, t);
+            Color newHandColor = Color.Lerp(handStartColor, handTargetColor, t);
             animatedBallMaterial.color = newColor;
+            animatedHandMaterial.color = newHandColor;
             yield return null;
         }
 
         animatedBallMaterial.color = targetColor;
+        animatedHandMaterial.color = handTargetColor;
     }
 
     private IEnumerator SmoothlyFadeOut()
     {
         float elapsedTime = 0;
         Color startColor = animatedBallMaterial.color;
+        Color handStartColor = animatedHandMaterial.color;
         Color targetColor = new(startColor.r, startColor.g, startColor.b, 0);
+        Color handTargetColor = new(handStartColor.r, handStartColor.g, handStartColor.b, 0);
 
         while (elapsedTime < fadeDuration)
         {
             elapsedTime += Time.deltaTime;
             float t = Mathf.Clamp01(elapsedTime / fadeDuration);
             Color newColor = Color.Lerp(startColor, targetColor, t);
+            Color newHandColor = Color.Lerp(handStartColor, handTargetColor, t);
             animatedBallMaterial.color = newColor;
+            animatedHandMaterial.color = newHandColor;
             yield return null;
         }
 
         animatedBallMaterial.color = targetColor;
+        animatedHandMaterial.color = handTargetColor;
     }
 }
