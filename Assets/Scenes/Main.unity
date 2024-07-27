@@ -7766,10 +7766,10 @@ MonoBehaviour:
   handThrowingPointRight: {fileID: 955503349}
   handCatchingPointLeft: {fileID: 2040289071}
   handCatchingPointRight: {fileID: 639311625}
-  throwingPointLeft: {fileID: 1604291080}
-  throwingPointRight: {fileID: 1683816195645977912}
-  catchingPointLeft: {fileID: 415537415}
-  catchingPointRight: {fileID: 2052079219}
+  throwingPointLeft: {fileID: 1683816195645977912}
+  throwingPointRight: {fileID: 1604291080}
+  catchingPointLeft: {fileID: 2052079219}
+  catchingPointRight: {fileID: 415537415}
   animatedHandMaterial: {fileID: 2100000, guid: edc6db9cabe762149b473ec66276f154,
     type: 2}
   animatedBallMaterial: {fileID: 2100000, guid: 6e5c86fa3acd0e94388dbcea098e3c81,
@@ -7779,8 +7779,8 @@ MonoBehaviour:
   - {fileID: 1473126863}
   - {fileID: 574399510}
   timeOfTransitionToThrowingPosition: 0.1
-  upwardForce: 3.5
-  insideForce: 0.43
+  upwardForce: 4
+  insideForce: 0.368
   delayAfterThrowingAllBalls: 1.5
 --- !u!4 &1938011181
 Transform:
