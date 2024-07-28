@@ -16,6 +16,7 @@ public class SimulationManager : MonoBehaviour
     [SerializeField] private InputActionReference previousLevelAction;
     public Transform[] ballsOriginsOnTable;
     public TutorialStep[] tutorialSteps;
+    public TutorialAudioPlayer tutorialAudioPlayer;
     [SerializeField] private TextMeshProUGUI numberOfBallsText;
     [SerializeField] private TextMeshProUGUI numberOfBallsHeldText;
     private int currentNumberOfBallsInGame = 1;
@@ -177,6 +178,7 @@ public class SimulationManager : MonoBehaviour
         {
             tutorialAnimationController.ShowTutorial(isPOV: tutorialSteps[currentTutorialStep].isTutorialPOV);
         }
+        tutorialAudioPlayer.PlayAudioClip(tutorialSteps[currentTutorialStep].audioGuideTrack);
         SpawnBallsOnTable();
     }
 
