@@ -12,9 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 648dd257b120bee4f8e43716e426c648, type: 3}
   m_Name: 1a
   m_EditorClassIdentifier: 
+  ballsToProgress: 10
+  moveToNextStepAfterSeconds: 8
+  audioGuideTrack: {fileID: 8300000, guid: c82a0ebd41cc99a4bb6f2674582a1775, type: 3}
   trackGaze: 0
   numberOfBalls: 1
   speedMultiplier: 0.25
   showTutorial: 1
   isTutorialPOV: 0
   shouldBallStopAtThePeak: 0
+  notes: "Aby przej\u015B\u0107 ten, jak i kolejne poziomy, b\u0119dziecie musieli
+    wykona\u0107 10 prawid\u0142owych rzut\xF3w z reki do r\u0119ki, bez pope\u0142niania
+    b\u0142\u0119d\xF3w.\r\n"

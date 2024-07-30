@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,6 +10,8 @@ public class SimulationManager : MonoBehaviour
 {
     public BallController[] initialBalls;
     public TutorialAnimationController tutorialAnimationController;
+    public ControllerTutorialManager controllerTutorialManager;
+    public AudioSource backgroundAudioSource;
     public TextMeshProUGUI speedText;
     public SimulatorEvent levelPassed;
     public SimulatorEvent flashHappend;
@@ -25,13 +28,16 @@ public class SimulationManager : MonoBehaviour
     private bool shouldTrackGaze = false;
     private float currentSpeedMultiplier = 1f;
     private float rootOfCurrentSpeedMultiplier = 1f;
-    private int ballsToProgress = 10;
+    private int ballsToProgress = 0;
     private int currentlyHeldBalls = 0;
     private CatchCounter catchCounter;
     private int currentTutorialStep = -1;
     private Vector3 originalGravity;
     private int ballsThrownSincePreviousFlash = 0;
     private List<string> ballsIdQueue = new();
+    private bool audioTutorialIsPlaying;
+    private Coroutine audioTutorialCountdownCoroutine;
+    private int delayAfterTutorialAudio = 2;
 
     private void OnEnable()
     {
@@ -109,7 +115,7 @@ public class SimulationManager : MonoBehaviour
         if (currentlyHeldBalls == currentNumberOfBallsInGame)
         {
             ballsThrownSincePreviousFlash = 0;
-            if (catchCounter.GetCurrentScore() >= ballsToProgress)
+            if (catchCounter.GetCurrentScore() >= ballsToProgress && !audioTutorialIsPlaying)
             {
                 StartCoroutine(LevelPassedAfterDelay());
             }
@@ -164,22 +170,49 @@ public class SimulationManager : MonoBehaviour
 
     public void LoadNextTutorialStep()
     {
+        audioTutorialIsPlaying = false;
         if (currentTutorialStep == tutorialSteps.Length - 1)
         {
             return;
         }
+        controllerTutorialManager.HideAllTutorials();
         tutorialAnimationController.HideTutorial();
         currentTutorialStep++;
         shouldTrackGaze = tutorialSteps[currentTutorialStep].trackGaze;
         currentNumberOfBallsInGame = tutorialSteps[currentTutorialStep].numberOfBalls;
         shouldBallStopAtThePeak = tutorialSteps[currentTutorialStep].shouldBallStopAtThePeak;
+        ballsToProgress = tutorialSteps[currentTutorialStep].ballsToProgress;
+        catchCounter.ResetCurrentScore();
         SetSpeedMultiplier(tutorialSteps[currentTutorialStep].speedMultiplier);
         if (tutorialSteps[currentTutorialStep].showTutorial)
         {
             tutorialAnimationController.ShowTutorial(isPOV: tutorialSteps[currentTutorialStep].isTutorialPOV);
         }
-        tutorialAudioPlayer.PlayAudioClip(tutorialSteps[currentTutorialStep].audioGuideTrack);
+        if (tutorialSteps[currentTutorialStep].audioGuideTrack != null)
+        {
+            tutorialAudioPlayer.PlayAudioClip(tutorialSteps[currentTutorialStep].audioGuideTrack);
+            audioTutorialIsPlaying = true;
+            if (audioTutorialCountdownCoroutine != null)
+            {
+                StopCoroutine(audioTutorialCountdownCoroutine);
+            }
+            audioTutorialCountdownCoroutine = StartCoroutine(CountdownToFinishAudioTutorial(tutorialSteps[currentTutorialStep].moveToNextStepAfterSeconds));
+            if (tutorialSteps[currentTutorialStep].showGrabBallsTutorial) controllerTutorialManager.ShowGrabTutorial();
+            else if (tutorialSteps[currentTutorialStep].showResetBallsTutorial) controllerTutorialManager.ShowBallResetTutorial();
+        }
         SpawnBallsOnTable();
+    }
+
+    private IEnumerator CountdownToFinishAudioTutorial(int numberOfSeconds)
+    {
+        yield return new WaitForSeconds(numberOfSeconds);
+        backgroundAudioSource.DOFade(.5f, 1);
+        yield return new WaitForSeconds(delayAfterTutorialAudio);
+        audioTutorialIsPlaying = false;
+        if (ballsToProgress == 0)
+        {
+            StartCoroutine(LevelPassedAfterDelay());
+        }
     }
 
     private void LoadPreviousTutorialStep()
@@ -188,14 +221,30 @@ public class SimulationManager : MonoBehaviour
         {
             return;
         }
+        controllerTutorialManager.HideAllTutorials();
         tutorialAnimationController.HideTutorial();
         currentTutorialStep--;
+        shouldTrackGaze = tutorialSteps[currentTutorialStep].trackGaze;
         currentNumberOfBallsInGame = tutorialSteps[currentTutorialStep].numberOfBalls;
         shouldBallStopAtThePeak = tutorialSteps[currentTutorialStep].shouldBallStopAtThePeak;
+        ballsToProgress = tutorialSteps[currentTutorialStep].ballsToProgress;
+        catchCounter.ResetCurrentScore();
         SetSpeedMultiplier(tutorialSteps[currentTutorialStep].speedMultiplier);
         if (tutorialSteps[currentTutorialStep].showTutorial)
         {
             tutorialAnimationController.ShowTutorial(isPOV: tutorialSteps[currentTutorialStep].isTutorialPOV);
+        }
+        if (tutorialSteps[currentTutorialStep].audioGuideTrack != null)
+        {
+            tutorialAudioPlayer.PlayAudioClip(tutorialSteps[currentTutorialStep].audioGuideTrack);
+            audioTutorialIsPlaying = true;
+            if (audioTutorialCountdownCoroutine != null)
+            {
+                StopCoroutine(audioTutorialCountdownCoroutine);
+            }
+            audioTutorialCountdownCoroutine = StartCoroutine(CountdownToFinishAudioTutorial(tutorialSteps[currentTutorialStep].moveToNextStepAfterSeconds));
+            if (tutorialSteps[currentTutorialStep].showGrabBallsTutorial) controllerTutorialManager.ShowGrabTutorial();
+            else if (tutorialSteps[currentTutorialStep].showResetBallsTutorial) controllerTutorialManager.ShowBallResetTutorial();
         }
         SpawnBallsOnTable();
     }

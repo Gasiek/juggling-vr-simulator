@@ -25,13 +25,6 @@ public class CatchCounter : MonoBehaviour
         currentScoreText.text = currentScore.ToString() + " / " + simulationManager.GetBallsToProgress();
     }
 
-    // private void UpdateHighestScore()
-    // {
-    //     highestScore = currentScore;
-    //     highestScoreText.text = highestScore.ToString();
-    //     PlayerPrefs.SetInt("HighestScore", highestScore);
-    // }
-
     public void ResetCurrentScore()
     {
         currentScore = 0;

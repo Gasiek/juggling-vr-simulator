@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
 public class TutorialAudioPlayer : MonoBehaviour
 {
+    public AudioSource backgroundAudioSource;
     private AudioSource audioSource;
     private float delay = 2f;
 
@@ -23,9 +25,9 @@ public class TutorialAudioPlayer : MonoBehaviour
 
     private IEnumerator PlayAudioClipDelayed(AudioClip audioClip)
     {
+        backgroundAudioSource.DOFade(0.35f, 1);
         yield return new WaitForSeconds(delay);
         audioSource.clip = audioClip;
         audioSource.Play();
-        PlayAudioClip(audioClip);
     }
 }

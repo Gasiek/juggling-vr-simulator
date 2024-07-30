@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 648dd257b120bee4f8e43716e426c648, type: 3}
+  m_Name: 0b
+  m_EditorClassIdentifier: 
+  ballsToProgress: 0
+  moveToNextStepAfterSeconds: 17
+  audioGuideTrack: {fileID: 8300000, guid: c72b3eecea3688748b3c835fc28803e4, type: 3}
+  trackGaze: 0
+  numberOfBalls: 0
+  speedMultiplier: 1
+  showTutorial: 0
+  isTutorialPOV: 0
+  shouldBallStopAtThePeak: 0
+  showGrabBallsTutorial: 1
+  showResetBallsTutorial: 0
+  notes: "Pi\u0142eczki mo\u017Cecie \u0142apa\u0107 przytrzymuj\u0105c przycisk
+    grip, albo trigger. (ilustracja kontroler\xF3w z pod\u015Bwietlanymi przyciskami)\r\n\tAby
+    wypu\u015Bci\u0107 pi\u0142eczk\u0119 z r\u0119ki, pu\u015B\u0107cie przycisk.\r\n\tMo\u017Cecie
+    trzyma\u0107 dwie pi\u0142eczki w jednej r\u0119ce, u\u017Cywaj\u0105c przycisku
+    grip oraz trigger jednocze\u015Bnie.\r\n\tPrzyda wam si\u0119 to jednak dopiero
+    jak pojawi si\u0119 trzecia pi\u0142eczka. (koniec po audio guidzie)"

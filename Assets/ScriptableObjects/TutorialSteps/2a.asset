@@ -12,9 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 648dd257b120bee4f8e43716e426c648, type: 3}
   m_Name: 2a
   m_EditorClassIdentifier: 
+  ballsToProgress: 10
+  moveToNextStepAfterSeconds: 19
+  audioGuideTrack: {fileID: 8300000, guid: 19825468097e681448bf23cf913c4ac6, type: 3}
   trackGaze: 1
   numberOfBalls: 2
   speedMultiplier: 0.25
   showTutorial: 1
   isTutorialPOV: 0
   shouldBallStopAtThePeak: 1
+  notes: "W tym poziomie, aby u\u0142atwi\u0107 wam nauk\u0119, pierwsza rzucona
+    pi\u0142eczka zatrzyma si\u0119 w najwy\u017Cszym punkcie.\r\n\tPoczekajcie a\u017C
+    to nast\u0105pi, a nast\u0119pnie rzu\u0107cie drug\u0105 tak jak na animacji.\r\n\tJak
+    b\u0119dziecie si\u0119 ju\u017C czu\u0107 pewniej, postarajcie si\u0119 \u017Ceby
+    pi\u0142eczka si\u0119 ju\u017C prawie nie zatrzymywa\u0142a w locie,\r\n\taby
+    przej\u015B\u0107 do kolejnego etapu."
