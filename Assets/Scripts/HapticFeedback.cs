@@ -11,10 +11,12 @@ public class HapticFeedback : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Ball"))
         {
+            if (other.GetComponent<Rigidbody>().velocity.y >= 0)
+                return;
             if (hand == Hand.Left)
-                InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).SendHapticImpulse(0, 0.5f, 0.1f);
+                InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).SendHapticImpulse(0, 0.25f, 0.15f);
             else
-                InputDevices.GetDeviceAtXRNode(XRNode.RightHand).SendHapticImpulse(0, 0.5f, 0.1f);
+                InputDevices.GetDeviceAtXRNode(XRNode.RightHand).SendHapticImpulse(0, 0.25f, 0.15f);
         }
     }
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public enum Hand
@@ -42,9 +43,13 @@ public class XRDirectInteractorController : MonoBehaviour
         {
             BallController ballController = args.interactableObject.transform.GetComponent<BallController>();
             ballController.OnBallGrabbed();
-            if (args.interactorObject.transform.TryGetComponent<XRBaseController>(out var controller))
+            if (thisHand == Hand.Left)
             {
-                controller.SendHapticImpulse(0.8f, 0.2f);
+                InputDevices.GetDeviceAtXRNode(XRNode.LeftHand).SendHapticImpulse(0, .75f, 0.2f);
+            }
+            else
+            {
+                InputDevices.GetDeviceAtXRNode(XRNode.RightHand).SendHapticImpulse(0, .75f, 0.2f);
             }
             if (ballController.GetPreviousHand() == Hand.None)
             {

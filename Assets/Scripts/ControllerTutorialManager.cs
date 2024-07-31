@@ -140,7 +140,11 @@ public class ControllerTutorialManager : MonoBehaviour
     public void HideInfiniteBallResetTutorial()
     {
         tutorialCanvasGroup.DOFade(0, 0.5f);
-        StopCoroutine(infiniteBallResetTutorialCoroutine);
+        if (infiniteBallResetTutorialCoroutine != null)
+        {
+            StopCoroutine(infiniteBallResetTutorialCoroutine);
+            infiniteBallResetTutorialCoroutine = null;
+        }
     }
 
     private IEnumerator InfiniteBallResetTutorial()

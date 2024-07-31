@@ -23,6 +23,7 @@ public class GazeInteractorController : MonoBehaviour
     public float fadeOutDuration;
     public CanvasGroup gazeCanvas;
     public CanvasGroup correctGazeCanvas;
+    public Material fadeToBlackMaterial;
 
 
     private void Update()
@@ -91,6 +92,16 @@ public class GazeInteractorController : MonoBehaviour
                 }
                 currentGazeCoroutine = StartCoroutine(ShowImageAfterDelay(GazeCanvasGroup, 0));
             }
+            float fadeAlpha = 0f;
+            if (angleDifference > 15)
+            {
+                fadeAlpha = Mathf.Clamp01((Mathf.Abs(angleDifference) - 15) / 3);
+            }
+            else if (angleDifference < -13)
+            {
+                fadeAlpha = Mathf.Clamp01((Mathf.Abs(angleDifference) - 13) / 3);
+            }
+            fadeToBlackMaterial.color = new Color(0, 0, 0, fadeAlpha);
         }
     }
 
@@ -137,6 +148,7 @@ public class GazeInteractorController : MonoBehaviour
 
     private void OnEnable()
     {
+        fadeToBlackMaterial.DOFade(0, 0.5f);
         if (!simulationManager.GetShouldTrackGaze())
         {
             this.enabled = false;
@@ -147,6 +159,7 @@ public class GazeInteractorController : MonoBehaviour
 
     private void OnDisable()
     {
+        fadeToBlackMaterial.DOFade(0, 0.5f);
         StopAllCoroutines();
         currentLookDownCoroutine = null;
         currentLookUpCoroutine = null;
