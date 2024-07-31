@@ -61,10 +61,7 @@ public class XRDirectInteractorController : MonoBehaviour
             }
             else
             {
-                // if (simulationManager.GetPreviouslyThrownBallId() != "")// this means that no ball has been thrown yet
-                // {
                 ballGrabbedCorrectlyEvent.Raise();
-                // }
             }
             ballController.SetPreviousHand(thisHand);
         }

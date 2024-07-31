@@ -9,12 +9,14 @@ using UnityEngine.InputSystem;
 public class SimulationManager : MonoBehaviour
 {
     public BallController[] initialBalls;
+    public GazeInteractorController gazeInteractorController;
     public TutorialAnimationController tutorialAnimationController;
     public ControllerTutorialManager controllerTutorialManager;
     public AudioSource backgroundAudioSource;
     public TextMeshProUGUI speedText;
     public SimulatorEvent levelPassed;
     public SimulatorEvent flashHappend;
+    public Material fadeToBlackMaterial;
     [SerializeField] private InputActionReference nextLevelAction;
     [SerializeField] private InputActionReference previousLevelAction;
     public Transform[] ballsOriginsOnTable;
@@ -40,6 +42,7 @@ public class SimulationManager : MonoBehaviour
     private Coroutine audioTutorialCountdownCoroutine;
     private int delayAfterTutorialAudio = 2;
     private bool waitingForBallResetEvent = false;
+    private bool waitingForCorrectGaze = false;
 
     private void OnEnable()
     {
@@ -196,6 +199,11 @@ public class SimulationManager : MonoBehaviour
         catchCounter.ResetCurrentScore();
         SetSpeedMultiplier(tutorialSteps[currentTutorialStep].speedMultiplier);
         waitingForBallResetEvent = tutorialSteps[currentTutorialStep].waitsForABallResetEvent;
+        waitingForCorrectGaze = tutorialSteps[currentTutorialStep].waitsForCorrectGaze;
+        if (tutorialSteps[currentTutorialStep].waitsForCorrectGaze)
+        {
+            StartCoroutine(DelayedFirstGazeCheck());
+        }
         if (tutorialSteps[currentTutorialStep].showTutorial)
         {
             tutorialAnimationController.ShowTutorial(isPOV: tutorialSteps[currentTutorialStep].isTutorialPOV);
@@ -215,13 +223,21 @@ public class SimulationManager : MonoBehaviour
         SpawnBallsOnTable();
     }
 
+    private IEnumerator DelayedFirstGazeCheck()
+    {
+        yield return new WaitForSeconds(11.5f);
+        fadeToBlackMaterial.DOFade(1, 0.5f);
+        yield return new WaitForSeconds(0.5f);
+        gazeInteractorController.enabled = true;
+    }
+
     private IEnumerator CountdownToFinishAudioTutorial(int numberOfSeconds)
     {
         yield return new WaitForSeconds(numberOfSeconds);
         backgroundAudioSource.DOFade(.5f, 1);
         yield return new WaitForSeconds(delayAfterTutorialAudio);
         audioTutorialIsPlaying = false;
-        if (ballsToProgress == 0 && !waitingForBallResetEvent)
+        if (ballsToProgress == 0 && !waitingForBallResetEvent && !waitingForCorrectGaze)
         {
             StartCoroutine(LevelPassedAfterDelay());
         }
@@ -249,8 +265,13 @@ public class SimulationManager : MonoBehaviour
         shouldBallStopAtThePeak = tutorialSteps[currentTutorialStep].shouldBallStopAtThePeak;
         ballsToProgress = tutorialSteps[currentTutorialStep].ballsToProgress;
         catchCounter.ResetCurrentScore();
-        waitingForBallResetEvent = tutorialSteps[currentTutorialStep].waitsForABallResetEvent;
         SetSpeedMultiplier(tutorialSteps[currentTutorialStep].speedMultiplier);
+        waitingForBallResetEvent = tutorialSteps[currentTutorialStep].waitsForABallResetEvent;
+        waitingForCorrectGaze = tutorialSteps[currentTutorialStep].waitsForCorrectGaze;
+        if (tutorialSteps[currentTutorialStep].waitsForCorrectGaze)
+        {
+            StartCoroutine(DelayedFirstGazeCheck());
+        }
         if (tutorialSteps[currentTutorialStep].showTutorial)
         {
             tutorialAnimationController.ShowTutorial(isPOV: tutorialSteps[currentTutorialStep].isTutorialPOV);
@@ -325,6 +346,15 @@ public class SimulationManager : MonoBehaviour
         if (waitingForBallResetEvent)
         {
             waitingForBallResetEvent = false;
+            CheckProgress();
+        }
+    }
+
+    public void SetWaitingForCorrectGazeToFalseAndCheckProgress()
+    {
+        if (waitingForCorrectGaze)
+        {
+            waitingForCorrectGaze = false;
             CheckProgress();
         }
     }

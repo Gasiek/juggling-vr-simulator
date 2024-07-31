@@ -34,6 +34,7 @@ public class GazeInteractorController : MonoBehaviour
 
         if (angleDifference < 8 && angleDifference > -8)
         {
+            simulationManager.SetWaitingForCorrectGazeToFalseAndCheckProgress();
             StopAllCoroutines();
             hideLookDownCoroutine = StartCoroutine(HideImage(LookDownCanvasGroup));
             hideLookUpCoroutine = StartCoroutine(HideImage(LookUpCanvasGroup));
@@ -45,7 +46,7 @@ public class GazeInteractorController : MonoBehaviour
         }
         else
         {
-            if (angleDifference > 13)
+            if (angleDifference > 15)
             {
                 LookUpCanvasGroup.alpha = 0;
                 if (currentLookDownCoroutine == null)
@@ -64,7 +65,7 @@ public class GazeInteractorController : MonoBehaviour
                     currentLookUpCoroutine = null;
                 }
             }
-            else if (angleDifference < -13)
+            else if (angleDifference < -14)
             {
                 LookDownCanvasGroup.alpha = 0;
                 if (currentLookUpCoroutine == null)
@@ -97,9 +98,9 @@ public class GazeInteractorController : MonoBehaviour
             {
                 fadeAlpha = Mathf.Clamp01((Mathf.Abs(angleDifference) - 15) / 3);
             }
-            else if (angleDifference < -13)
+            else if (angleDifference < -14)
             {
-                fadeAlpha = Mathf.Clamp01((Mathf.Abs(angleDifference) - 13) / 3);
+                fadeAlpha = Mathf.Clamp01((Mathf.Abs(angleDifference) - 14) / 3);
             }
             fadeToBlackMaterial.color = new Color(0, 0, 0, fadeAlpha);
         }

@@ -18,9 +18,13 @@ MonoBehaviour:
   trackGaze: 1
   numberOfBalls: 0
   speedMultiplier: 1
+  waitsForCorrectGaze: 1
+  waitsForABallResetEvent: 0
   showTutorial: 0
   isTutorialPOV: 0
   shouldBallStopAtThePeak: 0
+  showGrabBallsTutorial: 0
+  showResetBallsTutorial: 0
   notes: "Super! Bardzo istotn\u0105 kwesti\u0105 w \u017Conglowaniu, jest patrzenie
     si\u0119 w jeden punkt, i kontrolowanie pi\u0142eczek k\u0105tem oka.\r\n\tW
     nast\u0119pnych etapach, b\u0119dziecie musieli mie\u0107 wzrok zwr\xF3cony lekko
