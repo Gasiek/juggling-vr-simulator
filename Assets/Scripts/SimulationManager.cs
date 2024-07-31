@@ -20,6 +20,7 @@ public class SimulationManager : MonoBehaviour
     public Transform[] ballsOriginsOnTable;
     public TutorialStep[] tutorialSteps;
     public TutorialAudioPlayer tutorialAudioPlayer;
+    public ControllerTutorialManager sideResetTutorial;
     [SerializeField] private TextMeshProUGUI numberOfBallsText;
     [SerializeField] private TextMeshProUGUI numberOfBallsHeldText;
     private int currentNumberOfBallsInGame = 1;
@@ -38,6 +39,7 @@ public class SimulationManager : MonoBehaviour
     private bool audioTutorialIsPlaying;
     private Coroutine audioTutorialCountdownCoroutine;
     private int delayAfterTutorialAudio = 2;
+    private bool waitingForBallResetEvent = false;
 
     private void OnEnable()
     {
@@ -179,12 +181,21 @@ public class SimulationManager : MonoBehaviour
         controllerTutorialManager.HideAllTutorials();
         tutorialAnimationController.HideTutorial();
         currentTutorialStep++;
+        if (tutorialSteps[currentTutorialStep].name[0] != '0')
+        {
+            sideResetTutorial.ShowInfiniteBallResetTutorial();
+        }
+        else
+        {
+            sideResetTutorial.HideInfiniteBallResetTutorial();
+        }
         shouldTrackGaze = tutorialSteps[currentTutorialStep].trackGaze;
         currentNumberOfBallsInGame = tutorialSteps[currentTutorialStep].numberOfBalls;
         shouldBallStopAtThePeak = tutorialSteps[currentTutorialStep].shouldBallStopAtThePeak;
         ballsToProgress = tutorialSteps[currentTutorialStep].ballsToProgress;
         catchCounter.ResetCurrentScore();
         SetSpeedMultiplier(tutorialSteps[currentTutorialStep].speedMultiplier);
+        waitingForBallResetEvent = tutorialSteps[currentTutorialStep].waitsForABallResetEvent;
         if (tutorialSteps[currentTutorialStep].showTutorial)
         {
             tutorialAnimationController.ShowTutorial(isPOV: tutorialSteps[currentTutorialStep].isTutorialPOV);
@@ -210,7 +221,7 @@ public class SimulationManager : MonoBehaviour
         backgroundAudioSource.DOFade(.5f, 1);
         yield return new WaitForSeconds(delayAfterTutorialAudio);
         audioTutorialIsPlaying = false;
-        if (ballsToProgress == 0)
+        if (ballsToProgress == 0 && !waitingForBallResetEvent)
         {
             StartCoroutine(LevelPassedAfterDelay());
         }
@@ -225,11 +236,20 @@ public class SimulationManager : MonoBehaviour
         controllerTutorialManager.HideAllTutorials();
         tutorialAnimationController.HideTutorial();
         currentTutorialStep--;
+        if (tutorialSteps[currentTutorialStep].name[0] != '0')
+        {
+            sideResetTutorial.ShowInfiniteBallResetTutorial();
+        }
+        else
+        {
+            sideResetTutorial.HideInfiniteBallResetTutorial();
+        }
         shouldTrackGaze = tutorialSteps[currentTutorialStep].trackGaze;
         currentNumberOfBallsInGame = tutorialSteps[currentTutorialStep].numberOfBalls;
         shouldBallStopAtThePeak = tutorialSteps[currentTutorialStep].shouldBallStopAtThePeak;
         ballsToProgress = tutorialSteps[currentTutorialStep].ballsToProgress;
         catchCounter.ResetCurrentScore();
+        waitingForBallResetEvent = tutorialSteps[currentTutorialStep].waitsForABallResetEvent;
         SetSpeedMultiplier(tutorialSteps[currentTutorialStep].speedMultiplier);
         if (tutorialSteps[currentTutorialStep].showTutorial)
         {
@@ -298,5 +318,14 @@ public class SimulationManager : MonoBehaviour
     public bool GetShouldTrackGaze()
     {
         return shouldTrackGaze;
+    }
+
+    public void SetWaitingForBallResetEventToFalseAndCheckProgress()
+    {
+        if (waitingForBallResetEvent)
+        {
+            waitingForBallResetEvent = false;
+            CheckProgress();
+        }
     }
 }

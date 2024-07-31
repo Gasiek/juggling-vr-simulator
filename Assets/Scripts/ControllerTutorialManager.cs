@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class ControllerTutorialManager : MonoBehaviour
 {
-    public CanvasGroup tutorialCanvasGroup;
     public CanvasGroup leftControllerTriggerCanvasGroup;
     public CanvasGroup rightControllerTriggerCanvasGroup;
     public CanvasGroup leftControllerGripCanvasGroup;
@@ -16,8 +15,15 @@ public class ControllerTutorialManager : MonoBehaviour
     public CanvasGroup rightControllerPrimaryButtonCanvasGroup;
     public CanvasGroup leftControllerSecondaryButtonCanvasGroup;
     public CanvasGroup rightControllerSecondaryButtonCanvasGroup;
+    private CanvasGroup tutorialCanvasGroup;
     private Coroutine grabTutorialCoroutine;
     private Coroutine ballResetTutorialCoroutine;
+    private Coroutine infiniteBallResetTutorialCoroutine;
+
+    private void Awake()
+    {
+        tutorialCanvasGroup = GetComponent<CanvasGroup>();
+    }
 
     public void ShowMovementTutorial()
     {
@@ -119,4 +125,53 @@ public class ControllerTutorialManager : MonoBehaviour
         tutorialCanvasGroup.DOFade(0, 0.5f);
     }
 
+    public void ShowInfiniteBallResetTutorial()
+    {
+        tutorialCanvasGroup.DOFade(1, 0.5f).OnComplete(() =>
+        {
+            if (infiniteBallResetTutorialCoroutine != null)
+            {
+                StopCoroutine(infiniteBallResetTutorialCoroutine);
+            }
+            infiniteBallResetTutorialCoroutine = StartCoroutine(InfiniteBallResetTutorial());
+        });
+    }
+
+    public void HideInfiniteBallResetTutorial()
+    {
+        tutorialCanvasGroup.DOFade(0, 0.5f);
+        StopCoroutine(infiniteBallResetTutorialCoroutine);
+    }
+
+    private IEnumerator InfiniteBallResetTutorial()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(2);
+
+            rightControllerGripCanvasGroup.DOFade(1, 0.5f);
+            rightControllerPrimaryButtonCanvasGroup.DOFade(1, 0.5f).SetLoops(2, LoopType.Yoyo).SetDelay(2f);
+            rightControllerGripCanvasGroup.DOFade(0, 0.5f).SetDelay(3.5f);
+
+            yield return new WaitForSeconds(4f);
+
+            leftControllerGripCanvasGroup.DOFade(1, 0.5f);
+            rightControllerGripCanvasGroup.DOFade(1, 0.5f);
+            rightControllerPrimaryButtonCanvasGroup.DOFade(1, 0.5f).SetLoops(2, LoopType.Yoyo).SetDelay(2f);
+            leftControllerGripCanvasGroup.DOFade(0, 0.5f).SetDelay(3.5f);
+            rightControllerGripCanvasGroup.DOFade(0, 0.5f).SetDelay(3.5f);
+
+            yield return new WaitForSeconds(4f);
+
+            leftControllerGripCanvasGroup.DOFade(1, 0.5f);
+            rightControllerTriggerCanvasGroup.DOFade(1, 0.5f);
+            rightControllerGripCanvasGroup.DOFade(1, 0.5f);
+            rightControllerPrimaryButtonCanvasGroup.DOFade(1, 0.5f).SetLoops(2, LoopType.Yoyo).SetDelay(2f);
+            leftControllerGripCanvasGroup.DOFade(0, 0.5f).SetDelay(3.5f);
+            rightControllerTriggerCanvasGroup.DOFade(0, 0.5f).SetDelay(3.5f);
+            rightControllerGripCanvasGroup.DOFade(0, 0.5f).SetDelay(3.5f);
+
+            yield return new WaitForSeconds(2f);
+        }
+    }
 }

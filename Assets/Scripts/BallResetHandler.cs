@@ -79,12 +79,12 @@ public class BallResetHandler : MonoBehaviour
         ballGrabInteractable.transform.SetPositionAndRotation(attachmentPoint.position, attachmentPoint.rotation); // TODO: Use Rigidbody instead of Transform
         BallController ballController = ballGrabInteractable.GetComponent<BallController>();
         ballController.SetPreviousHand(Hand.None);
-        interactor.attachTransform = attachmentPoint;
-        string tempTag = ballGrabInteractable.transform.tag;
-        ballGrabInteractable.transform.tag = "Untagged";
-        interactor.StartManualInteraction((IXRSelectInteractable)ballGrabInteractable);
-        interactor.EndManualInteraction();
-        ballGrabInteractable.transform.tag = tempTag;
+        // interactor.attachTransform = attachmentPoint;
+        // string tempTag = ballGrabInteractable.transform.tag;
+        // ballGrabInteractable.transform.tag = "Untagged";
+        // interactor.StartManualInteraction((IXRSelectInteractable)ballGrabInteractable);
+        // interactor.EndManualInteraction();
+        // ballGrabInteractable.transform.tag = tempTag;
     }
 
     private void OnResetBalls(InputAction.CallbackContext context)

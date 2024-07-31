@@ -11,6 +11,7 @@ public class TutorialStep : ScriptableObject
     public bool trackGaze;
     public int numberOfBalls;
     public float speedMultiplier;
+    public bool waitsForABallResetEvent;
     public bool showTutorial;
     public bool isTutorialPOV;
     public bool shouldBallStopAtThePeak;

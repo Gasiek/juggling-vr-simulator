@@ -86,9 +86,9 @@ public class BallController : MonoBehaviour
         yield return new WaitForFixedUpdate();
         float rootOfCurrentSpeedMultiplier = simulationManager.GetRootOfCurrentSpeedMultiplier();
         ballRb.useGravity = true;
-        magicI *= -1;
-        ballRb.velocity = new Vector3(.2f * magicI, 5, 0) * rootOfCurrentSpeedMultiplier;
-        // ballRb.velocity = new Vector3(ballRb.velocity.x, ballRb.velocity.y, 0) * rootOfCurrentSpeedMultiplier;
+        // magicI *= -1;
+        // ballRb.velocity = new Vector3(.2f * magicI, 5, 0) * rootOfCurrentSpeedMultiplier;
+        ballRb.velocity = new Vector3(ballRb.velocity.x, ballRb.velocity.y, 0) * rootOfCurrentSpeedMultiplier;
     }
 
     private void OnCollisionEnter(Collision other)
