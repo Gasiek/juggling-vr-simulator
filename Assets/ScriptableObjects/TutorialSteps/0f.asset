@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 648dd257b120bee4f8e43716e426c648, type: 3}
   m_Name: 0f
   m_EditorClassIdentifier: 
-  ballsToProgress: 5
+  ballsToProgress: 0
   moveToNextStepAfterSeconds: 18
   audioGuideTrack: {fileID: 8300000, guid: 2eacf3668eb8baa4aaa880b3b9b1424b, type: 3}
   trackGaze: 1
@@ -21,6 +21,8 @@ MonoBehaviour:
   showTutorial: 1
   isTutorialPOV: 0
   shouldBallStopAtThePeak: 0
+  showGrabBallsTutorial: 0
+  showResetBallsTutorial: 0
   notes: "W ka\u017Cdym poziomie, zobaczycie przed sob\u0105 animacj\u0119, pokazuj\u0105c\u0105
     wam w jaki spos\xF3b powinni\u015Bcie wyrzuca\u0107 pi\u0142eczki.\r\n\tSkupcie
     si\u0119 na u\u0142ozeniu r\u0105k. Nieco szerzej ni\u017C szeroko\u015B\u0107

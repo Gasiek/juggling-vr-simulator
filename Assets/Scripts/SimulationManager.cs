@@ -135,6 +135,7 @@ public class SimulationManager : MonoBehaviour
 
     public void OnBallGrabbedCorrectly()
     {
+        Debug.Log("Ball grabbed correctly");
         catchCounter.UpdateCurrentScore();
     }
 

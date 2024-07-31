@@ -17,7 +17,10 @@ MonoBehaviour:
   audioGuideTrack: {fileID: 0}
   trackGaze: 1
   numberOfBalls: 1
-  speedMultiplier: 0.25
+  speedMultiplier: 0.5625
   showTutorial: 1
   isTutorialPOV: 0
   shouldBallStopAtThePeak: 0
+  showGrabBallsTutorial: 0
+  showResetBallsTutorial: 0
+  notes: 

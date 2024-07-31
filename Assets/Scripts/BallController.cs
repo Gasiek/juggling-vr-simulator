@@ -15,6 +15,7 @@ public class BallController : MonoBehaviour
     private bool isBallStoppedAtPeak;
     private Vector3 velocityAtPeak;
     private bool ballCollidedWithEnvironment;
+    private int magicI = 1;
 
     private void Awake()
     {
@@ -84,8 +85,10 @@ public class BallController : MonoBehaviour
     {
         yield return new WaitForFixedUpdate();
         float rootOfCurrentSpeedMultiplier = simulationManager.GetRootOfCurrentSpeedMultiplier();
-        // ballRb.velocity = new Vector3(.2f, 5, 0) * rootOfCurrentSpeedMultiplier;
-        ballRb.velocity = new Vector3(ballRb.velocity.x, ballRb.velocity.y, 0) * rootOfCurrentSpeedMultiplier;
+        ballRb.useGravity = true;
+        magicI *= -1;
+        ballRb.velocity = new Vector3(.2f * magicI, 5, 0) * rootOfCurrentSpeedMultiplier;
+        // ballRb.velocity = new Vector3(ballRb.velocity.x, ballRb.velocity.y, 0) * rootOfCurrentSpeedMultiplier;
     }
 
     private void OnCollisionEnter(Collision other)

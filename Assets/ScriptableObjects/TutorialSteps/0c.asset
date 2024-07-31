@@ -16,11 +16,13 @@ MonoBehaviour:
   moveToNextStepAfterSeconds: 13
   audioGuideTrack: {fileID: 8300000, guid: 256ad8be63f63d143abaca01d20aaa3d, type: 3}
   trackGaze: 0
-  numberOfBalls: 3
+  numberOfBalls: 1
   speedMultiplier: 0.25
-  showTutorial: 0
+  showTutorial: 1
   isTutorialPOV: 0
   shouldBallStopAtThePeak: 0
+  showGrabBallsTutorial: 0
+  showResetBallsTutorial: 0
   notes: "W celu u\u0142atwienia wam zadania, na pocz\u0105tku pi\u0142eczki b\u0119d\u0105
     lata\u0142y wolniej. Pr\u0119dko\u015B\u0107 si\u0119 zwi\u0119kszy w kolejnych
     etapach.\r\n\tPodnie\u015Bcie jedn\u0105 pi\u0142k\u0119 ze sto\u0142u i przerzu\u0107cie

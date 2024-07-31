@@ -75,6 +75,7 @@ public class ControllerTutorialManager : MonoBehaviour
 
     public void HideAllTutorials()
     {
+        tutorialCanvasGroup.DOFade(0, 0.5f);
         if (grabTutorialCoroutine != null)
         {
             StopCoroutine(grabTutorialCoroutine);
