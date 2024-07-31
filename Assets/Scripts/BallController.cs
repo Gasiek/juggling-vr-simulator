@@ -114,13 +114,13 @@ public class BallController : MonoBehaviour
     public void Spawn(Vector3 initialPosition)
     {
         transform.SetPositionAndRotation(initialPosition, Quaternion.identity);
-        ballRb.velocity = Vector3.zero;
-        ballRb.angularVelocity = Vector3.zero;
         ballCollidedWithEnvironment = false;
-        ballRb.useGravity = true;
         isBallStoppedAtPeak = false;
         isBallAscending = false;
         gameObject.SetActive(true);
+        ballRb.useGravity = true;
+        ballRb.velocity = Vector3.zero;
+        ballRb.angularVelocity = Vector3.zero;
     }
 
     public void OnBallGrabbed()

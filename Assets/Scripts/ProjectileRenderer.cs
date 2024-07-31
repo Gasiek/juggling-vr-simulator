@@ -46,7 +46,7 @@ public class ProjectileRenderer : MonoBehaviour
             i++;
             float x = startPosition.x + initialVelocity.x * t;
             float y = startPosition.y + initialVelocity.y * t + 0.5f * Physics.gravity.y * t * t;
-            float z = startPosition.z + initialVelocity.z * t;
+            float z = startPosition.z + 0;
             lineRenderer.SetPosition(i, new Vector3(x, y, z));
         }
     }
