@@ -93,7 +93,6 @@ public class XRDirectInteractorController : MonoBehaviour
             {
                 wrongBallThrownEvent.Raise();
             }
-            simulationManager.RegisterReleasedBall(currentBallId);
         }
     }
 

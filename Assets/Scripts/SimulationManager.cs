@@ -22,13 +22,15 @@ public class SimulationManager : MonoBehaviour
     public TutorialAnimationController tutorialAnimationController;
     public ControllerTutorialManager controllerTutorialManager;
     public AudioSource backgroundAudioSource;
+    // I need a reference to an action like button press to trigger the event
+    public InputActionReference nextLevelAction;
+    public InputActionReference previousLevelAction;
     public TextMeshProUGUI speedText;
     public SimulatorEvent levelPassed;
     public SimulatorEvent flashHappend;
     public Material fadeToBlackMaterial;
     public Transform[] ballsOriginsOnTable;
     public TutorialStep[] tutorialSteps;
-    public TutorialAudioPlayer tutorialAudioPlayer;
     public ControllerTutorialManager sideResetTutorial;
     [SerializeField] private TextMeshProUGUI numberOfBallsText;
     [SerializeField] private TextMeshProUGUI numberOfBallsHeldText;
@@ -54,14 +56,20 @@ public class SimulationManager : MonoBehaviour
     private bool waitingForBallResetEvent = false;
     private bool waitingForCorrectGaze = false;
 
-    private void Awake()
+    private void OnEnable()
     {
-        catchCounter = GetComponent<CatchCounter>();
+        nextLevelAction.action.performed += _ => LoadNextLevel();
+        previousLevelAction.action.performed += _ => LoadPreviousLevel();
+    }
+
+    private void OnDisable()
+    {
+        nextLevelAction.action.performed -= _ => LoadNextLevel();
+        previousLevelAction.action.performed -= _ => LoadPreviousLevel();
     }
 
     void Start()
     {
-        currentDifficulty = Difficulty.Easy;
         originalGravity = Physics.gravity;
         LoadNextTutorialStep();
     }
@@ -79,95 +87,9 @@ public class SimulationManager : MonoBehaviour
         return rootOfCurrentSpeedMultiplier;
     }
 
-    public void SpawnBallsOnTable()
-    {
-        StartCoroutine(DespawnAndSpawnBalls());
-    }
-
-    private IEnumerator DespawnAndSpawnBalls()
-    {
-        DeactivateAllBalls();
-        yield return new WaitForSeconds(0.5f);
-        ResetBallsIdQueue();
-        ballsThrownSincePreviousFlash = 0;
-        yield return new WaitForSeconds(0.5f);
-        // yield return new WaitForEndOfFrame();
-        for (int i = 0; i < currentNumberOfBallsInGame; i++)
-        {
-            initialBalls[i].Spawn(ballsOriginsOnTable[i].position);
-        }
-        numberOfBallsText.text = currentNumberOfBallsInGame.ToString();
-    }
-
-    private void DeactivateAllBalls()
-    {
-        foreach (var ball in initialBalls)
-        {
-            Rigidbody ballRigidbody = ball.GetComponent<Rigidbody>();
-            ballRigidbody.velocity = Vector3.zero;
-            ballRigidbody.angularVelocity = Vector3.zero;
-            ball.gameObject.SetActive(false);
-        }
-    }
-
-    public void CheckProgress() // TODO: This should happen in catch counter
-    {
-        if (currentlyHeldBalls == currentNumberOfBallsInGame)
-        {
-            ballsThrownSincePreviousFlash = 0;
-            if (catchCounter.GetCurrentScore() >= ballsToProgress && !audioTutorialIsPlaying)
-            {
-                StartCoroutine(LevelPassedAfterDelay());
-            }
-        }
-    }
-
-    private IEnumerator LevelPassedAfterDelay()
-    {
-        yield return new WaitForSeconds(1);
-        if (tutorialSteps[currentTutorialStep].name[0] != '0') tutorialAudioPlayer.PlayPraiseAudioClip();
-        levelPassed.Raise();
-    }
-
     public int GetCurrentNumberOfBalls()
     {
         return currentNumberOfBallsInGame;
-    }
-
-    public void OnBallGrabbedCorrectly()
-    {
-        Debug.Log("Ball grabbed correctly");
-        catchCounter.UpdateCurrentScore();
-    }
-
-    public void OnBallGrabbed()
-    {
-        Debug.Log("Ball grabbed");
-        currentlyHeldBalls++;
-        numberOfBallsHeldText.text = currentlyHeldBalls.ToString();
-        if (currentlyHeldBalls == currentNumberOfBallsInGame)
-        {
-            flashHappend.Raise();
-        }
-    }
-
-    public void OnBallReleased()
-    {
-        Debug.Log("Ball released");
-        currentlyHeldBalls--;
-        ballsThrownSincePreviousFlash++;
-        numberOfBallsHeldText.text = currentlyHeldBalls.ToString();
-    }
-
-    public void RegisterReleasedBall(string releasedBallId)
-    {
-        ballsIdQueue.RemoveAll(id => id == releasedBallId);
-        ballsIdQueue.Add(releasedBallId);
-    }
-
-    public void ResetAlreadyThrownBallsCounter()
-    {
-        ballsThrownSincePreviousFlash = 0;
     }
 
     public void LoadNextTutorialStep()
@@ -192,7 +114,7 @@ public class SimulationManager : MonoBehaviour
         currentNumberOfBallsInGame = tutorialSteps[currentTutorialStep].numberOfBalls;
         shouldBallStopAtThePeak = tutorialSteps[currentTutorialStep].shouldBallStopAtThePeak;
         ballsToProgress = tutorialSteps[currentTutorialStep].ballsToProgress;
-        catchCounter.ResetCurrentScore();
+        // catchCounter.ResetCurrentScore();
         SetSpeedMultiplier(tutorialSteps[currentTutorialStep].speedMultiplier);
         waitingForBallResetEvent = tutorialSteps[currentTutorialStep].waitsForABallResetEvent;
         waitingForCorrectGaze = tutorialSteps[currentTutorialStep].waitsForCorrectGaze;
@@ -206,7 +128,6 @@ public class SimulationManager : MonoBehaviour
         }
         if (tutorialSteps[currentTutorialStep].audioGuideTrack != null)
         {
-            tutorialAudioPlayer.PlayAudioClip(tutorialSteps[currentTutorialStep].audioGuideTrack);
             audioTutorialIsPlaying = true;
             if (audioTutorialCountdownCoroutine != null)
             {
@@ -216,7 +137,6 @@ public class SimulationManager : MonoBehaviour
             if (tutorialSteps[currentTutorialStep].showGrabBallsTutorial) controllerTutorialManager.ShowGrabTutorial();
             else if (tutorialSteps[currentTutorialStep].showResetBallsTutorial) controllerTutorialManager.ShowBallResetTutorial();
         }
-        SpawnBallsOnTable();
     }
 
     private IEnumerator DelayedFirstGazeCheck()
@@ -235,7 +155,6 @@ public class SimulationManager : MonoBehaviour
         audioTutorialIsPlaying = false;
         if (ballsToProgress == 0 && !waitingForBallResetEvent && !waitingForCorrectGaze)
         {
-            StartCoroutine(LevelPassedAfterDelay());
         }
     }
 
@@ -261,7 +180,7 @@ public class SimulationManager : MonoBehaviour
         currentNumberOfBallsInGame = tutorialSteps[currentTutorialStep].numberOfBalls;
         shouldBallStopAtThePeak = tutorialSteps[currentTutorialStep].shouldBallStopAtThePeak;
         ballsToProgress = tutorialSteps[currentTutorialStep].ballsToProgress;
-        catchCounter.ResetCurrentScore();
+        // catchCounter.ResetCurrentScore();
         SetSpeedMultiplier(tutorialSteps[currentTutorialStep].speedMultiplier);
         waitingForBallResetEvent = tutorialSteps[currentTutorialStep].waitsForABallResetEvent;
         waitingForCorrectGaze = tutorialSteps[currentTutorialStep].waitsForCorrectGaze;
@@ -275,7 +194,6 @@ public class SimulationManager : MonoBehaviour
         }
         if (tutorialSteps[currentTutorialStep].audioGuideTrack != null)
         {
-            tutorialAudioPlayer.PlayAudioClip(tutorialSteps[currentTutorialStep].audioGuideTrack);
             audioTutorialIsPlaying = true;
             if (audioTutorialCountdownCoroutine != null)
             {
@@ -285,7 +203,6 @@ public class SimulationManager : MonoBehaviour
             if (tutorialSteps[currentTutorialStep].showGrabBallsTutorial) controllerTutorialManager.ShowGrabTutorial();
             else if (tutorialSteps[currentTutorialStep].showResetBallsTutorial) controllerTutorialManager.ShowBallResetTutorial();
         }
-        SpawnBallsOnTable();
     }
 
     public void SetBallGrounded(bool value)
@@ -343,7 +260,6 @@ public class SimulationManager : MonoBehaviour
         if (waitingForBallResetEvent)
         {
             waitingForBallResetEvent = false;
-            CheckProgress();
         }
     }
 
@@ -352,7 +268,6 @@ public class SimulationManager : MonoBehaviour
         if (waitingForCorrectGaze)
         {
             waitingForCorrectGaze = false;
-            CheckProgress();
         }
     }
 
@@ -393,14 +308,12 @@ public class SimulationManager : MonoBehaviour
 
     public void PlayAudioTutorialThrowFromCenter()
     {
-        tutorialAudioPlayer.PlayAudioClipIfFree(throwFromCenterAudioClip);
     }
 
     public void PlayAudioTutorialHandsLower()
     {
         if (tutorialSteps[currentTutorialStep].name[0] != '0')
         {
-            tutorialAudioPlayer.PlayAudioClipIfFree(handsLowerAudioClip);
         }
     }
 }

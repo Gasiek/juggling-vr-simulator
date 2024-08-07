@@ -55,6 +55,11 @@ public class TutorialAnimationController : MonoBehaviour
         ballsRigidbodies[2].transform.position = catchingPointLeft.position;
     }
 
+    // private void Start()
+    // {
+    //     ShowTutorial(true);
+    // }
+
     private void Update()
     {
         if (shouldStickToPlayer)
