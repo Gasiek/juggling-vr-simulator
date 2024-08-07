@@ -11,6 +11,7 @@ public enum Hand
 
 public class XRDirectInteractorController : MonoBehaviour
 {
+    public bool shouldTrackHandHeight;
     public SimulatorEvent ballGrabbedEvent;
     public SimulatorEvent ballGrabbedCorrectlyEvent;
     public SimulatorEvent ballGrabbedWithWrongHandEvent;
@@ -18,6 +19,10 @@ public class XRDirectInteractorController : MonoBehaviour
     public SimulatorEvent wrongBallThrownEvent;
     [SerializeField] private Hand thisHand;
     [SerializeField] private SimulationManager simulationManager;
+    [SerializeField] private Transform headset;
+    private float heightThreshold = 0.55f;
+    private float aboveThresholdTime = 0f;
+    private float warningDelay = 3f;
 
     private void OnEnable()
     {
@@ -34,6 +39,14 @@ public class XRDirectInteractorController : MonoBehaviour
         {
             interactor.selectEntered.RemoveListener(OnGrab);
             interactor.selectExited.RemoveListener(OnRelease);
+        }
+    }
+
+    private void Update()
+    {
+        if (shouldTrackHandHeight)
+        {
+            CheckHandPosition();
         }
     }
 
@@ -74,13 +87,35 @@ public class XRDirectInteractorController : MonoBehaviour
             ballReleasedEvent.Raise();
             BallController ballController = args.interactableObject.transform.GetComponent<BallController>();
             ballController.PlayThrowSound();
-            ballController.AdjustVelocityOnRelease();
+            ballController.AdjustVelocityOnRelease(thisHand);
             string currentBallId = args.interactableObject.transform.GetInstanceID().ToString();
             if (currentBallId == simulationManager.GetPreviouslyThrownBallId() && simulationManager.GetCurrentNumberOfBalls() > 1)
             {
                 wrongBallThrownEvent.Raise();
             }
             simulationManager.RegisterReleasedBall(currentBallId);
+        }
+    }
+
+
+    private void CheckHandPosition()
+    {
+        float handHeight = transform.position.y;
+        float headsetHeight = headset.position.y;
+
+        if (headsetHeight - handHeight < heightThreshold)
+        {
+            aboveThresholdTime += Time.deltaTime;
+
+            if (aboveThresholdTime >= warningDelay)
+            {
+                simulationManager.PlayAudioTutorialHandsLower();
+                aboveThresholdTime = 0.0f;
+            }
+        }
+        else
+        {
+            aboveThresholdTime = 0.0f;
         }
     }
 }

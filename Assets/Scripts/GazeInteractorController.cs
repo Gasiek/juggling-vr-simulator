@@ -46,7 +46,7 @@ public class GazeInteractorController : MonoBehaviour
         }
         else
         {
-            if (angleDifference > 15)
+            if (angleDifference > 16)
             {
                 LookUpCanvasGroup.alpha = 0;
                 if (currentLookDownCoroutine == null)
@@ -56,7 +56,7 @@ public class GazeInteractorController : MonoBehaviour
                         StopCoroutine(hideLookDownCoroutine);
                         hideLookDownCoroutine = null;
                     }
-                    currentLookDownCoroutine = StartCoroutine(ShowImageAfterDelay(LookDownCanvasGroup, 2));
+                    currentLookDownCoroutine = StartCoroutine(ShowImageAfterDelay(LookDownCanvasGroup, 1));
                     pulsatingCircles.StartPulsatingCirclesAfterDelay(2);
                 }
                 if (currentLookUpCoroutine != null)
@@ -65,7 +65,7 @@ public class GazeInteractorController : MonoBehaviour
                     currentLookUpCoroutine = null;
                 }
             }
-            else if (angleDifference < -14)
+            else if (angleDifference < -15)
             {
                 LookDownCanvasGroup.alpha = 0;
                 if (currentLookUpCoroutine == null)
@@ -75,7 +75,7 @@ public class GazeInteractorController : MonoBehaviour
                         StopCoroutine(hideLookUpCoroutine);
                         hideLookUpCoroutine = null;
                     }
-                    currentLookUpCoroutine = StartCoroutine(ShowImageAfterDelay(LookUpCanvasGroup, 2));
+                    currentLookUpCoroutine = StartCoroutine(ShowImageAfterDelay(LookUpCanvasGroup, 1));
                     pulsatingCircles.StartPulsatingCirclesAfterDelay(2);
                 }
                 if (currentLookDownCoroutine != null)
@@ -94,13 +94,13 @@ public class GazeInteractorController : MonoBehaviour
                 currentGazeCoroutine = StartCoroutine(ShowImageAfterDelay(GazeCanvasGroup, 0));
             }
             float fadeAlpha = 0f;
-            if (angleDifference > 15)
+            if (angleDifference > 16)
+            {
+                fadeAlpha = Mathf.Clamp01((Mathf.Abs(angleDifference) - 16) / 3);
+            }
+            else if (angleDifference < -15)
             {
                 fadeAlpha = Mathf.Clamp01((Mathf.Abs(angleDifference) - 15) / 3);
-            }
-            else if (angleDifference < -14)
-            {
-                fadeAlpha = Mathf.Clamp01((Mathf.Abs(angleDifference) - 14) / 3);
             }
             fadeToBlackMaterial.color = new Color(0, 0, 0, fadeAlpha);
         }

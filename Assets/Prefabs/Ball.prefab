@@ -297,7 +297,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5907192801606185979}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ec8082e1426c2d43b2ec3efae8b423d, type: 3}
   m_Name: 
@@ -421,6 +421,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   simulationManager: {fileID: 0}
+  leftHand: {fileID: 0}
+  rightHand: {fileID: 0}
+  headset: {fileID: 0}
   collisionSound: {fileID: 8300000, guid: 736c3be2ca491a7468a3a94c7e3a2e6f, type: 3}
   throwSound: {fileID: 8300000, guid: 00e6fda77596ee84291cf323f4039a9f, type: 3}
 --- !u!82 &408013633383286458

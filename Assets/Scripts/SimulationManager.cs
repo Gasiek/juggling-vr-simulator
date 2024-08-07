@@ -5,6 +5,15 @@ using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+
+[Serializable]
+public enum Difficulty
+{
+    Easy,
+    Medium,
+    Hard
+}
 
 public class SimulationManager : MonoBehaviour
 {
@@ -17,14 +26,15 @@ public class SimulationManager : MonoBehaviour
     public SimulatorEvent levelPassed;
     public SimulatorEvent flashHappend;
     public Material fadeToBlackMaterial;
-    [SerializeField] private InputActionReference nextLevelAction;
-    [SerializeField] private InputActionReference previousLevelAction;
     public Transform[] ballsOriginsOnTable;
     public TutorialStep[] tutorialSteps;
     public TutorialAudioPlayer tutorialAudioPlayer;
     public ControllerTutorialManager sideResetTutorial;
     [SerializeField] private TextMeshProUGUI numberOfBallsText;
     [SerializeField] private TextMeshProUGUI numberOfBallsHeldText;
+    [SerializeField] private AudioClip throwFromCenterAudioClip;
+    [SerializeField] private AudioClip handsLowerAudioClip;
+    private Difficulty currentDifficulty = Difficulty.Easy;
     private int currentNumberOfBallsInGame = 1;
     private bool isBallGrounded = false;
     private bool shouldBallStopAtThePeak = false;
@@ -44,22 +54,6 @@ public class SimulationManager : MonoBehaviour
     private bool waitingForBallResetEvent = false;
     private bool waitingForCorrectGaze = false;
 
-    private void OnEnable()
-    {
-        nextLevelAction.action.performed += _ => LoadNextTutorialStep();
-        nextLevelAction.action.Enable();
-        previousLevelAction.action.performed += _ => LoadPreviousTutorialStep();
-        previousLevelAction.action.Enable();
-    }
-
-    private void OnDisable()
-    {
-        nextLevelAction.action.performed -= _ => LoadNextTutorialStep();
-        nextLevelAction.action.Disable();
-        previousLevelAction.action.performed -= _ => LoadPreviousTutorialStep();
-        previousLevelAction.action.Disable();
-    }
-
     private void Awake()
     {
         catchCounter = GetComponent<CatchCounter>();
@@ -67,6 +61,7 @@ public class SimulationManager : MonoBehaviour
 
     void Start()
     {
+        currentDifficulty = Difficulty.Easy;
         originalGravity = Physics.gravity;
         LoadNextTutorialStep();
     }
@@ -130,6 +125,7 @@ public class SimulationManager : MonoBehaviour
     private IEnumerator LevelPassedAfterDelay()
     {
         yield return new WaitForSeconds(1);
+        if (tutorialSteps[currentTutorialStep].name[0] != '0') tutorialAudioPlayer.PlayPraiseAudioClip();
         levelPassed.Raise();
     }
 
@@ -245,6 +241,7 @@ public class SimulationManager : MonoBehaviour
 
     private void LoadPreviousTutorialStep()
     {
+        audioTutorialIsPlaying = false;
         if (currentTutorialStep == 0)
         {
             return;
@@ -356,6 +353,54 @@ public class SimulationManager : MonoBehaviour
         {
             waitingForCorrectGaze = false;
             CheckProgress();
+        }
+    }
+
+    public void SetDifficultyToEasy()
+    {
+        currentDifficulty = Difficulty.Easy;
+    }
+
+    public void SetDifficultyToMedium()
+    {
+        currentDifficulty = Difficulty.Medium;
+    }
+
+    public void SetDifficultyToHard()
+    {
+        currentDifficulty = Difficulty.Hard;
+    }
+
+    public Difficulty GetDifficulty()
+    {
+        return currentDifficulty;
+    }
+
+    public void ReloadGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void LoadNextLevel()
+    {
+        LoadNextTutorialStep();
+    }
+
+    public void LoadPreviousLevel()
+    {
+        LoadPreviousTutorialStep();
+    }
+
+    public void PlayAudioTutorialThrowFromCenter()
+    {
+        tutorialAudioPlayer.PlayAudioClipIfFree(throwFromCenterAudioClip);
+    }
+
+    public void PlayAudioTutorialHandsLower()
+    {
+        if (tutorialSteps[currentTutorialStep].name[0] != '0')
+        {
+            tutorialAudioPlayer.PlayAudioClipIfFree(handsLowerAudioClip);
         }
     }
 }

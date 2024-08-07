@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 648dd257b120bee4f8e43716e426c648, type: 3}
   m_Name: 3d
   m_EditorClassIdentifier: 
-  ballsToProgress: 10
+  ballsToProgress: 15
   moveToNextStepAfterSeconds: 0
-  audioGuideTrack: {fileID: 0}
+  audioGuideTrack: {fileID: 8300000, guid: 974b2bcd58d999741881ca0183060ed4, type: 3}
   trackGaze: 1
   numberOfBalls: 3
   speedMultiplier: 0.25
+  waitsForCorrectGaze: 0
+  waitsForABallResetEvent: 0
   showTutorial: 1
   isTutorialPOV: 0
   shouldBallStopAtThePeak: 0

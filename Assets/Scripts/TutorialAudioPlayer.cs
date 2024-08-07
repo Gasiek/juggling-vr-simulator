@@ -6,6 +6,7 @@ using UnityEngine;
 public class TutorialAudioPlayer : MonoBehaviour
 {
     public AudioSource backgroundAudioSource;
+    public AudioClip[] praisesAudioClips;
     private AudioSource audioSource;
     private float delay = 2f;
 
@@ -20,6 +21,8 @@ public class TutorialAudioPlayer : MonoBehaviour
         {
             return;
         }
+        StopAllCoroutines();
+        audioSource.Stop();
         StartCoroutine(PlayAudioClipDelayed(audioClip));
     }
 
@@ -29,5 +32,19 @@ public class TutorialAudioPlayer : MonoBehaviour
         yield return new WaitForSeconds(delay);
         audioSource.clip = audioClip;
         audioSource.Play();
+    }
+
+    public void PlayAudioClipIfFree(AudioClip audioClip)
+    {
+        if (!audioSource.isPlaying)
+        {
+            PlayAudioClip(audioClip);
+        }
+    }
+
+    public void PlayPraiseAudioClip()
+    {
+        AudioClip audioClip = praisesAudioClips[Random.Range(0, praisesAudioClips.Length)];
+        PlayAudioClip(audioClip);
     }
 }

@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ballsToProgress: 10
   moveToNextStepAfterSeconds: 0
-  audioGuideTrack: {fileID: 0}
+  audioGuideTrack: {fileID: 8300000, guid: 974b2bcd58d999741881ca0183060ed4, type: 3}
   trackGaze: 1
   numberOfBalls: 2
   speedMultiplier: 0.25
+  waitsForCorrectGaze: 0
+  waitsForABallResetEvent: 0
   showTutorial: 1
   isTutorialPOV: 0
   shouldBallStopAtThePeak: 0
