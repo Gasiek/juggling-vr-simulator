@@ -97,6 +97,7 @@ public class SimulationManager : MonoBehaviour
             initialBalls[i].Spawn(ballsOriginsOnTable[i].position);
         }
         numberOfBallsText.text = currentNumberOfBallsInGame.ToString();
+        isBallGrounded = false;
     }
 
     private void DeactivateAllBalls()

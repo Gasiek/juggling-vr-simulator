@@ -17,10 +17,14 @@ MonoBehaviour:
   audioGuideTrack: {fileID: 8300000, guid: 195133e427e42b44a842fef86017ec83, type: 3}
   trackGaze: 0
   numberOfBalls: 0
-  speedMultiplier: 1
+  speedMultiplier: 0.9025
+  waitsForCorrectGaze: 0
+  waitsForABallResetEvent: 0
   showTutorial: 1
   isTutorialPOV: 0
   shouldBallStopAtThePeak: 0
+  showGrabBallsTutorial: 0
+  showResetBallsTutorial: 0
   notes: "Witajcie w symulatorze \u017Conglowania. Poprowadzi was on w nauce tej
     umiej\u0119tno\u015Bci, krok po kroku.\r\n\tCelem jest nauczenie was 3 balls
     flash. Czyli sekwencji polegaj\u0105cej na wyrzucie i z\u0142apaniu ka\u017Cdej

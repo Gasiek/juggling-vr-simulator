@@ -17,7 +17,9 @@ MonoBehaviour:
   audioGuideTrack: {fileID: 8300000, guid: c72b3eecea3688748b3c835fc28803e4, type: 3}
   trackGaze: 0
   numberOfBalls: 0
-  speedMultiplier: 1
+  speedMultiplier: 0.9025
+  waitsForCorrectGaze: 0
+  waitsForABallResetEvent: 0
   showTutorial: 0
   isTutorialPOV: 0
   shouldBallStopAtThePeak: 0

@@ -18,6 +18,8 @@ MonoBehaviour:
   trackGaze: 1
   numberOfBalls: 1
   speedMultiplier: 0.25
+  waitsForCorrectGaze: 0
+  waitsForABallResetEvent: 0
   showTutorial: 1
   isTutorialPOV: 0
   shouldBallStopAtThePeak: 0

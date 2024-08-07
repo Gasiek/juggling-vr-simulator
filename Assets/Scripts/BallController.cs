@@ -19,7 +19,8 @@ public class BallController : MonoBehaviour
     private Vector3 velocityAtPeak;
     private bool ballCollidedWithEnvironment;
     private int numberOfBallToBallCollisions;
-    private int numberOfBallToBallCollisionsForTutorial;
+    private int numberOfBallToBallCollisionsForTutorial = 3;
+    private bool isGrabbed;
 
     private void Awake()
     {
@@ -141,12 +142,16 @@ public class BallController : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         audioSource.PlayOneShot(collisionSound);
-        if (!other.gameObject.CompareTag("Ball"))
+        if (other.gameObject.CompareTag("Environment"))
         {
             ballCollidedWithEnvironment = true;
             previousHand = Hand.None;
         }
-        else
+        else if (
+            other.gameObject.CompareTag("Ball") &&
+            !isGrabbed &&
+            !other.gameObject.GetComponent<BallController>().IsGrabbed() &&
+            transform.position.y > 1.2f)
         {
             numberOfBallToBallCollisions++;
             if (numberOfBallToBallCollisions > numberOfBallToBallCollisionsForTutorial)
@@ -177,6 +182,7 @@ public class BallController : MonoBehaviour
         ballRb.useGravity = true;
         ballRb.velocity = Vector3.zero;
         ballRb.angularVelocity = Vector3.zero;
+        isGrabbed = false;
     }
 
     public void OnBallGrabbed()
@@ -186,5 +192,16 @@ public class BallController : MonoBehaviour
         isBallAscending = false;
         isBallStoppedAtPeak = false;
         audioSource.PlayOneShot(collisionSound);
+        isGrabbed = true;
+    }
+
+    public bool IsGrabbed()
+    {
+        return isGrabbed;
+    }
+
+    public void SetIsGrabbed(bool value)
+    {
+        isGrabbed = value;
     }
 }

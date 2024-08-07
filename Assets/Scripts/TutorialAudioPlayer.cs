@@ -9,6 +9,7 @@ public class TutorialAudioPlayer : MonoBehaviour
     public AudioClip[] praisesAudioClips;
     private AudioSource audioSource;
     private float delay = 2f;
+    private int previousPraiseIndex = -1;
 
     private void Awake()
     {
@@ -22,7 +23,6 @@ public class TutorialAudioPlayer : MonoBehaviour
             return;
         }
         StopAllCoroutines();
-        audioSource.Stop();
         StartCoroutine(PlayAudioClipDelayed(audioClip));
     }
 
@@ -30,6 +30,7 @@ public class TutorialAudioPlayer : MonoBehaviour
     {
         backgroundAudioSource.DOFade(0.35f, 1);
         yield return new WaitForSeconds(delay);
+        audioSource.Stop();
         audioSource.clip = audioClip;
         audioSource.Play();
     }
@@ -38,13 +39,23 @@ public class TutorialAudioPlayer : MonoBehaviour
     {
         if (!audioSource.isPlaying)
         {
-            PlayAudioClip(audioClip);
+            audioSource.Stop();
+            audioSource.clip = audioClip;
+            audioSource.Play();
         }
     }
 
     public void PlayPraiseAudioClip()
     {
-        AudioClip audioClip = praisesAudioClips[Random.Range(0, praisesAudioClips.Length)];
-        PlayAudioClip(audioClip);
+        int randomIndex;
+        do
+        {
+            randomIndex = Random.Range(0, praisesAudioClips.Length);
+        } while (previousPraiseIndex == randomIndex);
+        previousPraiseIndex = randomIndex;
+        AudioClip audioClip = praisesAudioClips[randomIndex];
+        audioSource.Stop();
+        audioSource.clip = audioClip;
+        audioSource.Play();
     }
 }

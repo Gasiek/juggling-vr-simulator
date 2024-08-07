@@ -76,7 +76,6 @@ public class XRDirectInteractorController : MonoBehaviour
             {
                 ballGrabbedCorrectlyEvent.Raise();
             }
-            ballController.SetPreviousHand(thisHand);
         }
     }
 
@@ -86,6 +85,8 @@ public class XRDirectInteractorController : MonoBehaviour
         {
             ballReleasedEvent.Raise();
             BallController ballController = args.interactableObject.transform.GetComponent<BallController>();
+            ballController.SetPreviousHand(thisHand);
+            ballController.SetIsGrabbed(false);
             ballController.PlayThrowSound();
             ballController.AdjustVelocityOnRelease(thisHand);
             string currentBallId = args.interactableObject.transform.GetInstanceID().ToString();

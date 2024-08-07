@@ -150,7 +150,7 @@ public class GazeInteractorController : MonoBehaviour
     private void OnEnable()
     {
         fadeToBlackMaterial.DOFade(0, 0.5f);
-        if (!simulationManager.GetShouldTrackGaze())
+        if (!simulationManager.GetShouldTrackGaze() || simulationManager.IsBallGrounded())
         {
             this.enabled = false;
             return;
