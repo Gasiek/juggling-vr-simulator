@@ -4430,9 +4430,9 @@ MonoBehaviour:
   - {fileID: 2254036668162788649}
   - {fileID: 2254036667917731689}
   tutorialSteps:
-  - {fileID: 11400000, guid: de7161900eddbab4a805128994b022ff, type: 2}
-  - {fileID: 11400000, guid: 93a7c3416cc025940a342e79d6401b12, type: 2}
-  - {fileID: 11400000, guid: cd791814c7067b345946c08ef3efec72, type: 2}
+  - {fileID: 11400000, guid: d3fbe6d2c199c404aa8ef8c9520ae043, type: 2}
+  - {fileID: 11400000, guid: 09f506c49e28c0a488c42cfcee44c20e, type: 2}
+  - {fileID: 11400000, guid: 51ddd3f1e77af9b418215d0e928f398e, type: 2}
   sideResetTutorial: {fileID: 2118857969}
   numberOfBallsText: {fileID: 1767993995}
   numberOfBallsHeldText: {fileID: 582823630}
